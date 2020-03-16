@@ -1,0 +1,205 @@
+---
+title: "`r params$module`"  # Do NOT change this line
+subtitle: "`r params$shorttitle`"  # Do NOT change this line
+author: "`r params$instructor`"  # Do NOT change this line
+date: "`r params$semester`"  # Do NOT change this line
+params:
+  module: "Data Literacy Education"  # Enter HERE the name of the presentation/course/module
+  semester: "Episode 4: EDA - Zwei kategoriale Variable"   # Enter HERE the date/semester/term
+  shorttitle: ""  # Enter HERE a subtitle/shorttitle
+  foottitle: "Data Literacy Slidecast"  # Enter HERE a title for footline
+  instructor: "FOM"  # ENTER here the presentator's/instructor's name
+output:
+  xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
+    lib_dir: libs
+    css: ["footer-header.css", "xafom.css"]
+    nature:
+      titleSlideClass: [middle, right]
+      ratio: "4:3"  # Note that currently only 4:3 format is supported
+---
+
+
+layout: true
+  
+<div class="my-header"></div>
+
+<!-- the following lines define the header and the footer line: -->
+<div class="my-footer"><span>`r params$semester`    
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+`r params$instructor` | `r params$foottitle` </span></div> 
+
+<div class="footer-line"></div>
+
+
+
+```{r setup, include=FALSE}
+library(emojifont)
+library(knitr)
+library(mosaic)
+
+theme.fom <- theme_classic(22*1.04)
+theme.fom <- theme.fom
+theme_set(
+  theme.fom  
+)
+options(scipen=999)
+```
+
+---
+
+## PPDAC-Prozess
+
+
+.pull-left[
+**Problem**: Problemdefinition, Forschungsfrage: Was soll untersucht werden?
+
+**Plan**: Planung der Analyse, z.B. Operationalisierung/ Variablenauswahl. Wahl des Stichprobenverfahrens und/ oder Versuchsplanung.
+
+**Data**: Datenerhebung, Datenmanagement, Datenbereinigung.
+
+**Analysis**: Explorative Datenanalyse, Modellierung, Hypothesenprüfung. 
+
+**Conclusion**: Schlussfolgerungen, Interpretation, neue Ideen, Kommunikation.
+]
+
+.pull-right[
+```{r forschungsprozess-image, echo=FALSE, out.width = "95%", fig.align="right"}
+include_graphics("img/PPDAC.png", error=FALSE)
+```
+]
+
+---
+
+## Inhalte
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+ggplot() + geom_emoji("woman_teacher") + theme_void()
+```
+
+
+Themen von Episode 4: **Analysis** und **Conclusion**
+
+<br>
+
+
+- Explorative Datenanalyse: Analyse kategorialer Daten
+
+
+<br>
+
+**Hinweis**: Diese Data Literacy Slidecasts dienen didaktisch der konzeptionell-methodischen Verdeutlichung, nicht der inhaltlichen Analyse.
+
+
+---
+
+## Fragestellung
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+ggplot() + geom_emoji("thinking") + theme_void()
+```
+
+.large[Unterscheidet sich der Anteil der richtigen Antworten auf die ökonomische Frage zwischen Männern und Frauen?]
+
+<br>
+
+
+**Hinweis**: Neben den Validitätsproblem einer Gelegenheitsstichprobe ist hier zu beachten, dass das öknomische Wissen nur durch eine einzelne finanzwissenschaftliche Fragestellung mit der Forumulierung der richtigen Antwort 
+
+> Stimme ganz und gar nicht zu.
+
+auf einer Likert-Skala operationalisiert wurde. Das Ergebnis kann also **nicht** generalisiert werden!
+---
+
+## Vorbereitungen
+
+Aus **Data** (Episode 2):
+
+```{r}
+# mosaic laden
+library(mosaic)
+# Daten einlesen
+SATS_BFI <- read.csv2("Datenbasis_SATS_BFI.csv")
+# Daten vorverarbeiten
+SATS_BFI <- SATS_BFI %>%
+  mutate(F07_Aktien = 
+           case_when(F07_Aktien == "Stimme ganz und gar nicht zu." ~ "richtig",
+                     TRUE ~ "falsch")) %>%
+  mutate(G02_Alter = cut(G02_Alter, c(18, 23, 28, 33))) %>%
+  na.omit() 
+```
+
+---
+
+## Grafische Analyse
+
+Für *kategoriale* Daten: Säulendiagramm
+
+.pull-left[
+```{r barplot, eval=FALSE}
+gf_bar( ~ G01_Geschlecht, 
+        fill = ~ F07_Aktien, 
+        position = "fill",
+        data = SATS_BFI)  %>%
+  gf_labs(
+    title="Öknomisches Wissensfrage",
+    x="Geschlecht", 
+    y="Anteil richtig/falsch") 
+```
+]
+
+.pull-right[
+```{r, echo=FALSE, out.width = "65%", fig.align="center"}
+gf_bar( ~ G01_Geschlecht, 
+        fill = ~ F07_Aktien, 
+        position = "fill",
+        data = SATS_BFI)  %>%
+  gf_labs(
+    title="Öknomisches Wissensfrage",
+    x="Geschlecht", y="Anteil richtig/falsch") 
+```
+]
+
+---
+
+## Kennzahlen
+
+Für *kategoriale* Daten: Häufigkeiten und Anteile
+
+
+```{r Kennnzahl}
+tally(F07_Aktien ~ G01_Geschlecht, data = SATS_BFI)
+p_stipro <- prop(F07_Aktien ~ G01_Geschlecht, 
+                 success = "richtig", 
+                 data = SATS_BFI)
+p_stipro
+diffp_stipro <- diffprop(F07_Aktien ~ G01_Geschlecht, 
+                        success = "richtig", data = SATS_BFI)
+diffp_stipro
+```
+
+
+---
+
+## Schlussfolgerung
+
+**Frage**: Unterscheidet sich der Anteil der richtigen Antworten auf die ökonomische Frage zwischen Männern und Frauen?
+
+--
+
+<br>
+
+**Antwort**: In der Stichprobe liegt der Anteil richtiger Antworten bei $p_{\text{maennlich}}=`r round(p_stipro[1], 2)`$ und $p_{\text{weiblich}}=`r round(p_stipro[2], 2)`$.
+
+<br>
+
+**Hinweis**:  Aufgrund der Gelegenheitsstichprobe gilt das Ergebnis nur für die Stichprobe. Es sind verzerrende Kovariablen zu erwarten, z.B. Studiengang.
+
+<br>
+
+<br>
+
+*Fortsetzung folgt.*
+
