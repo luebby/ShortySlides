@@ -106,7 +106,7 @@ ggplot() + geom_emoji("thinking") + theme_void()
 <br>
 
 
-**Hinweis**: Neben den Validitätsproblem einer Gelegenheitsstichprobe ist hier zu beachten, dass das öknomische Wissen nur durch eine einzelne finanzwissenschaftliche Fragestellung mit der Forumulierung der richtigen Antwort 
+**Hinweis**: Neben dem Validitätsproblem einer Gelegenheitsstichprobe ist hier zu beachten, dass das öknomische Wissen nur durch eine einzelne finanzwissenschaftliche Fragestellung mit der Forumulierung der richtigen Antwort 
 
 > Stimme ganz und gar nicht zu.
 
