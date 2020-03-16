@@ -69,7 +69,7 @@ Es gibt viele (ähnliche) Definitionen. Eine z.B. [Schüller et. al. (2019)](htt
 .pull-left[
 **Problem**: Problemdefinition, Forschungsfrage: Was soll untersucht werden?
 
-**Plan**: Planung der Analyse, z.B. Operationalisierung/ Variablenauswahl. Wahl des Stichprobenverfahren und/ oder Versuchsplanung.
+**Plan**: Planung der Analyse, z.B. Operationalisierung/ Variablenauswahl. Wahl des Stichprobenverfahrens und/ oder Versuchsplanung.
 
 **Data**: Datenerhebung, Datenmanagement, Datenbereinigung.
 
@@ -104,13 +104,13 @@ Themen von Episode 1: **Problem** und **Plan**
 
 <br>
 
-**Hinweis**: Diese Data Literacy Slidecast dienen didaktisch der konzeptionell-methodischen Verdeutlichung, nicht der inhaltlichen Analyse.
+**Hinweis**: Diese Data Literacy Slidecasts dienen didaktisch der konzeptionell-methodischen Verdeutlichung, nicht der inhaltlichen Analyse.
 
 ---
 
 ## Fragestellungen
 
-Gibt es Unterschiede bzw. Zusammenhänge zwischen den Persönlichkeitsmerkmal 
+Gibt es Unterschiede bzw. Zusammenhänge zwischen den Persönlichkeitsmerkmalen
 
 - *Gewissenhaftigkeit*, 
 
@@ -120,7 +120,7 @@ Gibt es Unterschiede bzw. Zusammenhänge zwischen den Persönlichkeitsmerkmal
 
 - sowie eines Aspektes des *Wissens* (öknomisch-statistischer Bezug)?
 
-Als demographische Faktoren werden *Alter* und *Geschlecht* berücksichtigt.
+Als demografische Faktoren werden *Alter* und *Geschlecht* berücksichtigt.
 
 ---
 

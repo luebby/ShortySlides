@@ -56,7 +56,7 @@ options(scipen=999)
 .pull-left[
 **Problem**: Problemdefinition, Forschungsfrage: Was soll untersucht werden?
 
-**Plan**: Planung der Analyse, z.B. Operationalisierung/ Variablenauswahl. Wahl des Stichprobenverfahren und/ oder Versuchsplanung.
+**Plan**: Planung der Analyse, z.B. Operationalisierung/ Variablenauswahl. Wahl des Stichprobenverfahrens und/ oder Versuchsplanung.
 
 **Data**: Datenerhebung, Datenmanagement, Datenbereinigung.
 
@@ -90,7 +90,7 @@ Themen von Episode 2: **Data**
 
 <br>
 
-**Hinweis**: Diese Data Literacy Slidecast dienen didaktisch der konzeptionell-methodischen Verdeutlichung, nicht der inhaltlichen Analyse.
+**Hinweis**: Diese Data Literacy Slidecasts dienen didaktisch der konzeptionell-methodischen Verdeutlichung, nicht der inhaltlichen Analyse.
 
 ---
 
@@ -104,7 +104,7 @@ library(mosaic)
 
 <br>
 
-`csv` Datendatei (`Datenbasis_SATS_BFI.csv`) in als `R` einlesen und dort `SATS_BFI` nennen:
+`csv`-Datendatei (`Datenbasis_SATS_BFI.csv`) in `R` einlesen und dort `SATS_BFI` nennen:
 
 ```{r}
 SATS_BFI <- read.csv2("Datenbasis_SATS_BFI.csv")
@@ -139,7 +139,7 @@ head(SATS_BFI)
 
 - Alter gruppieren
 
-- Beobachtungen mit fehlende Werte eleminieren
+- Beobachtungen mit fehlenden Werten eleminieren
 
 
 ```{r}
