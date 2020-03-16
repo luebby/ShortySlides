@@ -1,0 +1,156 @@
+---
+title: "`r params$module`"  # Do NOT change this line
+subtitle: "`r params$shorttitle`"  # Do NOT change this line
+author: "`r params$instructor`"  # Do NOT change this line
+date: "`r params$semester`"  # Do NOT change this line
+params:
+  module: "Data Literacy Education"  # Enter HERE the name of the presentation/course/module
+  semester: "Episode 1: Problemstellung"   # Enter HERE the date/semester/term
+  shorttitle: ""  # Enter HERE a subtitle/shorttitle
+  foottitle: "Data Literacy Slidecast"  # Enter HERE a title for footline
+  instructor: "FOM"  # ENTER here the presentator's/instructor's name
+output:
+  xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
+    lib_dir: libs
+    css: ["footer-header.css", "xafom.css"]
+    nature:
+      titleSlideClass: [middle, right]
+      ratio: "4:3"  # Note that currently only 4:3 format is supported
+---
+
+
+layout: true
+  
+<div class="my-header"></div>
+
+<!-- the following lines define the header and the footer line: -->
+<div class="my-footer"><span>`r params$semester`    
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+`r params$instructor` | `r params$foottitle` </span></div> 
+
+<div class="footer-line"></div>
+
+
+
+```{r setup, include=FALSE}
+library(emojifont)
+library(knitr)
+library(mosaic)
+
+theme.fom <- theme_classic(22*1.04)
+theme.fom <- theme.fom
+theme_set(
+  theme.fom  
+)
+options(scipen=999)
+```
+
+---
+
+## Data Literacy
+
+
+Es gibt viele (ähnliche) Definitionen. Eine z.B. [Schüller et. al. (2019)](https://hochschulforumdigitalisierung.de/sites/default/files/dateien/HFD_AP_Nr_47_DALI_Kompetenzrahmen_WEB.pdf):
+
+<br>
+
+>  Um systematisch Wissen bzw. Wert aus Daten zu schöpfen, ist deshalb zukünftig in allen Sektoren und Disziplinen die Fähigkeit, planvoll mit Daten umzugehen und sie im jeweiligen Kontext bewusst einsetzen und hinterfragen zu können, von entscheidender Bedeutung. Dies wird als Data Literacy bezeichnet und umfasst die Fähigkeiten, Daten auf kritische Art und Weise zu sammeln, zu managen, zu bewerten und anzuwenden.
+
+
+
+---
+
+## PPDAC-Prozess
+
+
+.pull-left[
+**Problem**: Problemdefinition, Forschungsfrage: Was soll untersucht werden?
+
+**Plan**: Planung der Analyse, z.B. Operationalisierung/ Variablenauswahl. Wahl des Stichprobenverfahren und/ oder Versuchsplanung.
+
+**Data**: Datenerhebung, Datenmanagement, Datenbereinigung.
+
+**Analysis**: Explorative Datenanalyse, Modellierung, Hypothesenprüfung. 
+
+**Conclusion**: Schlussfolgerungen, Interpretation, neue Ideen, Kommunikation.
+]
+
+.pull-right[
+```{r forschungsprozess-image, echo=FALSE, out.width = "95%", fig.align="right"}
+include_graphics("img/PPDAC.png", error=FALSE)
+```
+]
+
+---
+
+## Inhalte
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+ggplot() + geom_emoji("woman_teacher") + theme_void()
+```
+
+
+Themen von Episode 1: **Problem** und **Plan**
+
+<br>
+
+
+- Wissenschaftliche Grundlagen
+
+- Grundlagen Quantitativer Datenanalyse
+
+<br>
+
+**Hinweis**: Diese Data Literacy Slidecast dienen didaktisch der konzeptionell-methodischen Verdeutlichung, nicht der inhaltlichen Analyse.
+
+---
+
+## Fragestellungen
+
+Gibt es Unterschiede bzw. Zusammenhänge zwischen den Persönlichkeitsmerkmal 
+
+- *Gewissenhaftigkeit*, 
+
+- der Selbsteinschätzung der *Kompetenz* für das Fach Statistik, 
+
+- der *Notenerwartung* 
+
+- sowie eines Aspektes des *Wissens* (öknomisch-statistischer Bezug)?
+
+Als demographische Faktoren werden *Alter* und *Geschlecht* berücksichtigt.
+
+---
+
+## Operationalisierung
+
+Bei den Persönlichkeitsmerkmalen handelt es sich um **latente** Variablen, die erst operationalisiert werden müssen:
+
+  - *Gewissenhaftigkeit* (`D_BFI_G`): Rammstedt, B., Kemper, C. J., Klein, M. C., Beierlein, C. & Kovaleva, A., (2014). *Big Five Inventory (BFI-10)*. Zusammenstellung sozialwissenschaftlicher Items und Skalen.
+  
+  - *Kompetenz* (`B_SATS_Kompetenz`): Schau, C. (2003), *Survey of Attitudes Toward Statistics (SATS-36)*
+  
+  - *Notenerwartung* (`C4_Notenerwartung`): Welche Note erwarten Sie in diesem Kurs?
+  
+  - *Wissen*. (`F07_Aktien`): briq-Institut und DIE ZEIT; Altmann, S., Falk, A., Heuser, U.J. & Radbruch, J. (2018). Was wissen die Deutschen über Wirtschaft? 
+  
+  > Wie sehr stimmen Sie der folgenden Aussage zu: "Die Anlage in Aktien eines einzelnen Unternehmens ist generell weniger riskant als die Anlage in einem Fonds mit Aktien verschiedener Unternehmen".
+
+---
+
+## Datenerhebung
+
+**Gelegeneitsstichprobe:** freiwillige Online Umfrage vor Semesterbeginn an mehreren FOM Standorten in Vorlesungen mit statistischem Bezug.
+
+<br>
+
+**Hinweis**: Aufgrund des Designs als Gelegeneitsstichprobe in verschiedenen Kursen sind verzerrende Kovariablen, z.B. Studiengang möglich, die Validität der Ergebnisse ist daher eingeschränkt!
+
+<br>
+
+<br>
+
+*Fortsetzung folgt.*
+
