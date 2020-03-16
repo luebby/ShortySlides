@@ -1,0 +1,189 @@
+---
+title: "`r params$module`"  # Do NOT change this line
+subtitle: "`r params$shorttitle`"  # Do NOT change this line
+author: "`r params$instructor`"  # Do NOT change this line
+date: "`r params$semester`"  # Do NOT change this line
+params:
+  module: "Data Literacy Education"  # Enter HERE the name of the presentation/course/module
+  semester: "Episode 2: Daten"   # Enter HERE the date/semester/term
+  shorttitle: ""  # Enter HERE a subtitle/shorttitle
+  foottitle: "Data Literacy Slidecast"  # Enter HERE a title for footline
+  instructor: "FOM"  # ENTER here the presentator's/instructor's name
+output:
+  xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
+    lib_dir: libs
+    css: ["footer-header.css", "xafom.css"]
+    nature:
+      titleSlideClass: [middle, right]
+      ratio: "4:3"  # Note that currently only 4:3 format is supported
+---
+
+
+layout: true
+  
+<div class="my-header"></div>
+
+<!-- the following lines define the header and the footer line: -->
+<div class="my-footer"><span>`r params$semester`    
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+`r params$instructor` | `r params$foottitle` </span></div> 
+
+<div class="footer-line"></div>
+
+
+
+```{r setup, include=FALSE}
+library(emojifont)
+library(knitr)
+library(mosaic)
+
+theme.fom <- theme_classic(22*1.04)
+theme.fom <- theme.fom
+theme_set(
+  theme.fom  
+)
+options(scipen=999)
+```
+
+---
+
+## PPDAC-Prozess
+
+
+.pull-left[
+**Problem**: Problemdefinition, Forschungsfrage: Was soll untersucht werden?
+
+**Plan**: Planung der Analyse, z.B. Operationalisierung/ Variablenauswahl. Wahl des Stichprobenverfahren und/ oder Versuchsplanung.
+
+**Data**: Datenerhebung, Datenmanagement, Datenbereinigung.
+
+**Analysis**: Explorative Datenanalyse, Modellierung, Hypothesenprüfung. 
+
+**Conclusion**: Schlussfolgerungen, Interpretation, neue Ideen, Kommunikation.
+]
+
+.pull-right[
+```{r forschungsprozess-image, echo=FALSE, out.width = "95%", fig.align="right"}
+include_graphics("img/PPDAC.png", error=FALSE)
+```
+]
+
+---
+
+## Inhalte
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+ggplot() + geom_emoji("woman_teacher") + theme_void()
+```
+
+
+Themen von Episode 2: **Data**
+
+<br>
+
+
+- Einführung in R
+
+
+<br>
+
+**Hinweis**: Diese Data Literacy Slidecast dienen didaktisch der konzeptionell-methodischen Verdeutlichung, nicht der inhaltlichen Analyse.
+
+---
+
+## Vorbereitungen
+
+Zusatzpaket `mosaic` laden:
+
+```{r}
+library(mosaic)
+```
+
+<br>
+
+`csv` Datendatei (`Datenbasis_SATS_BFI.csv`) in als `R` einlesen und dort `SATS_BFI` nennen:
+
+```{r}
+SATS_BFI <- read.csv2("Datenbasis_SATS_BFI.csv")
+```
+
+---
+
+## Datenstruktur
+
+Struktur des Datensatzes:
+
+```{r}
+str(SATS_BFI)
+```
+
+---
+
+## Daten
+
+Oberste Zeilen:
+
+```{r}
+head(SATS_BFI)
+```
+
+---
+
+## Datenvorverarbeitung
+
+
+- Richtige Antwort auf `F07_Aktien` markieren
+
+- Alter gruppieren
+
+- Beobachtungen mit fehlende Werte eleminieren
+
+
+```{r}
+SATS_BFI <- SATS_BFI %>%
+  mutate(F07_Aktien = 
+           case_when(F07_Aktien == "Stimme ganz und gar nicht zu." ~ "richtig",
+                     TRUE ~ "falsch")) %>%
+  mutate(G02_Alter = cut(G02_Alter, c(18, 23, 28, 33))) %>%
+  na.omit() 
+```
+
+---
+
+## Daten inspizieren
+
+```{r}
+inspect(SATS_BFI)
+```
+
+---
+
+## Datensatzbeschreibung
+
+- `r nrow(SATS_BFI)` Beobachtungen (Studierende)
+
+- `r ncol(SATS_BFI)` Variablen:
+
+  - `ID`: Identifikationsnummer (nominal)
+  
+  - `F07_Aktien`: Operationalisierung von *Wissen* (nominal)
+  
+  - `G01_Geschlecht`: Geschlecht (nominal)
+  
+  - `G02_Alter`: Alter (durch Gruppierung ordinal)
+  
+  - `B_SATS_Kompetenz`: Operationalisierung der Selbsteinschätzung von *Kompetenz* im Fach Statistik (als intervallskaliert aufgefasst)
+  
+  - `C4_Notenerwartung`: *Notenerwartung* (ordinal)
+  
+  - `D_BFI_G`: Operationalsisierung von *Gewissenhaftigkeit* (als intervallskaliert aufgefasst)
+  
+  
+
+<br>
+
+*Fortsetzung folgt.*
+
