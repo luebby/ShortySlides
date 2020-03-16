@@ -1,0 +1,201 @@
+---
+title: "`r params$module`"  # Do NOT change this line
+subtitle: "`r params$shorttitle`"  # Do NOT change this line
+author: "`r params$instructor`"  # Do NOT change this line
+date: "`r params$semester`"  # Do NOT change this line
+params:
+  module: "Data Literacy Education"  # Enter HERE the name of the presentation/course/module
+  semester: "Episode 3: EDA - Eine kategoriale Variable"   # Enter HERE the date/semester/term
+  shorttitle: ""  # Enter HERE a subtitle/shorttitle
+  foottitle: "Data Literacy Slidecast"  # Enter HERE a title for footline
+  instructor: "FOM"  # ENTER here the presentator's/instructor's name
+output:
+  xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
+    lib_dir: libs
+    css: ["footer-header.css", "xafom.css"]
+    nature:
+      titleSlideClass: [middle, right]
+      ratio: "4:3"  # Note that currently only 4:3 format is supported
+---
+
+
+layout: true
+  
+<div class="my-header"></div>
+
+<!-- the following lines define the header and the footer line: -->
+<div class="my-footer"><span>`r params$semester`    
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+`r params$instructor` | `r params$foottitle` </span></div> 
+
+<div class="footer-line"></div>
+
+
+
+```{r setup, include=FALSE}
+library(emojifont)
+library(knitr)
+library(mosaic)
+
+theme.fom <- theme_classic(22*1.04)
+theme.fom <- theme.fom
+theme_set(
+  theme.fom  
+)
+options(scipen=999)
+```
+
+---
+
+## PPDAC-Prozess
+
+
+.pull-left[
+**Problem**: Problemdefinition, Forschungsfrage: Was soll untersucht werden?
+
+**Plan**: Planung der Analyse, z.B. Operationalisierung/ Variablenauswahl. Wahl des Stichprobenverfahrens und/ oder Versuchsplanung.
+
+**Data**: Datenerhebung, Datenmanagement, Datenbereinigung.
+
+**Analysis**: Explorative Datenanalyse, Modellierung, Hypothesenprüfung. 
+
+**Conclusion**: Schlussfolgerungen, Interpretation, neue Ideen, Kommunikation.
+]
+
+.pull-right[
+```{r forschungsprozess-image, echo=FALSE, out.width = "95%", fig.align="right"}
+include_graphics("img/PPDAC.png", error=FALSE)
+```
+]
+
+---
+
+## Inhalte
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+ggplot() + geom_emoji("woman_teacher") + theme_void()
+```
+
+
+Themen von Episode 3: **Analysis** und **Conclusion**
+
+<br>
+
+
+- Explorative Datenanalyse: Analyse kategorialer Daten
+
+
+<br>
+
+**Hinweis**: Diese Data Literacy Slidecasts dienen didaktisch der konzeptionell-methodischen Verdeutlichung, nicht der inhaltlichen Analyse.
+
+
+---
+
+## Fragestellung
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+ggplot() + geom_emoji("thinking") + theme_void()
+```
+
+.large[Wie hoch ist der Anteil derjenigen, die die Wissensfrage richtig beantworten konnten?]
+
+
+---
+
+## Vorbereitungen
+
+Aus **Data** (Episode 2):
+
+```{r}
+# mosaic laden
+library(mosaic)
+# Daten einlesen
+SATS_BFI <- read.csv2("Datenbasis_SATS_BFI.csv")
+# Daten vorverarbeiten
+SATS_BFI <- SATS_BFI %>%
+  mutate(F07_Aktien = 
+           case_when(F07_Aktien == "Stimme ganz und gar nicht zu." ~ "richtig",
+                     TRUE ~ "falsch")) %>%
+  mutate(G02_Alter = cut(G02_Alter, c(18, 23, 28, 33))) %>%
+  na.omit() 
+```
+
+---
+
+## Grafische Analyse
+
+Für *kategoriale* Daten: Säulendiagramm
+
+.pull-left[
+```{r barplot, eval=FALSE}
+gf_bar( ~ F07_Aktien, 
+        data = SATS_BFI) %>%
+  gf_labs(
+    title="Öknomisches Wissensfrage",
+    x="Antwort", y="Häufigkeit")
+```
+]
+
+.pull-right[
+```{r, echo=FALSE, out.width = "65%", fig.align="center"}
+gf_bar( ~ F07_Aktien, data = SATS_BFI) %>%
+  gf_labs(
+    title="Öknomisches Wissensfrage",
+    x="Antwort", y="Häufigkeit")
+```
+]
+
+---
+
+## Kennzahlen
+
+Für *kategoriale* Daten: Häufigkeiten und Anteile
+
+.pull-left[
+```{r Kennnzahl, eval=FALSE}
+tally( ~ F07_Aktien, 
+       data = SATS_BFI)
+p_stipro <- prop( ~ F07_Aktien, 
+                  success = "richtig", 
+                  data = SATS_BFI)
+p_stipro
+```
+]
+
+.pull-right[
+```{r, echo=FALSE, out.width = "65%", fig.align="center"}
+tally( ~ F07_Aktien, 
+       data = SATS_BFI)
+p_stipro <- prop( ~ F07_Aktien, 
+                  success = "richtig", 
+                  data = SATS_BFI)
+p_stipro
+```
+]
+
+---
+
+## Schlussfolgerung
+
+**Frage**: Wie hoch ist der Anteil derjenigen, die die Wissensfrage richtig beantworten konnten?
+
+--
+
+<br>
+
+**Antwort**: In der Stichprobe liegt der Anteil richtiger Antworten bei $p=`r round(p_stipro, 2)`$.
+
+<br>
+
+**Hinweis**:  In der Studie von DIE ZEIT lag der Anteil der richtigen Antworten bei $33\%$.
+
+<br>
+
+<br> 
+
+*Fortsetzung folgt.*
+
