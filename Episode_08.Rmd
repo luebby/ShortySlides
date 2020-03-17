@@ -134,6 +134,8 @@ set.seed(1896)
 SATS_BFI_S <- SATS_BFI %>%
   sample_n(size = 50)
 
+lm_stipro <- lm(C4_Notenerwartung ~ B_SATS_Kompetenz, data = SATS_BFI_S)
+
 # Bootstrap Animation: Nur einmalig laufen!
 library(gganimate)
 SATS_BFI_R <- do(100) * resample(SATS_BFI_S)
