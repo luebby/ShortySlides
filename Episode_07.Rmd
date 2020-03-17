@@ -80,7 +80,7 @@ ggplot() + geom_emoji("woman_teacher") + theme_void()
 ```
 
 
-Themen von Episode 4: **Analysis** und **Conclusion**
+Themen von Episode 7: **Analysis** und **Conclusion**
 
 <br>
 
@@ -105,7 +105,7 @@ ggplot() + geom_emoji("thinking") + theme_void()
 
 <br>
 
-**Hinweis**: Erwartete Note wird hier als numerische Variable aufgefasst, da die Noten $1.0, 1.3, \ldots, 5$ auf Basis von Punkten in der Klausur bestimmt wird.
+**Hinweis**: Erwartete Note wird hier als numerische Variable aufgefasst, da die Noten $1.0, 1.3, \ldots, 5.0$ auf Basis von Punkten in der Klausur bestimmt wird.
 
 ---
 
@@ -139,8 +139,8 @@ gf_point(C4_Notenerwartung ~
            B_SATS_Kompetenz, 
          data = SATS_BFI) %>%
   gf_lm() %>%
-  gf_labs(x="Kognitive Kompetenz", 
-          y="Notenerwartung")
+  gf_labs(x = "Kognitive Kompetenz", 
+          y = "Notenerwartung")
 ```
 ]
 
@@ -149,8 +149,8 @@ gf_point(C4_Notenerwartung ~
 gf_point(C4_Notenerwartung ~ B_SATS_Kompetenz, 
          data = SATS_BFI) %>%
   gf_lm() %>%
-  gf_labs(x="Kognitive Kompetenz", 
-          y="Notenerwartung")
+  gf_labs(x = "Kognitive Kompetenz", 
+          y = "Notenerwartung")
 ```
 ]
 
@@ -180,7 +180,7 @@ summary(lm_stipro)
 **Antwort**: Die geschätzte Modellgleichung der Stichprobe lautet:
 
 $$\widehat{\text{Notenerwartung}}=`r round(coef(lm_stipro)[1],2)`  `r round(coef(lm_stipro)[2],2)` \cdot \text{Eingeschätzte Kompetenz}$$
-D.h., in einem linearen Modell der Stichprobe sinkt der Mittelwert der erwarteten Note um `r abs(round(coef(lm_stipro)[2],2))` pro Skalenpunkt der Selbsteinschätzung der kognitiven Kompetenz.
+D.h., in einem linearen Modell der Stichprobe sinkt der Mittelwert der erwarteten Note um den Faktor `r abs(round(coef(lm_stipro)[2],2))` pro Skalenpunkt der Selbsteinschätzung der kognitiven Kompetenz.
 
 Es werden hier $`r round(rsquared(lm_stipro),4)*100`\,\%$ der Variation der Notenerwartung durch die kognitive Kompetenz modelliert.
 
