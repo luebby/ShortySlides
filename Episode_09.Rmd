@@ -1,0 +1,357 @@
+---
+title: "`r params$module`"  # Do NOT change this line
+subtitle: "`r params$shorttitle`"  # Do NOT change this line
+author: "`r params$instructor`"  # Do NOT change this line
+date: "`r params$semester`"  # Do NOT change this line
+params:
+  module: "Data Literacy Education"  # Enter HERE the name of the presentation/course/module
+  semester: "Episode 9: Lineare Regression - Permutation"   # Enter HERE the date/semester/term
+  shorttitle: ""  # Enter HERE a subtitle/shorttitle
+  foottitle: "Data Literacy Slidecast"  # Enter HERE a title for footline
+  instructor: "FOM"  # ENTER here the presentator's/instructor's name
+output:
+  xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
+    lib_dir: libs
+    css: ["footer-header.css", "xafom.css"]
+    nature:
+      titleSlideClass: [middle, right]
+      ratio: "4:3"  # Note that currently only 4:3 format is supported
+      highlightLines: true
+---
+
+
+layout: true
+  
+<div class="my-header"></div>
+
+<!-- the following lines define the header and the footer line: -->
+<div class="my-footer"><span>`r params$semester`    
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+`r params$instructor` | `r params$foottitle` </span></div> 
+
+<div class="footer-line"></div>
+
+
+
+```{r setup, include=FALSE}
+library(emojifont)
+library(knitr)
+library(mosaic)
+
+theme.fom <- theme_classic(22*1.04)
+theme.fom <- theme.fom
+theme_set(
+  theme.fom  
+)
+#options(scipen=999)
+```
+
+---
+
+## PPDAC-Prozess
+
+
+.pull-left[
+**Problem**: Problemdefinition, Forschungsfrage: Was soll untersucht werden?
+
+**Plan**: Planung der Analyse, z.B. Operationalisierung/ Variablenauswahl. Wahl des Stichprobenverfahrens und/ oder Versuchsplanung.
+
+**Data**: Datenerhebung, Datenmanagement, Datenbereinigung.
+
+**Analysis**: Explorative Datenanalyse, Modellierung, Hypothesenprüfung. 
+
+**Conclusion**: Schlussfolgerungen, Interpretation, neue Ideen, Kommunikation.
+]
+
+.pull-right[
+```{r forschungsprozess-image, echo=FALSE, out.width = "95%", fig.align="right"}
+include_graphics("img/PPDAC.png", error=FALSE)
+```
+]
+
+---
+
+## Inhalte
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+ggplot() + geom_emoji("woman_teacher") + theme_void()
+```
+
+
+Themen von Episode 9: **Analysis** und **Conclusion**
+
+<br>
+
+
+- Lineare Regression: Inferenz in der Linearen Regression
+
+
+<br>
+
+**Hinweis**: Diese Data Literacy Slidecasts dienen didaktisch der konzeptionell-methodischen Verdeutlichung, nicht der inhaltlichen Analyse.
+
+
+---
+
+## Fragestellung
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+ggplot() + geom_emoji("thinking") + theme_void()
+```
+
+.large[Kann die erwartete Note durch die Selbsteinschätzung der kognitiven Kompetenz bezüglich des Fachs Statistik modelliert werden?]
+
+<br>
+
+**Hinweis**: Diese ist eine Fortsetzung von Episode 7.
+
+---
+
+## Vorbereitungen
+
+Aus **Data** (Episode 2):
+
+```{r}
+# mosaic laden
+library(mosaic)
+# Daten einlesen
+SATS_BFI <- read.csv2("Datenbasis_SATS_BFI.csv")
+# Daten vorverarbeiten
+SATS_BFI <- SATS_BFI %>%
+  mutate(F07_Aktien = 
+           case_when(F07_Aktien == "Stimme ganz und gar nicht zu." ~ "richtig",
+                     TRUE ~ "falsch")) %>%
+  mutate(G02_Alter = cut(G02_Alter, c(18, 23, 28, 33))) %>%
+  na.omit() 
+```
+
+
+```{r, echo=FALSE, eval=FALSE}
+set.seed(1896)
+SATS_BFI_S <- SATS_BFI %>%
+  sample_n(size = 50)
+
+lm_stipro <- lm(C4_Notenerwartung ~ B_SATS_Kompetenz, data = SATS_BFI_S)
+
+# Permutation Animation: Nur einmalig laufen!
+library(gganimate)
+
+SATS_BFI_P <- list()
+
+for(i in 1:50)
+{
+  my_shuffle <- SATS_BFI_S %>%
+    mutate(B_SATS_Kompetenz = shuffle(B_SATS_Kompetenz)) %>%
+    mutate(Permutation = i)
+  
+  SATS_BFI_P <- SATS_BFI_P %>%
+    bind_rows(my_shuffle)
+}
+
+
+
+# Anregung: https://sarahromanes.github.io/post/gganimate/
+bp <- ggplot(SATS_BFI_P %>% 
+               group_by(Permutation) %>% 
+               mutate(slope.r=cov(C4_Notenerwartung~B_SATS_Kompetenz)/var(B_SATS_Kompetenz), 
+                      icept.r= mean(C4_Notenerwartung) - (cov(C4_Notenerwartung~B_SATS_Kompetenz)/var(B_SATS_Kompetenz))*mean(B_SATS_Kompetenz))
+             , aes(B_SATS_Kompetenz, C4_Notenerwartung)) + 
+  geom_point() + 
+  geom_abline(aes(intercept=icept.r, slope=slope.r), col="red") +
+  geom_abline(aes(intercept=coef(lm_stipro)[1], slope=coef(lm_stipro)[2]), col="blue")
+
+outfile <- tempfile(fileext='.gif')
+bp.ani  <- bp + 
+  labs(title = "Permutation: {closest_state}",
+       x="Kognitive Kompetenz", 
+       y="Notenerwartung") +
+  transition_states(Permutation)
+anim_save("img/Permutation.gif", animate(bp.ani))
+```
+
+---
+
+## Grafische Analyse
+
+Für zwei *numerische* Variablen: Streudiagramm
+
+.pull-left[
+```{r barplot, eval=FALSE}
+gf_point(C4_Notenerwartung ~ 
+           B_SATS_Kompetenz, 
+         data = SATS_BFI) %>%
+  gf_lm() %>%
+  gf_labs(x = "Kognitive Kompetenz", 
+          y = "Notenerwartung")
+```
+]
+
+.pull-right[
+```{r, echo=FALSE, out.width = "65%", fig.align="center"}
+gf_point(C4_Notenerwartung ~ B_SATS_Kompetenz, 
+         data = SATS_BFI) %>%
+  gf_lm() %>%
+  gf_labs(x = "Kognitive Kompetenz", 
+          y = "Notenerwartung")
+```
+]
+
+---
+
+## Kennzahlen
+
+Schätzung lineares Modell $y_i=\beta_0 + \beta_1 \cdot x_i + \epsilon_i$:
+
+
+```{r Kennnzahl}
+lm_stipro <- lm(C4_Notenerwartung ~ B_SATS_Kompetenz, data = SATS_BFI)
+summary(lm_stipro)
+```
+
+
+---
+
+## Schlussfolgerung von Episode 7
+
+**Frage**: Kann die erwartete Note durch die Selbsteinschätzung der kognitiven Kompetenz bezüglich des Fachs Statistik modelliert werden?
+
+
+<br>
+
+**Antwort**: Die geschätzte Modellgleichung der Stichprobe lautet:
+
+$$\widehat{\text{Notenerwartung}}=`r round(coef(lm_stipro)[1],2)`  `r round(coef(lm_stipro)[2],2)` \cdot \text{Eingeschätzte Kompetenz}$$
+D.h., in einem linearen Modell der Stichprobe sinkt der Mittelwert der erwarteten Note um den Faktor `r abs(round(coef(lm_stipro)[2],2))` pro Skalenpunkt der Selbsteinschätzung der kognitiven Kompetenz.
+
+Es werden hier $`r round(rsquared(lm_stipro),4)*100`\,\%$ der Variation der Notenerwartung durch die kognitive Kompetenz modelliert.
+
+---
+
+## Unsicherheit und Variation
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+ggplot() + geom_emoji("thinking") + theme_void()
+```
+
+.large[Was wäre, wenn es gar keinen Zusammenhang geben würde?]
+
+<br>
+
+--
+
+Dann wäre $\beta_1=0$.
+
+--
+
+Aber in einer Stichprobe könnte trotzdem zufällig $\hat{\beta}_1 \neq 0$ beobachtet werden.
+
+
+---
+
+## Permutation
+
+**Idee**: Simuliere Daten des Modells *kein Zusammenhang* durch zufälliges durchmischen (permutieren) von $x$:
+
+```{r , echo=FALSE, out.width = "45%", fig.align="center"}
+include_graphics("img/Permutation.gif", error=FALSE)
+```
+
+---
+
+## Simulation
+
+Koeffizienten Originalstichprobe:
+```{r}
+do(1) * lm(C4_Notenerwartung ~ 
+             B_SATS_Kompetenz, #<<
+           data = SATS_BFI)
+```
+
+Koeffizienten Simulation Modell $\beta_1=0$:
+
+```{r}
+do(3) * lm(C4_Notenerwartung ~ 
+             shuffle(B_SATS_Kompetenz), #<<
+           data = SATS_BFI) 
+```
+
+
+---
+
+## Permutationsverteilung
+
+.pull-left[
+```{r, eval=FALSE}
+set.seed(1896)
+Nullvtlg <- do(10000) * 
+  lm(C4_Notenerwartung ~ 
+       shuffle(B_SATS_Kompetenz), 
+     data = SATS_BFI)
+
+gf_histogram( ~ B_SATS_Kompetenz,
+              data = Nullvtlg) %>%
+  gf_vline(xintercept = ~
+             coef(lm_stipro)[2])
+```
+]
+
+.pull-right[
+```{r, echo=FALSE, out.width = "65%", fig.align="center"}
+set.seed(1896)
+Nullvtlg <- do(10000) * 
+  lm(C4_Notenerwartung ~ 
+       shuffle(B_SATS_Kompetenz), 
+     data = SATS_BFI)
+
+gf_histogram( ~ B_SATS_Kompetenz,
+              data = Nullvtlg) %>%
+  gf_vline(xintercept = ~
+             coef(lm_stipro)[2])
+```
+]
+
+- Geschätzte Steigung in der Stichprobe: $\hat{\beta}_1=`r round(coef(lm_stipro)[2],2)`$
+- Vorhergesagte Steigung in einer Stichprobe, wenn es keinen Zusammenhang gibt:
+
+
+```{r}
+quantile( ~ B_SATS_Kompetenz, data = Nullvtlg, probs = c(0.025, 0.975))
+```
+
+---
+
+## p-Wert
+
+Wie oft erhalten wir zufällig eine Stichprobe, die eine mindestens so große geschätzte Steigung aufweist wie unsere, wenn es gar keinen Zusammenhang gibt?
+
+```{r}
+prop( ~ (abs(B_SATS_Kompetenz) >= abs(coef(lm_stipro)[2])), data = Nullvtlg)
+```
+
+
+---
+
+## Schlussfolgerung 
+
+**Frage**: Kann die erwartete Note durch die Selbsteinschätzung der kognitiven Kompetenz bezüglich des Fachs Statistik modelliert werden?
+
+
+<br>
+
+**Antwort**: Die geschätzte Modellgleichung der Stichprobe lautet:
+
+$$\widehat{\text{Notenerwartung}}=`r round(coef(lm_stipro)[1],2)`  `r round(coef(lm_stipro)[2],2)` \cdot \text{Eingeschätzte Kompetenz}$$
+D.h., in einem linearen Modell der Stichprobe sinkt der Mittelwert der erwarteten Note um den Faktor `r abs(round(coef(lm_stipro)[2],2))` pro Skalenpunkt der Selbsteinschätzung der kognitiven Kompetenz.
+
+Es werden hier $`r round(rsquared(lm_stipro),4)*100`\,\%$ der Variation der Notenerwartung durch die kognitive Kompetenz modelliert.
+
+--
+
+Der p-Wert unter dem Modell $H_0: \beta_{\text{Eingeschätzte Kompetenz}}=0$ ist $\leq `r tally(  ~ (abs(B_SATS_Kompetenz) >= abs(coef(lm_stipro)[2])), data = Nullvtlg)[1]+1`/`r nrow(Nullvtlg)`$. Das beobachtete Ergebnis der Stichprobe ist mit diesem Modell *nicht kompatibel*.
+
+<br>
+
+*Fortsetzung folgt.*
