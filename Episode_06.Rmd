@@ -5,7 +5,7 @@ author: "`r params$instructor`"  # Do NOT change this line
 date: "`r params$semester`"  # Do NOT change this line
 params:
   module: "Data Literacy Education"  # Enter HERE the name of the presentation/course/module
-  semester: "Episode 6: EDA - Vergleich numerischer Variable"   # Enter HERE the date/semester/term
+  semester: "Episode 6: EDA - Vergleich numerischer Variablen"   # Enter HERE the date/semester/term
   shorttitle: ""  # Enter HERE a subtitle/shorttitle
   foottitle: "Data Literacy Slidecast"  # Enter HERE a title for footline
   instructor: "FOM"  # ENTER here the presentator's/instructor's name
@@ -80,7 +80,7 @@ ggplot() + geom_emoji("woman_teacher") + theme_void()
 ```
 
 
-Themen von Episode 4: **Analysis** und **Conclusion**
+Themen von Episode 6: **Analysis** und **Conclusion**
 
 <br>
 
@@ -130,12 +130,12 @@ SATS_BFI <- SATS_BFI %>%
 Für *numerische* Daten: Boxplot
 
 .pull-left[
-```{r barplot, eval=FALSE}
+```{r boxplot, eval=FALSE}
 gf_boxplot(B_SATS_Kompetenz ~ F07_Aktien, 
            data = SATS_BFI) %>%
-  gf_labs(title="SATS-36 und Öknomisches Wissensfrage",
-          x="Öknomisches Wissensfrage", 
-          y="Kognitive Kompetenz") 
+  gf_labs(title = "SATS-36 und Ökonomische Wissensfrage",
+          x = "Ökonomische Wissensfrage", 
+          y = "Kognitive Kompetenz") 
 ```
 ]
 
@@ -143,9 +143,9 @@ gf_boxplot(B_SATS_Kompetenz ~ F07_Aktien,
 ```{r, echo=FALSE, out.width = "65%", fig.align="center"}
 gf_boxplot(B_SATS_Kompetenz ~ F07_Aktien, 
            data = SATS_BFI) %>%
-  gf_labs(title="SATS-36 und Öknomisches Wissensfrage",
-          x="Öknomisches Wissensfrage", 
-          y="Kognitive Kompetenz") 
+  gf_labs(title = "SATS-36 und \n Ökonomische Wissensfrage",
+          x = "Ökonomische Wissensfrage", 
+          y = "Kognitive Kompetenz") 
 ```
 ]
 
