@@ -5,7 +5,7 @@ author: "`r params$instructor`"  # Do NOT change this line
 date: "`r params$semester`"  # Do NOT change this line
 params:
   module: "Data Literacy Education"  # Enter HERE the name of the presentation/course/module
-  semester: "Episode 4: EDA - Zwei kategoriale Variable"   # Enter HERE the date/semester/term
+  semester: "Episode 4: EDA - Zwei kategoriale Variablen"   # Enter HERE the date/semester/term
   shorttitle: ""  # Enter HERE a subtitle/shorttitle
   foottitle: "Data Literacy Slidecast"  # Enter HERE a title for footline
   instructor: "FOM"  # ENTER here the presentator's/instructor's name
@@ -144,9 +144,9 @@ gf_bar( ~ G01_Geschlecht,
         position = "fill",
         data = SATS_BFI)  %>%
   gf_labs(
-    title="Ökonomisches Wissensfrage",
-    x="Geschlecht", 
-    y="Anteil richtig/falsch") 
+    title = "Ökonomische Wissensfrage",
+    x = "Geschlecht", 
+    y = "Anteil richtig/falsch") 
 ```
 ]
 
