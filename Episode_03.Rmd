@@ -135,8 +135,8 @@ Für *kategoriale* Daten: Säulendiagramm
 gf_bar( ~ F07_Aktien, 
         data = SATS_BFI) %>%
   gf_labs(
-    title="Öknomisches Wissensfrage",
-    x="Antwort", y="Häufigkeit")
+    title = "Öknomische Wissensfrage",
+    x = "Antwort", y = "Häufigkeit")
 ```
 ]
 
