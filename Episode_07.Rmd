@@ -1,0 +1,191 @@
+---
+title: "`r params$module`"  # Do NOT change this line
+subtitle: "`r params$shorttitle`"  # Do NOT change this line
+author: "`r params$instructor`"  # Do NOT change this line
+date: "`r params$semester`"  # Do NOT change this line
+params:
+  module: "Data Literacy Education"  # Enter HERE the name of the presentation/course/module
+  semester: "Episode 7: Lineare Regression"   # Enter HERE the date/semester/term
+  shorttitle: ""  # Enter HERE a subtitle/shorttitle
+  foottitle: "Data Literacy Slidecast"  # Enter HERE a title for footline
+  instructor: "FOM"  # ENTER here the presentator's/instructor's name
+output:
+  xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
+    lib_dir: libs
+    css: ["footer-header.css", "xafom.css"]
+    nature:
+      titleSlideClass: [middle, right]
+      ratio: "4:3"  # Note that currently only 4:3 format is supported
+---
+
+
+layout: true
+  
+<div class="my-header"></div>
+
+<!-- the following lines define the header and the footer line: -->
+<div class="my-footer"><span>`r params$semester`    
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+`r params$instructor` | `r params$foottitle` </span></div> 
+
+<div class="footer-line"></div>
+
+
+
+```{r setup, include=FALSE}
+library(emojifont)
+library(knitr)
+library(mosaic)
+
+theme.fom <- theme_classic(22*1.04)
+theme.fom <- theme.fom
+theme_set(
+  theme.fom  
+)
+#options(scipen=999)
+```
+
+---
+
+## PPDAC-Prozess
+
+
+.pull-left[
+**Problem**: Problemdefinition, Forschungsfrage: Was soll untersucht werden?
+
+**Plan**: Planung der Analyse, z.B. Operationalisierung/ Variablenauswahl. Wahl des Stichprobenverfahrens und/ oder Versuchsplanung.
+
+**Data**: Datenerhebung, Datenmanagement, Datenbereinigung.
+
+**Analysis**: Explorative Datenanalyse, Modellierung, Hypothesenprüfung. 
+
+**Conclusion**: Schlussfolgerungen, Interpretation, neue Ideen, Kommunikation.
+]
+
+.pull-right[
+```{r forschungsprozess-image, echo=FALSE, out.width = "95%", fig.align="right"}
+include_graphics("img/PPDAC.png", error=FALSE)
+```
+]
+
+---
+
+## Inhalte
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+ggplot() + geom_emoji("woman_teacher") + theme_void()
+```
+
+
+Themen von Episode 4: **Analysis** und **Conclusion**
+
+<br>
+
+
+- Lineare Regression: Einfache lineare Regression
+
+
+<br>
+
+**Hinweis**: Diese Data Literacy Slidecasts dienen didaktisch der konzeptionell-methodischen Verdeutlichung, nicht der inhaltlichen Analyse.
+
+
+---
+
+## Fragestellung
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+ggplot() + geom_emoji("thinking") + theme_void()
+```
+
+.large[Kann die erwartete Note durch die Selbsteinschätzung der kognitiven Kompetenz bezüglich des Fachs Statistik modelliert werden?]
+
+<br>
+
+**Hinweis**: Erwartete Note wird hier als numerische Variable aufgefasst, da die Noten $1.0, 1.3, \ldots, 5$ auf Basis von Punkten in der Klausur bestimmt wird.
+
+---
+
+## Vorbereitungen
+
+Aus **Data** (Episode 2):
+
+```{r}
+# mosaic laden
+library(mosaic)
+# Daten einlesen
+SATS_BFI <- read.csv2("Datenbasis_SATS_BFI.csv")
+# Daten vorverarbeiten
+SATS_BFI <- SATS_BFI %>%
+  mutate(F07_Aktien = 
+           case_when(F07_Aktien == "Stimme ganz und gar nicht zu." ~ "richtig",
+                     TRUE ~ "falsch")) %>%
+  mutate(G02_Alter = cut(G02_Alter, c(18, 23, 28, 33))) %>%
+  na.omit() 
+```
+
+---
+
+## Grafische Analyse
+
+Für zwei *numerische* Variablen: Streudiagramm
+
+.pull-left[
+```{r barplot, eval=FALSE}
+gf_point(C4_Notenerwartung ~ 
+           B_SATS_Kompetenz, 
+         data = SATS_BFI) %>%
+  gf_lm() %>%
+  gf_labs(x="Kognitive Kompetenz", 
+          y="Notenerwartung")
+```
+]
+
+.pull-right[
+```{r, echo=FALSE, out.width = "65%", fig.align="center"}
+gf_point(C4_Notenerwartung ~ B_SATS_Kompetenz, 
+         data = SATS_BFI) %>%
+  gf_lm() %>%
+  gf_labs(x="Kognitive Kompetenz", 
+          y="Notenerwartung")
+```
+]
+
+---
+
+## Kennzahlen
+
+Schätzung lineares Modell $y_i=\beta_0 + \beta_1 \cdot x_i + \epsilon_i$:
+
+
+```{r Kennnzahl}
+lm_stipro <- lm(C4_Notenerwartung ~ B_SATS_Kompetenz, data = SATS_BFI)
+summary(lm_stipro)
+```
+
+
+---
+
+## Schlussfolgerung
+
+**Frage**: Kann die erwartete Note durch die Selbsteinschätzung der kognitiven Kompetenz bezüglich des Fachs Statistik modelliert werden?
+
+--
+
+<br>
+
+**Antwort**: Die geschätzte Modellgleichung der Stichprobe lautet:
+
+$$\widehat{\text{Notenerwartung}}=`r round(coef(lm_stipro)[1],2)`  `r round(coef(lm_stipro)[2],2)` \cdot \text{Eingeschätzte Kompetenz}$$
+D.h., in einem linearen Modell der Stichprobe sinkt der Mittelwert der erwarteten Note um `r abs(round(coef(lm_stipro)[2],2))` pro Skalenpunkt der Selbsteinschätzung der kognitiven Kompetenz.
+
+Es werden hier $`r round(rsquared(lm_stipro),4)*100`\,\%$ der Variation der Notenerwartung durch die kognitive Kompetenz modelliert.
+
+
+<br>
+
+*Fortsetzung folgt.*
+
