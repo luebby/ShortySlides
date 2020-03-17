@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Data Literacy Education</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="FOM" />
+    <script src="libs/header-attrs-2.1/header-attrs.js"></script>
+    <link rel="stylesheet" href="footer-header.css" type="text/css" />
+    <link rel="stylesheet" href="xafom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: middle, right, title-slide
+
+# Data Literacy Education
+### FOM
+### Episode 2: Daten
+
+---
+
+
+
+layout: true
+  
+&lt;div class="my-header"&gt;&lt;/div&gt;
+
+&lt;!-- the following lines define the header and the footer line: --&gt;
+&lt;div class="my-footer"&gt;&lt;span&gt;Episode 2: Daten    
+&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;
+&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;
+FOM | Data Literacy Slidecast &lt;/span&gt;&lt;/div&gt; 
+
+&lt;div class="footer-line"&gt;&lt;/div&gt;
+
+
+
+
+
+---
+
+## PPDAC-Prozess
+
+
+.pull-left[
+**Problem**: Problemdefinition, Forschungsfrage: Was soll untersucht werden?
+
+**Plan**: Planung der Analyse, z.B. Operationalisierung/ Variablenauswahl. Wahl des Stichprobenverfahrens und/ oder Versuchsplanung.
+
+**Data**: Datenerhebung, Datenmanagement, Datenbereinigung.
+
+**Analysis**: Explorative Datenanalyse, Modellierung, Hypothesenprüfung. 
+
+**Conclusion**: Schlussfolgerungen, Interpretation, neue Ideen, Kommunikation.
+]
+
+.pull-right[
+&lt;img src="img/PPDAC.png" width="95%" style="display: block; margin: auto 0 auto auto;" /&gt;
+]
+
+---
+
+## Inhalte
+
+&lt;img src="Episode_02_files/figure-html/unnamed-chunk-1-1.png" width="15%" style="display: block; margin: auto;" /&gt;
+
+
+Themen von Episode 2: **Data**
+
+&lt;br&gt;
+
+
+- Einführung in R
+
+
+&lt;br&gt;
+
+**Hinweis**: Diese Data Literacy Slidecasts dienen didaktisch der konzeptionell-methodischen Verdeutlichung, nicht der inhaltlichen Analyse.
+
+---
+
+## Vorbereitungen
+
+Zusatzpaket `mosaic` laden:
+
+
+```r
+library(mosaic)
+```
+
+&lt;br&gt;
+
+`csv`-Datendatei (`Datenbasis_SATS_BFI.csv`) in `R` einlesen und dort `SATS_BFI` nennen:
+
+
+```r
+SATS_BFI &lt;- read.csv2("Datenbasis_SATS_BFI.csv")
+```
+
+---
+
+## Datenstruktur
+
+Struktur des Datensatzes:
+
+
+```r
+str(SATS_BFI)
+```
+
+```
+## 'data.frame':	288 obs. of  7 variables:
+##  $ ID               : int  590 1495 1034 1394 503 1382 1424 731 1474 1411 ...
+##  $ B_SATS_Kompetenz : num  4.5 4.8 2 5 4.8 3.8 3.8 3.7 4.8 6.3 ...
+##  $ C4_Notenerwartung: num  2.7 2 4 3 3 2 4 3 1.7 NA ...
+##  $ D_BFI_G          : num  3 5 3 3.5 3 4 3 3.5 4.5 5 ...
+##  $ F07_Aktien       : Factor w/ 5 levels "Stimme eher nicht zu.",..: NA 1 1 NA 3 3 3 5 1 3 ...
+##  $ G01_Geschlecht   : Factor w/ 2 levels "maennlich","weiblich": 2 2 2 1 1 2 2 2 1 2 ...
+##  $ G02_Alter        : int  NA 23 24 25 26 23 23 29 23 42 ...
+```
+
+---
+
+## Daten
+
+Oberste Zeilen:
+
+
+```r
+head(SATS_BFI)
+```
+
+```
+##     ID B_SATS_Kompetenz C4_Notenerwartung D_BFI_G                    F07_Aktien
+## 1  590              4.5               2.7     3.0                          &lt;NA&gt;
+## 2 1495              4.8               2.0     5.0         Stimme eher nicht zu.
+## 3 1034              2.0               4.0     3.0         Stimme eher nicht zu.
+## 4 1394              5.0               3.0     3.5                          &lt;NA&gt;
+## 5  503              4.8               3.0     3.0 Stimme ganz und gar nicht zu.
+## 6 1382              3.8               2.0     4.0 Stimme ganz und gar nicht zu.
+##   G01_Geschlecht G02_Alter
+## 1       weiblich        NA
+## 2       weiblich        23
+## 3       weiblich        24
+## 4      maennlich        25
+## 5      maennlich        26
+## 6       weiblich        23
+```
+
+---
+
+## Datenvorverarbeitung
+
+
+- Richtige Antwort auf `F07_Aktien` markieren
+
+- Alter gruppieren
+
+- Beobachtungen mit fehlenden Werten eleminieren
+
+
+
+```r
+SATS_BFI &lt;- SATS_BFI %&gt;%
+  mutate(F07_Aktien = 
+           case_when(F07_Aktien == "Stimme ganz und gar nicht zu." ~ "richtig",
+                     TRUE ~ "falsch")) %&gt;%
+  mutate(G02_Alter = cut(G02_Alter, c(18, 23, 28, 33))) %&gt;%
+  na.omit() 
+```
+
+---
+
+## Daten inspizieren
+
+
+```r
+inspect(SATS_BFI)
+```
+
+```
+## 
+## categorical variables:  
+##             name     class levels   n missing
+## 1     F07_Aktien character      2 255       0
+## 2 G01_Geschlecht    factor      2 255       0
+## 3      G02_Alter    factor      3 255       0
+##                                    distribution
+## 1 falsch (51.8%), richtig (48.2%)              
+## 2 weiblich (54.9%), maennlich (45.1%)          
+## 3 (18,23] (44.7%), (23,28] (43.5%) ...         
+## 
+## quantitative variables:  
+##                name   class   min    Q1 median     Q3  max       mean
+## 1                ID integer 150.0 337.0  516.0 1427.0 1561 791.121569
+## 2  B_SATS_Kompetenz numeric   1.2   3.7    4.5    5.3    7   4.465882
+## 3 C4_Notenerwartung numeric   1.0   2.0    2.3    3.0    4   2.507843
+## 4           D_BFI_G numeric   1.5   3.0    3.5    4.5    5   3.656863
+##            sd   n missing
+## 1 526.6485001 255       0
+## 2   1.1697519 255       0
+## 3   0.6972508 255       0
+## 4   0.8539521 255       0
+```
+
+---
+
+## Datensatzbeschreibung
+
+- 255 Beobachtungen (Studierende)
+
+- 7 Variablen:
+
+  - `ID`: Identifikationsnummer (nominal)
+  
+  - `F07_Aktien`: Operationalisierung von *Wissen* (nominal)
+  
+  - `G01_Geschlecht`: Geschlecht (nominal)
+  
+  - `G02_Alter`: Alter (durch Gruppierung ordinal)
+  
+  - `B_SATS_Kompetenz`: Operationalisierung der Selbsteinschätzung von *Kompetenz* im Fach Statistik (als intervallskaliert aufgefasst)
+  
+  - `C4_Notenerwartung`: *Notenerwartung* (ordinal)
+  
+  - `D_BFI_G`: Operationalsisierung von *Gewissenhaftigkeit* (als intervallskaliert aufgefasst)
+  
+  
+
+&lt;br&gt;
+
+*Fortsetzung folgt.*
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "4:3"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+<style>
+.logo {
+  background-image: url(img/logo.jpg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  width: 70px;
+  height: 70px;  
+  z-index: 0;
+}
+</style>
+
+<script>
+document
+  .querySelectorAll(
+    '.remark-slide-content' +
+    ':not(.title-slide)' +
+    ':not(.inverse)' + 
+    // add additional classes to exclude here, e.g.
+    // ':not(.inverse)' +
+    ':not(.hide-logo)'
+  )
+  .forEach(el => {
+    el.innerHTML += '<div class="logo"></div>';
+  });
+</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

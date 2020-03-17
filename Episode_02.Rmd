@@ -139,7 +139,7 @@ head(SATS_BFI)
 
 - Alter gruppieren
 
-- Beobachtungen mit fehlenden Werten eleminieren
+- Beobachtungen mit fehlenden Werten eliminieren
 
 
 ```{r}
@@ -179,7 +179,7 @@ inspect(SATS_BFI)
   
   - `C4_Notenerwartung`: *Notenerwartung* (ordinal)
   
-  - `D_BFI_G`: Operationalsisierung von *Gewissenhaftigkeit* (als intervallskaliert aufgefasst)
+  - `D_BFI_G`: Operationalisierung von *Gewissenhaftigkeit* (als intervallskaliert aufgefasst)
   
   
 

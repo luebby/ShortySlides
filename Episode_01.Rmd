@@ -110,7 +110,7 @@ Themen von Episode 1: **Problem** und **Plan**
 
 ## Fragestellungen
 
-Gibt es Unterschiede bzw. Zusammenhänge zwischen den Persönlichkeitsmerkmalen
+Gibt es Unterschiede bzw. Zusammenhänge zwischen dem Persönlichkeitsmerkmal
 
 - *Gewissenhaftigkeit*, 
 
@@ -142,11 +142,11 @@ Bei den Persönlichkeitsmerkmalen handelt es sich um **latente** Variablen, die 
 
 ## Datenerhebung
 
-**Gelegeneitsstichprobe:** freiwillige Online Umfrage vor Semesterbeginn an mehreren FOM Standorten in Vorlesungen mit statistischem Bezug.
+**Gelegenheitsstichprobe:** freiwillige Onlineumfrage vor Semesterbeginn an mehreren FOM Standorten in Vorlesungen mit statistischem Bezug.
 
 <br>
 
-**Hinweis**: Aufgrund des Designs als Gelegeneitsstichprobe in verschiedenen Kursen sind verzerrende Kovariablen, z.B. Studiengang möglich, die Validität der Ergebnisse ist daher eingeschränkt!
+**Hinweis**: Aufgrund des Designs als Gelegenheitsstichprobe in verschiedenen Kursen sind verzerrende Kovariablen, z.B. Studiengang möglich, die Validität der Ergebnisse ist daher eingeschränkt!
 
 <br>
 
