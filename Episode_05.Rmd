@@ -139,9 +139,9 @@ gf_histogram(~ B_SATS_Kompetenz,
              data = SATS_BFI,
              center = 4, 
              binwidth = 0.5) %>%
-  gf_labs(title="SATS-36",
-          x="Kognitive Kompetenz", 
-          y="Häufigkeit")
+  gf_labs(title = "SATS-36",
+          x = "Kognitive Kompetenz", 
+          y = "Häufigkeit")
 ```
 ]
 
@@ -150,8 +150,8 @@ gf_histogram(~ B_SATS_Kompetenz,
 gf_histogram(~ B_SATS_Kompetenz, 
              data = SATS_BFI,
              center = 4, binwidth = 0.5) %>%
-  gf_labs(title="SATS-36",
-          x="Kognitive Kompetenz", y="Häufigkeit")
+  gf_labs(title = "SATS-36",
+          x = "Kognitive Kompetenz", y = "Häufigkeit")
 ```
 ]
 
