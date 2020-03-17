@@ -3,4 +3,4 @@
 .RData
 .Ruserdata
 Episode*.html
-*_files/
+*_files/**
