@@ -144,7 +144,7 @@ gf_bar( ~ G01_Geschlecht,
         position = "fill",
         data = SATS_BFI)  %>%
   gf_labs(
-    title="Öknomisches Wissensfrage",
+    title="Ökonomisches Wissensfrage",
     x="Geschlecht", 
     y="Anteil richtig/falsch") 
 ```

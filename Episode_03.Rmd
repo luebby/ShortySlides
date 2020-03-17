@@ -144,7 +144,7 @@ gf_bar( ~ F07_Aktien,
 ```{r, echo=FALSE, out.width = "65%", fig.align="center"}
 gf_bar( ~ F07_Aktien, data = SATS_BFI) %>%
   gf_labs(
-    title="Öknomisches Wissensfrage",
+    title="Ökonomische Wissensfrage",
     x="Antwort", y="Häufigkeit")
 ```
 ]
