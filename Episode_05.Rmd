@@ -105,7 +105,7 @@ ggplot() + geom_emoji("thinking") + theme_void()
 
 <br>
 
-**Hinweis**: Der neutrale Wert der $7$-er Multi-Item Likert Skala liegt bei $4$
+**Hinweis**: Der neutrale Wert der $7$-er Multi-Item Likert Skala liegt bei $4$.
 
 ---
 
