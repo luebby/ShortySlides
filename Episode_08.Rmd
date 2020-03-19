@@ -57,7 +57,7 @@ theme_set(
 .pull-left[
 **Problem**: Problemdefinition, Forschungsfrage: Was soll untersucht werden?
 
-**Plan**: Planung der Analyse, z.B. Operationalisierung/ Variablenauswahl. Wahl des Stichprobenverfahrens und/ oder Versuchsplanung.
+**Plan**: Planung der Analyse, z. B. Operationalisierung/Variablenauswahl. Wahl des Stichprobenverfahrens und/oder Versuchsplanung.
 
 **Data**: Datenerhebung, Datenmanagement, Datenbereinigung.
 
@@ -106,7 +106,7 @@ ggplot() + geom_emoji("thinking") + theme_void()
 
 <br>
 
-**Hinweis**: Diese ist eine Fortsetzung von Episode 7.
+**Hinweis**: Dies ist eine Fortsetzung von Episode 7.
 
 ---
 
@@ -214,8 +214,8 @@ summary(lm_stipro)
 
 **Antwort**: Die geschätzte Modellgleichung der Stichprobe lautet:
 
-$$\widehat{\text{Notenerwartung}}=`r round(coef(lm_stipro)[1],2)`  `r round(coef(lm_stipro)[2],2)` \cdot \text{Eingeschätzte Kompetenz}$$
-D.h., in einem linearen Modell der Stichprobe sinkt der Mittelwert der erwarteten Note um den Faktor `r abs(round(coef(lm_stipro)[2],2))` pro Skalenpunkt der Selbsteinschätzung der kognitiven Kompetenz.
+$$\widehat{\text{Notenerwartung}}=`r round(coef(lm_stipro)[1],2)`  `r round(coef(lm_stipro)[2],2)` \cdot \text{kognitive Kompetenz}$$
+D. h., in einem linearen Modell der Stichprobe sinkt der Mittelwert der erwarteten Note um den Faktor `r abs(round(coef(lm_stipro)[2],2))` pro Skalenpunkt der Selbsteinschätzung der kognitiven Kompetenz.
 
 Es werden hier $`r round(rsquared(lm_stipro),4)*100`\,\%$ der Variation der Notenerwartung durch die kognitive Kompetenz modelliert.
 
@@ -233,7 +233,7 @@ ggplot() + geom_emoji("thinking") + theme_void()
 
 --
 
-Wir hätten andere geschätzte Koeffizienten $\hat{\beta_0}, \hat{\beta}_1$ gehabt als die, die wir haben.
+Wir hätten andere geschätzte Koeffizienten $\hat{\beta_0}, \hat{\beta}_1$ erhalten als die, die wir haben.
 
 --
 
@@ -243,7 +243,7 @@ Wie anders?
 
 ## Re-Sampling
 
-**Idee**: Simuliere zufälliges Ziehen einer Stichprobe aus einer Population durch Ziehen mit Zurücklegen aus der Stichprobe.
+**Idee**: Simuliere zufälliges Ziehen einer Stichprobe aus einer Population durch Ziehen mit Zurücklegen aus der Stichprobe. Die Ergebnisse könnten wie folgt aussehen:
 
 ```{r , echo=FALSE, out.width = "45%", fig.align="center"}
 include_graphics("img/Bootstrap.gif", error=FALSE)
@@ -297,8 +297,8 @@ gf_histogram( ~ B_SATS_Kompetenz,
 ```
 ]
 
-- Geschätzte Steigung: $\hat{\beta}_1=`r round(coef(lm_stipro)[2],2)`$
-- Geschätzte Streuung von $\hat{\beta}_1$ (*Standardfehler*):
+- geschätzte Steigung: $\hat{\beta}_1=`r round(coef(lm_stipro)[2],2)`$
+- geschätzte Streuung von $\hat{\beta}_1$ (*Standardfehler*):
 
 ```{r}
 sd( ~ B_SATS_Kompetenz, data = Bootvtlg)
@@ -308,15 +308,15 @@ sd( ~ B_SATS_Kompetenz, data = Bootvtlg)
 
 ## Konfidenzintervall
 
-Quantile der Re-Sampling Verteilung von $\hat{\beta}_1$:
+Quantile der Re-Sampling-Verteilung von $\hat{\beta}_1$:
 
-- Geschätztes $95\,\%$ Konfidenzintervall:
+- geschätztes $95\,\%$-Konfidenzintervall:
 
 ```{r}
 quantile( ~ B_SATS_Kompetenz, data = Bootvtlg, probs = c(0.025, 0.975))
 ```
 
-- Geschätztes $99\,\%$ Konfidenzintervall:
+- geschätztes $99\,\%$-Konfidenzintervall:
 
 ```{r}
 quantile( ~ B_SATS_Kompetenz, data = Bootvtlg, probs = c(0.005, 0.995))
@@ -334,14 +334,14 @@ quantile( ~ B_SATS_Kompetenz, data = Bootvtlg, probs = c(0.005, 0.995))
 
 **Antwort**: Die geschätzte Modellgleichung der Stichprobe lautet:
 
-$$\widehat{\text{Notenerwartung}}=`r round(coef(lm_stipro)[1],2)`  `r round(coef(lm_stipro)[2],2)` \cdot \text{Eingeschätzte Kompetenz}$$
-D.h., in einem linearen Modell der Stichprobe sinkt der Mittelwert der erwarteten Note um den Faktor `r abs(round(coef(lm_stipro)[2],2))` pro Skalenpunkt der Selbsteinschätzung der kognitiven Kompetenz.
+$$\widehat{\text{Notenerwartung}}=`r round(coef(lm_stipro)[1],2)`  `r round(coef(lm_stipro)[2],2)` \cdot \text{kognitive Kompetenz}$$
+D. h., in einem linearen Modell der Stichprobe sinkt der Mittelwert der erwarteten Note um den Faktor `r abs(round(coef(lm_stipro)[2],2))` pro Skalenpunkt der Selbsteinschätzung der kognitiven Kompetenz.
 
 Es werden hier $`r round(rsquared(lm_stipro),4)*100`\,\%$ der Variation der Notenerwartung durch die kognitive Kompetenz modelliert.
 
 --
 
-Das $95\%$-Konfidenzintervall für $\beta_{\text{Eingeschätzte Kompetenz}}$ überdeckt den Bereich $`r floor(confint(Bootvtlg$B_SATS_Kompetenz)[1]*100)/100`$ bis $`r ceiling(confint(Bootvtlg$B_SATS_Kompetenz)[2]*100)/100`$. Werte in diesem Bereich sind mit den Daten *kompatibel*.
+Das $95\%$-Konfidenzintervall für $\beta_{\text{kognitive Kompetenz}}$ überdeckt den Bereich $`r floor(confint(Bootvtlg$B_SATS_Kompetenz)[1]*100)/100`$ bis $`r ceiling(confint(Bootvtlg$B_SATS_Kompetenz)[2]*100)/100`$. Werte in diesem Bereich sind mit den Daten *kompatibel*.
 
 <br>
 
