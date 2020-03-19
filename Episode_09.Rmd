@@ -57,7 +57,7 @@ theme_set(
 .pull-left[
 **Problem**: Problemdefinition, Forschungsfrage: Was soll untersucht werden?
 
-**Plan**: Planung der Analyse, z.B. Operationalisierung/ Variablenauswahl. Wahl des Stichprobenverfahrens und/ oder Versuchsplanung.
+**Plan**: Planung der Analyse, z. B. Operationalisierung/Variablenauswahl. Wahl des Stichprobenverfahrens und/oder Versuchsplanung.
 
 **Data**: Datenerhebung, Datenmanagement, Datenbereinigung.
 
@@ -106,7 +106,7 @@ ggplot() + geom_emoji("thinking") + theme_void()
 
 <br>
 
-**Hinweis**: Diese ist eine Fortsetzung von Episode 7.
+**Hinweis**: Dies ist eine Fortsetzung von Episode 7.
 
 ---
 
@@ -223,8 +223,8 @@ summary(lm_stipro)
 
 **Antwort**: Die geschätzte Modellgleichung der Stichprobe lautet:
 
-$$\widehat{\text{Notenerwartung}}=`r round(coef(lm_stipro)[1],2)`  `r round(coef(lm_stipro)[2],2)` \cdot \text{Eingeschätzte Kompetenz}$$
-D.h., in einem linearen Modell der Stichprobe sinkt der Mittelwert der erwarteten Note um den Faktor `r abs(round(coef(lm_stipro)[2],2))` pro Skalenpunkt der Selbsteinschätzung der kognitiven Kompetenz.
+$$\widehat{\text{Notenerwartung}}=`r round(coef(lm_stipro)[1],2)`  `r round(coef(lm_stipro)[2],2)` \cdot \text{kognitive Kompetenz}$$
+D. h., in einem linearen Modell der Stichprobe sinkt der Mittelwert der erwarteten Note um den Faktor `r abs(round(coef(lm_stipro)[2],2))` pro Skalenpunkt der Selbsteinschätzung der kognitiven Kompetenz.
 
 Es werden hier $`r round(rsquared(lm_stipro),4)*100`\,\%$ der Variation der Notenerwartung durch die kognitive Kompetenz modelliert.
 
@@ -253,7 +253,7 @@ Aber in einer Stichprobe könnte trotzdem zufällig $\hat{\beta}_1 \neq 0$ beoba
 
 ## Permutation
 
-**Idee**: Simuliere Daten des Modells *kein Zusammenhang* durch zufälliges durchmischen (permutieren) von $x$:
+**Idee**: Simuliere Daten des Modells *kein Zusammenhang* durch zufälliges durchmischen (permutieren) von $x$. Das könnte wie folgt aussehen:
 
 ```{r , echo=FALSE, out.width = "45%", fig.align="center"}
 include_graphics("img/Permutation.gif", error=FALSE)
@@ -313,8 +313,8 @@ gf_histogram( ~ B_SATS_Kompetenz,
 ```
 ]
 
-- Geschätzte Steigung in der Stichprobe: $\hat{\beta}_1=`r round(coef(lm_stipro)[2],2)`$
-- Vorhergesagte Steigung in einer Stichprobe, wenn es keinen Zusammenhang gibt:
+- geschätzte Steigung in der Stichprobe: $\hat{\beta}_1=`r round(coef(lm_stipro)[2],2)`$
+- vorhergesagte Steigung in einer Stichprobe, wenn es keinen Zusammenhang gibt:
 
 
 ```{r}
@@ -343,14 +343,14 @@ prop( ~ (abs(B_SATS_Kompetenz) >= abs(coef(lm_stipro)[2])), data = Nullvtlg)
 
 **Antwort**: Die geschätzte Modellgleichung der Stichprobe lautet:
 
-$$\widehat{\text{Notenerwartung}}=`r round(coef(lm_stipro)[1],2)`  `r round(coef(lm_stipro)[2],2)` \cdot \text{Eingeschätzte Kompetenz}$$
+$$\widehat{\text{Notenerwartung}}=`r round(coef(lm_stipro)[1],2)`  `r round(coef(lm_stipro)[2],2)` \cdot \text{kognitive Kompetenz}$$
 D.h., in einem linearen Modell der Stichprobe sinkt der Mittelwert der erwarteten Note um den Faktor `r abs(round(coef(lm_stipro)[2],2))` pro Skalenpunkt der Selbsteinschätzung der kognitiven Kompetenz.
 
 Es werden hier $`r round(rsquared(lm_stipro),4)*100`\,\%$ der Variation der Notenerwartung durch die kognitive Kompetenz modelliert.
 
 --
 
-Der p-Wert unter dem Modell $H_0: \beta_{\text{Eingeschätzte Kompetenz}}=0$ ist $\leq `r tally(  ~ (abs(B_SATS_Kompetenz) >= abs(coef(lm_stipro)[2])), data = Nullvtlg)[1]+1`/`r nrow(Nullvtlg)`$. Das beobachtete Ergebnis der Stichprobe ist mit diesem Modell *nicht kompatibel*.
+Der p-Wert unter dem Modell $H_0: \beta_{\text{kognitive Kompetenz}}=0$ ist $\leq `r tally(  ~ (abs(B_SATS_Kompetenz) >= abs(coef(lm_stipro)[2])), data = Nullvtlg)[1]+1`/`r nrow(Nullvtlg)`$. Das beobachtete Ergebnis der Stichprobe ist mit diesem Modell *nicht kompatibel*.
 
 <br>
 
