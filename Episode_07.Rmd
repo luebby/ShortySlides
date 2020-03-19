@@ -56,7 +56,7 @@ theme_set(
 .pull-left[
 **Problem**: Problemdefinition, Forschungsfrage: Was soll untersucht werden?
 
-**Plan**: Planung der Analyse, z.B. Operationalisierung/ Variablenauswahl. Wahl des Stichprobenverfahrens und/ oder Versuchsplanung.
+**Plan**: Planung der Analyse, z. B. Operationalisierung/Variablenauswahl. Wahl des Stichprobenverfahrens und/oder Versuchsplanung.
 
 **Data**: Datenerhebung, Datenmanagement, Datenbereinigung.
 
@@ -179,8 +179,8 @@ summary(lm_stipro)
 
 **Antwort**: Die geschätzte Modellgleichung der Stichprobe lautet:
 
-$$\widehat{\text{Notenerwartung}}=`r round(coef(lm_stipro)[1],2)`  `r round(coef(lm_stipro)[2],2)` \cdot \text{Eingeschätzte Kompetenz}$$
-D.h., in einem linearen Modell der Stichprobe sinkt der Mittelwert der erwarteten Note um den Faktor `r abs(round(coef(lm_stipro)[2],2))` pro Skalenpunkt der Selbsteinschätzung der kognitiven Kompetenz.
+$$\widehat{\text{Notenerwartung}}=`r round(coef(lm_stipro)[1],2)`  `r round(coef(lm_stipro)[2],2)` \cdot \text{kognitive Kompetenz}$$
+D. h., in einem linearen Modell der Stichprobe sinkt der Mittelwert der erwarteten Note um den Faktor `r abs(round(coef(lm_stipro)[2],2))` pro Skalenpunkt der Selbsteinschätzung der kognitiven Kompetenz.
 
 Es werden hier $`r round(rsquared(lm_stipro),4)*100`\,\%$ der Variation der Notenerwartung durch die kognitive Kompetenz modelliert.
 
