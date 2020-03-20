@@ -76,7 +76,7 @@ include_graphics("img/PPDAC.png", error=FALSE)
 
 ## Inhalte
 
-```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
 ggplot() + geom_emoji("woman_teacher") + theme_void()
 ```
 
@@ -98,7 +98,7 @@ Themen von Episode 8: **Analysis** und **Conclusion**
 
 ## Fragestellung
 
-```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
 ggplot() + geom_emoji("thinking") + theme_void()
 ```
 
@@ -223,7 +223,7 @@ Es werden hier $`r round(rsquared(lm_stipro),4)*100`\,\%$ der Variation der Note
 
 ## Unsicherheit und Variation
 
-```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
 ggplot() + geom_emoji("thinking") + theme_void()
 ```
 
