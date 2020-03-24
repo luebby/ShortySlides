@@ -185,7 +185,7 @@ gf_dist("norm",  mean = 178, sd = 7) %>% gf_labs(title = "Dichtefunktion Größe
 
 ## Verteilungsfunktion
 
-Wie wahrscheinlich ist es, dass ein Mann $\leq 185$ ist?
+Wie wahrscheinlich ist es, dass ein Mann $\leq 185$ cm ist?
 
 .pull-left[
 ```{r, fig.align="center", out.width="80%", echo=FALSE}
@@ -233,7 +233,7 @@ Standardisierung:
 
 $$z=\frac{x-\mu}{\sigma}$$
 
-Z.B. für einen Mann  mit einer Größe von $x=171$:
+Z. B. für einen Mann  mit einer Größe von $x=171$:
 
 $$z=\frac{x-\mu}{\sigma}=\frac{171-178}{7}=-1$$
 ---
