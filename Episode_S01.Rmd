@@ -1,0 +1,297 @@
+---
+title: "`r params$module`"  # Do NOT change this line
+subtitle: "`r params$shorttitle`"  # Do NOT change this line
+author: "`r params$instructor`"  # Do NOT change this line
+date: "`r params$semester`"  # Do NOT change this line
+params:
+  module: "Data Literacy Education"  # Enter HERE the name of the presentation/course/module
+  semester: "Special 1: Normalverteilung"   # Enter HERE the date/semester/term
+  shorttitle: ""  # Enter HERE a subtitle/shorttitle
+  foottitle: "Data Literacy Slidecast"  # Enter HERE a title for footline
+  instructor: "FOM"  # ENTER here the presentator's/instructor's name
+output:
+  xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
+    lib_dir: libs
+    css: ["footer-header.css", "xafom.css"]
+    nature:
+      titleSlideClass: [middle, right]
+      ratio: "4:3"  # Note that currently only 4:3 format is supported
+      highlightLines: true
+---
+
+
+layout: true
+  
+<div class="my-header"></div>
+
+<!-- the following lines define the header and the footer line: -->
+<div class="my-footer"><span>`r params$semester`    
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+`r params$instructor` | `r params$foottitle` </span></div> 
+
+<div class="footer-line"></div>
+
+
+
+```{r setup, include=FALSE}
+library(emojifont)
+library(knitr)
+library(mosaic)
+library(tidyr)
+
+theme.fom <- theme_classic(22*1.04)
+theme.fom <- theme.fom
+theme_set(
+  theme.fom  
+)
+#options(scipen=999)
+
+Mann1 <- data.frame(x1 = 185, x2 = 185, y1=0 , y2=pnorm(185, mean = 178, sd =7))
+Mann2 <- data.frame(x1 = 185, x2 = 150, y1=pnorm(185, mean = 178, sd =7) , 
+                    y2=pnorm(185, mean = 178, sd =7))
+
+groesse <- seq(150, 210, by = 0.1)
+pgroesse <- pnorm(groesse, mean = 178, sd = 7)
+
+Mann3 <- data.frame(x1 = 150, x2 = qnorm(0.9, mean = 178, sd =7) , y1=0.9 , y2=0.9)
+Mann4 <- data.frame(x1 = qnorm(0.9, mean = 178, sd =7), x2 = qnorm(0.9, mean = 178, sd =7), 
+                    y1=0.9 , y2=0)
+```
+
+---
+
+## Inhalte
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
+ggplot() + geom_emoji("woman_teacher") + theme_void()
+```
+
+
+Themen von Special 1: Modellierung des Zufalls
+
+<br>
+
+
+- Normalverteilung
+
+
+<br>
+
+**Hinweis**: Diese Data Literacy Slidecasts dienen didaktisch der konzeptionell-methodischen Verdeutlichung, nicht der inhaltlichen Analyse.
+
+
+---
+
+## Männer ...
+
+Stellen Sie sich vor, Sie treffen einen *zufälligen* Mann. 
+
+```{r fig.showtext=TRUE, out.width="70%", echo = FALSE, fig.asp = .7, fig.align="center"}
+fa1 <- fontawesome(c("fa-user"))
+fa2 <- fontawesome(c("fa-female", "fa-male"))
+
+set.seed(1909)
+d <- crossing(x = 1:5,
+              y = 1:5) %>%
+  mutate(label = sample(x = c(rep(1, 1), rep(0, 24))) %>% as.factor()) 
+
+
+p1 <- ggplot(d, aes(x = x, y = y, color = label)) +
+  geom_tile(color = "white", size = .5, aes(fill = label), alpha = .2) +
+  theme_void() +
+  geom_text(family='fontawesome-webfont', size=8, label = fa1) +
+  scale_color_manual(label = c("nicht-gewählt", "gewählt"),
+                     values = c("grey80", "#00998A"),
+                     name = "") +
+  scale_fill_manual( values = c("grey80", "#00998A")) +
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5)) +
+  guides(fill = FALSE)
+p1
+```
+
+---
+
+## Männer und ihre Größe.
+
+```{r fig.showtext=TRUE, out.width="30%", echo = FALSE, fig.asp = .7, fig.align="right"}
+p1
+```
+
+Wie groß wird er sein?
+
+--
+
+- Wird er kleiner als $170$ cm sein?
+
+- Wird er größer als $190$ cm sein?
+
+- Wird er ca. $180$ cm groß sein?
+
+
+---
+
+## Zufall und Wahrscheinlichkeit
+
+- Die **Wahrscheinlichkeit** $P$ eines Ereignisses $A$ ist ein Maß für die Unsicherheit: $P(A|W)\in[0,1]$, die Wahrscheinlichkeit von $A$ vor unserem Wissenshintergrund $W$.
+
+- Ein **Zufallsexperiment** ist ein Vorgang, bei dem unter (scheinbar) gleichen Voraussetzungen unterschiedliche Ereignisse eintreten können.
+
+- Eine **Zufallsvariable** $X$ ist eine Variable, deren Wert $x$ vom **Zufall** abhängt.
+
+
+---
+
+## Verteilungsfunktion und Normalverteilung
+
+- Die Verteilungfunktion $F(x)=P(X\leq x |W)$ sagt aus: Wie wahrscheinlich ist es, vor unserem Wissenshintergrund $W$, dass die Zufallsvariabe $X$ einen Wert kleiner oder gleich $x$ annimmt.
+
+- Für viele Variablen lässt sich vermuten, dass sie normalverteilt sind. Das gilt insbesondere für Mittelwerte u.ä..
+
+- Die Normalverteilung lässt sich mit 2 Parametern beschreiben: Mittelwert $\mu$ und Standardabweichung $\sigma$.
+
+- Wenn wir wissen (annehmen), dass eine Variable normalverteilt ist, und $\mu$ und $\sigma$ kennen, können wir vor diesem Hintergrund $W$ den Zufall modellieren und Wahrscheinlichkeiten ausrechnen.
+
+- Für die Verteilungsfunktion einer Normalverteilung gilt:
+
+$$F(x|\mu, \sigma) = \int_{-\infty}^x \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(u-\mu)^2}{2\sigma^2}} du$$
+
+---
+
+
+## Verteilung der Größe
+
+- Die Größe (in cm) einer Person ist ungefähr normalverteilt.
+
+-  Laut [Statistischem Bundesamt](https://www.destatis.de/DE/ZahlenFakten/GesellschaftStaat/Gesundheit/GesundheitszustandRelevantesVerhalten/Tabellen/Koerpermasse.html) gilt ungefähr:
+
+    - $\mu_{\text{Mann}}=178$
+    
+    - $\mu_{\text{Frau}}=165$
+    
+    - $\sigma=7$ 
+    
+
+```{r, fig.align="center", out.width="30%", echo=FALSE}
+gf_dist("norm",  mean = 178, sd = 7) %>% gf_labs(title = "Dichtefunktion Größe Männer", 
+                                                 x="x: Größe in cm", y="f(x)=F'(x)")
+```
+
+.small[In Wirklichkeit ist die Standardabweichung bei den Männern ein wenig größer als bei Frauen.]
+
+---
+
+## Verteilungsfunktion
+
+Wie wahrscheinlich ist es, dass ein Mann $\leq 185$ ist?
+
+.pull-left[
+```{r, fig.align="center", out.width="80%", echo=FALSE}
+gf_line(pgroesse ~ groesse) %>%
+  gf_lims(x = c(150, 210)) %>%
+  gf_segment(y1 + y2 ~ x1 + x2, data = Mann1, color = "red", arrow = arrow()) %>%
+  gf_segment(y1 + y2 ~ x1 + x2, data = Mann2, color = "red", arrow = arrow()) %>%
+  gf_labs(title = "Verteilungsfunktion", x="x: Groesse", y=expression(paste("F(x)=P(",X<=x,")")))
+```
+]
+
+.pull-left[
+```{r, fig.align="center", out.width="50%", message=TRUE}
+xpnorm(185, mean = 178, sd = 7)
+```
+]
+
+---
+
+## Quantilsfunktion
+
+Wie groß sollte ein Mann sein, so dass $90\,\%$ der Männer nicht größer sind?
+
+.pull-left[
+```{r, fig.align="center", out.width="80%", echo=FALSE}
+gf_line(pgroesse ~ groesse) %>%
+  gf_lims(x = c(150, 210)) %>%
+  gf_segment(y1 + y2 ~ x1 + x2, data = Mann3, color = "red", arrow = arrow()) %>%
+  gf_segment(y1 + y2 ~ x1 + x2, data = Mann4, color = "red", arrow = arrow()) %>%
+  gf_labs(title = "Verteilungsfunktion", x="x: Groesse", y=expression(paste("F(x)=P(",X<=x,")")))
+```
+]
+
+.pull-left[
+```{r, fig.align="center", out.width="50%", message=TRUE}
+xqnorm(0.9, mean = 178, sd = 7)
+```
+]
+
+---
+
+## z-Wert
+
+Standardisierung: 
+
+$$z=\frac{x-\mu}{\sigma}$$
+
+Z.B. für einen Mann  mit einer Größe von $x=171$:
+
+$$z=\frac{x-\mu}{\sigma}=\frac{171-178}{7}=-1$$
+---
+
+## 68-95-99,7%-Regel
+
+Bei einer Normalverteilung liegen ca. 
+
+- $68\%$ der Werte im Bereich $\mu\pm 1 \cdot \sigma$
+- $95\%$ der Werte im Bereich  $\mu\pm 2 \cdot \sigma$ 
+- $99,7\%$ der Werte im Bereich  $\mu\pm 3 \cdot \sigma$.
+
+```{r, fig.align="center", out.width="60%", message=FALSE,  fig.asp = .7, echo=FALSE}
+p1 <- xpnorm(c(-1,1))
+```
+
+---
+
+## 68-95-99,7%-Regel
+
+Bei einer Normalverteilung liegen ca. 
+
+- $68\%$ der Werte im Bereich $\mu\pm 1 \cdot \sigma$
+- $95\%$ der Werte im Bereich  $\mu\pm 2 \cdot \sigma$ 
+- $99,7\%$ der Werte im Bereich  $\mu\pm 3 \cdot \sigma$.
+
+```{r, fig.align="center", out.width="60%", message=FALSE,  fig.asp = .7, echo=FALSE}
+p2 <- xpnorm(c(-2,2))
+```
+
+---
+
+## 68-95-99,7%-Regel
+
+Bei einer Normalverteilung liegen ca. 
+
+- $68\%$ der Werte im Bereich $\mu\pm 1 \cdot \sigma$
+- $95\%$ der Werte im Bereich  $\mu\pm 2 \cdot \sigma$ 
+- $99,7\%$ der Werte im Bereich  $\mu\pm 3 \cdot \sigma$.
+
+```{r, fig.align="center", out.width="60%", message=FALSE,  fig.asp = .7, echo=FALSE}
+p3 <- xpnorm(c(-3,3))
+```
+
+---
+
+## Parameter
+
+In der Praxis werden die Parameter $\mu$ und $\sigma$ häufig anhand einer **Stichprobe** geschätzt:
+
+- Der Mittelwert der Stichprobe als Schätzer für $\mu$:
+
+  $$\hat{\mu}=\bar{x}=\frac{1}{n}\sum_{i=1}^n x_i$$
+
+- Die Standardabweichung der Stichprobe als Schätzer für $\sigma$:
+
+  $$\hat{\sigma}=sd=\sqrt{\frac{1}{n-1}\sum_{i=1}^n (x_i-\bar{x})^2}$$
+
+<br>
+
+.small[Bei geschätzten Parametern liegt eigentlich eine sog. t-Verteilung vor. Die Unterschiede zur Normalverteilung sind bei $n>30$ aber gering.]
