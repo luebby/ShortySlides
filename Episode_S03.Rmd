@@ -1,0 +1,327 @@
+---
+title: "`r params$module`"  # Do NOT change this line
+subtitle: "`r params$shorttitle`"  # Do NOT change this line
+author: "`r params$instructor`"  # Do NOT change this line
+date: "`r params$semester`"  # Do NOT change this line
+params:
+  module: "Data Literacy Education"  # Enter HERE the name of the presentation/course/module
+  semester: "Special 3: Bereichsschätzung"   # Enter HERE the date/semester/term
+  shorttitle: ""  # Enter HERE a subtitle/shorttitle
+  foottitle: "Data Literacy Slidecast"  # Enter HERE a title for footline
+  instructor: "FOM"  # ENTER here the presentator's/instructor's name
+output:
+  xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
+    lib_dir: libs
+    css: ["footer-header.css", "xafom.css"]
+    nature:
+      titleSlideClass: [middle, right]
+      ratio: "4:3"  # Note that currently only 4:3 format is supported
+      highlightLines: true
+---
+
+
+layout: true
+  
+<div class="my-header"></div>
+
+<!-- the following lines define the header and the footer line: -->
+<div class="my-footer"><span>`r params$semester`    
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+`r params$instructor` | `r params$foottitle` </span></div> 
+
+<div class="footer-line"></div>
+
+
+
+```{r setup, include=FALSE}
+library(emojifont)
+library(knitr)
+library(mosaic)
+library(tidyr)
+
+theme.fom <- theme_classic(22*1.04)
+theme.fom <- theme.fom
+theme_set(
+  theme.fom  
+)
+#options(scipen=999)
+
+fa2 <- fontawesome(c("fa-female", "fa-male"))
+
+set.seed(1896)
+geschlecht <- sample(c(rep(fa2[1], 135), rep(fa2[2], 90)))
+```
+
+---
+
+## Inhalte
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
+ggplot() + geom_emoji("woman_teacher") + theme_void()
+```
+
+
+Themen von Special 2: Inferenz
+
+<br>
+
+
+- Inferenzstatistik: Konfidenzinterval
+
+
+<br>
+
+**Hinweis**: Dies ist eine Fortsetzung vom Special 2.
+
+---
+
+## Population und Stichprobe
+
+Eine Stichprobe ist nur ein Teil des Ganzen!
+
+.pull-left[
+```{r fig.showtext=TRUE, out.width="80%", echo = FALSE, fig.asp = .7, fig.align="center"}
+set.seed(1904)
+stipro <- as.factor(sample(c(rep(1,50), rep(0,175))))
+anteil <- mean(geschlecht[stipro==1] == fontawesome(c("fa-female")))
+anteil_stipro <- anteil
+d <- crossing(x = 1:15,
+              y = 1:15) %>%
+  mutate(stipro = stipro,
+         group = geschlecht)
+
+pvoll <- ggplot(d, aes(x = x, y = y, color = as.factor(rep(1,225)))) +
+  geom_tile(color = "white", size = .5, fill = "#00998A", alpha = .2) +
+  theme_void() +
+  geom_text(family='fontawesome-webfont', size = 6, aes(label = group)) +
+  scale_color_manual(label = "gewählt",
+                     values = "#00998A",
+                     name = "") +
+  scale_fill_manual(values = "#00998A") +
+  labs(title = "Populaton") +
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5)) +
+  guides(fill = FALSE)
+pvoll
+```
+
+Was wir wissen wollen, aber nicht wissen: Anteil Frauen in **Population**. Hier $\pi=0.60$.
+]
+
+.pull-right[
+```{r fig.showtext=TRUE, out.width="80%", echo = FALSE, fig.asp = .7, fig.align="center"}
+psti <- ggplot(d, aes(x = x, y = y, color = stipro)) +
+  geom_tile(color = "white", size = .5, aes(fill = stipro), alpha = .2) +
+  theme_void() +
+  geom_text(family='fontawesome-webfont', size = 6, aes(label = group)) +
+  scale_color_manual(label = c("nicht-gewählt", "gewählt"),
+                     values = c("grey80", "#00998A"),
+                     name = "") +
+  scale_fill_manual( values = c("grey80", "#00998A")) +
+  labs(title = "Stichprobe") +
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5)) +
+  guides(fill = FALSE) 
+psti
+```
+
+Was wir wissen können: Anteil Frauen in der **Stichprobe**. Hier $\hat{\pi}=p=`r round(anteil,2)`$.
+]
+
+---
+
+
+## Stichprobenverteilung
+
+Andere Stichprobe, anderes Ergebnis ...
+
+.pull-left[
+```{r fig.showtext=TRUE, out.width="65%", echo = FALSE, fig.asp = .7, fig.align="center"}
+stipro <- as.factor(sample(c(rep(1,50), rep(0,175))))
+anteil <- mean(geschlecht[stipro==1] == fontawesome(c("fa-female")))
+
+d <- crossing(x = 1:15,
+              y = 1:15) %>%
+  mutate(stipro = stipro,
+         group = geschlecht)
+psti <- ggplot(d, aes(x = x, y = y, color = stipro)) +
+  geom_tile(color = "white", size = .5, aes(fill = stipro), alpha = .2) +
+  theme_void() +
+  geom_text(family='fontawesome-webfont', size = 5, aes(label = group)) +
+  scale_color_manual(label = c("nicht-gewählt", "gewählt"),
+                     values = c("grey80", "#00998A"),
+                     name = "") +
+  scale_fill_manual( values = c("grey80", "#00998A")) +
+  labs(title = paste0("Stichprobe 1: Anteil ", round(anteil,2))) +
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5)) +
+  guides(fill = FALSE) 
+psti
+```
+
+```{r fig.showtext=TRUE, out.width="65%", echo = FALSE, fig.asp = .7, fig.align="center"}
+stipro <- as.factor(sample(c(rep(1,50), rep(0,175))))
+anteil <- mean(geschlecht[stipro==1] == fontawesome(c("fa-female")))
+
+d <- crossing(x = 1:15,
+              y = 1:15) %>%
+  mutate(stipro = stipro,
+         group = geschlecht)
+psti <- ggplot(d, aes(x = x, y = y, color = stipro)) +
+  geom_tile(color = "white", size = .5, aes(fill = stipro), alpha = .2) +
+  theme_void() +
+  geom_text(family='fontawesome-webfont', size = 5, aes(label = group)) +
+  scale_color_manual(label = c("nicht-gewählt", "gewählt"),
+                     values = c("grey80", "#00998A"),
+                     name = "") +
+  scale_fill_manual( values = c("grey80", "#00998A")) +
+  labs(title = paste0("Stichprobe 3: Anteil ", round(anteil,2))) +
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5)) +
+  guides(fill = FALSE) 
+psti
+```
+]
+
+.pull-right[
+```{r fig.showtext=TRUE, out.width="65%", echo = FALSE, fig.asp = .7, fig.align="center"}
+stipro <- as.factor(sample(c(rep(1,50), rep(0,175))))
+anteil <- mean(geschlecht[stipro==1] == fontawesome(c("fa-female")))
+
+d <- crossing(x = 1:15,
+              y = 1:15) %>%
+  mutate(stipro = stipro,
+         group = geschlecht)
+psti <- ggplot(d, aes(x = x, y = y, color = stipro)) +
+  geom_tile(color = "white", size = .5, aes(fill = stipro), alpha = .2) +
+  theme_void() +
+  geom_text(family='fontawesome-webfont', size = 5, aes(label = group)) +
+  scale_color_manual(label = c("nicht-gewählt", "gewählt"),
+                     values = c("grey80", "#00998A"),
+                     name = "") +
+  scale_fill_manual( values = c("grey80", "#00998A")) +
+  labs(title = paste0("Stichprobe 2: Anteil ", round(anteil,2))) +
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5)) +
+  guides(fill = FALSE) 
+psti
+```
+
+```{r fig.showtext=TRUE, out.width="65%", echo = FALSE, fig.asp = .7, fig.align="center"}
+stipro <- as.factor(sample(c(rep(1,50), rep(0,175))))
+anteil <- mean(geschlecht[stipro==1] == fontawesome(c("fa-female")))
+
+d <- crossing(x = 1:15,
+              y = 1:15) %>%
+  mutate(stipro = stipro,
+         group = geschlecht)
+psti <- ggplot(d, aes(x = x, y = y, color = stipro)) +
+  geom_tile(color = "white", size = .5, aes(fill = stipro), alpha = .2) +
+  theme_void() +
+  geom_text(family='fontawesome-webfont', size = 5, aes(label = group)) +
+  scale_color_manual(label = c("nicht-gewählt", "gewählt"),
+                     values = c("grey80", "#00998A"),
+                     name = "") +
+  scale_fill_manual( values = c("grey80", "#00998A")) +
+  labs(title = paste0("Stichprobe 4: Anteil ", round(anteil,2))) +
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5)) +
+  guides(fill = FALSE) 
+psti
+```
+]
+
+Wir haben aber i.d.R. nur eine. Wie können wir die Unsicherheit, die durch eine zufällige Stichprobe entsteht quantifizieren?
+
+---
+
+### Sampling
+
+```{r, include=FALSE}
+set.seed(1896)
+geschlecht <- sample(factor(c(rep("w", 50*anteil_stipro), rep("m",50*(1-anteil_stipro)))))
+Stipro <- data.frame(geschlecht)
+```
+
+Das Ergebnis unser zufälligen Stichprobe:
+
+```{r}
+tally( ~ geschlecht, data = Stipro)
+p_stipro <- prop( ~ geschlecht, success = "w",
+                             data = Stipro)
+p_stipro
+```
+
+---
+
+## Re-Sampling
+
+**Idee**: Simuliere zufälliges Ziehen aus der Population durch zufälliges Ziehen - mit Zurücklegen - aus der Stichprobe.
+
+Anteile im zufälligen Re-Sample:
+
+```{r}
+do(3) * prop( ~ geschlecht, success = "w",
+                             data = resample(Stipro))
+```
+
+---
+
+## Bootstrap
+
+**Idee**: Wiederhole zufälliges Re-Sampling um Stichprobenverteilung zu schätzen.
+
+```{r fig.showtext=TRUE, out.width="45%", fig.align="center", fig.asp = .7}
+set.seed(1896)
+Bootvtlg <- do(10000) * prop( ~ geschlecht, success = "w",
+                             data = resample(Stipro))
+gf_bar( ~ prop_w, data = Bootvtlg)
+```
+
+---
+
+## Von der Stichprobe zur Population
+
+Wir versuchen durch die Stichprobe den Wert der Population (hier Anteil $\pi$) zu *fischen*:
+
+- *Angel*: Ein Punktschätzer schätzt durch einen einzigen Wert, den der Anteil der Stichprobe.
+
+- *Netz*: Das Resampling Intervall gibt einen Bereich an, in dem wir beim wiederholten *angeln* den Anteil gefischt haben, z.B. in $95\,\%$.
+
+<br>
+
+```{r}
+confint(Bootvtlg)
+```
+
+Ob wir den *Fisch*, d.h. hier $\pi$, wirklich gefangen haben wissen wir nicht!
+
+---
+
+## Konfidenzintervall
+
+Die *Konfidenz* bezieht sich auf das Verfahren!
+
+```{r fig.showtext=TRUE, out.width="60%", fig.align="center", fig.asp = .7, echo=FALSE, message=FALSE}
+CIsim(n=50, samples=100, rdist=rbinom, args=list(size=1, prob=.6), 
+       estimand = .6, method = binom.test, method.args=list(ci = "Plus4")) 
+```
+
+---
+
+## Inferenz
+
+**Ziel**: Aussagen treffen, die über die vorliegenden Daten hinausgehen - dabei müssen wir Unsicherheit akzeptieren!
+
+
+Dabei Gründe für Demut und Vorsicht:
+
+- Daten sind nur ein Abbild der Realität.
+
+- Häufig sind Daten das Ergebnis eines Zufallsprozesses.
+
+- ...
+
+<br>
+
+<br>
+
+*Fortsetzung folgt.*
+
