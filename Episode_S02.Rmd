@@ -93,7 +93,7 @@ Gründe für Demut und Vorsicht:
 
 <br>
 
-**Ziel**: Aussagen treffen die über die vorliegenden Daten hinausgehen - und dabei wir müssen Unsicherheit akzeptieren!
+**Ziel**: Aussagen treffen, die über die vorliegenden Daten hinausgehen - dabei müssen wir Unsicherheit akzeptieren!
 
 ---
 
@@ -177,7 +177,7 @@ pvoll <- ggplot(d, aes(x = x, y = y, color = as.factor(rep(1,100)))) +
 pvoll
 ```
 
-Was wir **nicht** wissen: Anteil Frauen in **Population** $\pi=?$
+Was wir **nicht** wissen: Anteil Frauen in **Population** $\pi = ?$
 ]
 
 .pull-right[
@@ -207,7 +207,7 @@ $$\hat{\pi}=p=`r anteil`$$
 
 <br>
 
-Analog für andere Kennzahlen: $\hat{\mu}=\bar{x}$ usw..
+Analog für andere Kennzahlen: $\hat{\mu}=\bar{x}$ usw.
 
 ---
 
@@ -240,7 +240,7 @@ pvoll <- ggplot(d, aes(x = x, y = y, color = as.factor(rep(1,100)))) +
 pvoll
 ```
 
-Was wir **nicht** wissen: Anteil Frauen in **Population** $\pi=?$
+Was wir **nicht** wissen: Anteil Frauen in **Population** $\pi = ?$
 ]
 
 .pull-right[
