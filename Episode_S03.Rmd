@@ -69,12 +69,12 @@ Themen von Special 2: Inferenz
 <br>
 
 
-- Inferenzstatistik: Konfidenzinterval
+- Inferenzstatistik: Konfidenzintervall
 
 
 <br>
 
-**Hinweis**: Dies ist eine Fortsetzung vom Special 2.
+**Hinweis**: Dies ist eine Fortsetzung von Special 2.
 
 ---
 
@@ -228,7 +228,7 @@ psti
 ```
 ]
 
-Wir haben aber i.d.R. nur eine. Wie können wir die Unsicherheit, die durch eine zufällige Stichprobe entsteht quantifizieren?
+Wir haben aber i. d. R. nur eine. Wie können wir die Unsicherheit, die durch eine zufällige Stichprobe entsteht, quantifizieren?
 
 ---
 
@@ -240,7 +240,7 @@ geschlecht <- sample(factor(c(rep("w", 50*anteil_stipro), rep("m",50*(1-anteil_s
 Stipro <- data.frame(geschlecht)
 ```
 
-Das Ergebnis unser zufälligen Stichprobe:
+Das Ergebnis unserer zufälligen Stichprobe:
 
 ```{r}
 tally( ~ geschlecht, data = Stipro)
@@ -281,9 +281,9 @@ gf_bar( ~ prop_w, data = Bootvtlg)
 
 Wir versuchen durch die Stichprobe den Wert der Population (hier Anteil $\pi$) zu *fischen*:
 
-- *Angel*: Ein Punktschätzer schätzt durch einen einzigen Wert, den der Anteil der Stichprobe.
+- *Angel*: Ein Punktschätzer schätzt durch einen einzigen Wert den Anteil der Stichprobe.
 
-- *Netz*: Das Resampling Intervall gibt einen Bereich an, in dem wir beim wiederholten *angeln* den Anteil gefischt haben, z.B. in $95\,\%$.
+- *Netz*: Das Re-Sampling-Intervall gibt einen Bereich an, in dem wir beim wiederholten *angeln* den geschätzten Anteil *gefischt* haben, z. B. in $95\,\%$.
 
 <br>
 
@@ -291,7 +291,7 @@ Wir versuchen durch die Stichprobe den Wert der Population (hier Anteil $\pi$) z
 confint(Bootvtlg)
 ```
 
-Ob wir den *Fisch*, d.h. hier $\pi$, wirklich gefangen haben wissen wir nicht!
+Ob wir den *Fisch* - d. h. hier $\pi$ - wirklich gefangen haben, wissen wir nicht!
 
 ---
 
