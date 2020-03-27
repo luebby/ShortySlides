@@ -62,7 +62,7 @@ ggplot() + geom_emoji("woman_teacher") + theme_void()
 ```
 
 
-Themen von Special 2: Inferenz
+Themen von Special 4: Inferenz
 
 <br>
 
@@ -222,7 +222,7 @@ Simulieren wir eine Welt, in der $\pi=0.5$ gilt. Dann können wir eine Münze we
 rflip(n = 36)
 ```
 
-Und dies z.B. $10000\times$ wiederholt simuliert die Verteilung der Anzahl Frauen, wenn die Nullhypothese gelten würde:
+Und dies z. B. $10000\times$ wiederholt, simuliert die Verteilung der Anzahl Frauen, wenn die Nullhypothese gelten würde:
 
 ```{r}
 set.seed(1896)
@@ -233,16 +233,15 @@ Nullvtlg <- do(10000) * rflip(n = 36)
 
 ## Verteilung unter $H_0$
 
-```{r fig.showtext=TRUE, out.width="50%", echo = FALSE, fig.asp = .7, fig.align="center"}
+```{r fig.showtext=TRUE, out.width="40%", echo = FALSE, fig.asp = .7, fig.align="center"}
 gf_bar( ~ heads, data = Nullvtlg) %>%
   gf_vline(xintercept = ~ 27)
 ```
 
 *Wenn* das Modell $\pi=0.5$ stimmen würde, würden wir erwarten, dass wir in einer zufälligen Stichprobe mit $n=36$ zwischen $`r cdata( ~ heads, data = Nullvtlg)[1]`$ und $`r cdata( ~ heads, data = Nullvtlg)[2]`$ Frauen beobachten würden.
 
-Tatsächlich haben wir $x=27$ Frauen in unser Stichprobe gehabt. Unser Wert $p=0.75$ ist **nicht** gut mit dem angenommenen Modell $\pi=0.5$ kompatibel. Wir haben berechtigten Zweifel, dass die Nullhypothese stimmt.
+Tatsächlich haben wir $x=27$ Frauen in unserer Stichprobe gehabt. Unser Wert $p=0.75$ ist **nicht** gut mit dem angenommenen Modell $\pi=0.5$ kompatibel. Wir haben berechtigten Zweifel daran, dass die Nullhypothese stimmt.
 
-<br>
 
 *Fortsetzung folgt.*
 
