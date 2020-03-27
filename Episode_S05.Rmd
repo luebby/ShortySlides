@@ -1,0 +1,223 @@
+---
+title: "`r params$module`"  # Do NOT change this line
+subtitle: "`r params$shorttitle`"  # Do NOT change this line
+author: "`r params$instructor`"  # Do NOT change this line
+date: "`r params$semester`"  # Do NOT change this line
+params:
+  module: "Data Literacy Education"  # Enter HERE the name of the presentation/course/module
+  semester: "Special 5: p-Wert"   # Enter HERE the date/semester/term
+  shorttitle: ""  # Enter HERE a subtitle/shorttitle
+  foottitle: "Data Literacy Slidecast"  # Enter HERE a title for footline
+  instructor: "FOM"  # ENTER here the presentator's/instructor's name
+output:
+  xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
+    lib_dir: libs
+    css: ["footer-header.css", "xafom.css"]
+    nature:
+      titleSlideClass: [middle, right]
+      ratio: "4:3"  # Note that currently only 4:3 format is supported
+      highlightLines: true
+---
+
+
+layout: true
+  
+<div class="my-header"></div>
+
+<!-- the following lines define the header and the footer line: -->
+<div class="my-footer"><span>`r params$semester`    
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+`r params$instructor` | `r params$foottitle` </span></div> 
+
+<div class="footer-line"></div>
+
+
+
+```{r setup, include=FALSE}
+library(emojifont)
+library(knitr)
+library(mosaic)
+library(tidyr)
+
+theme.fom <- theme_classic(22*1.04)
+theme.fom <- theme.fom
+theme_set(
+  theme.fom  
+)
+#options(scipen=999)
+
+fa2 <- fontawesome(c("fa-female", "fa-male"))
+
+```
+
+---
+
+## Inhalte
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
+ggplot() + geom_emoji("woman_teacher") + theme_void()
+```
+
+
+Themen von Special 2: Inferenz
+
+<br>
+
+
+- Inferenzstatistik: Grundlagen des Hypothesenprüfens
+
+
+<br>
+
+**Hinweis**: Dies ist eine Fortsetzung von Special 4.
+
+---
+
+## Hypothese 
+
+Die Hypothesen beziehen sich auf das Modell der Datengenerierung.
+
+- **Nullhypothese**: Der Anteil von Frauen und Männern ist in der **Population** gleich. Formal:
+  $$H_0: \pi = 0.5$$
+
+- **Alternativhypothese**: Der Anteil von Frauen und Männern ist in der **Population** nicht gleich. Formal:
+  $$H_A: \pi  \neq 0.5$$
+
+<br>
+
+Bei einer Hypothesenprüfung wird *nur* analysiert, inwieweit die **Stichprobe** kompatibel zum Modell der Nullhypothese ist.
+
+---
+
+## Stichprobe
+
+```{r fig.showtext=TRUE, out.width="50%", echo = FALSE, fig.asp = .7, fig.align="center"}
+set.seed(1909)
+stipro <- as.factor(sample(c(rep(1,36), rep(0,0))))
+geschlecht <- sample(c(rep(fa2[1], 27), rep(fa2[2], 9)))
+anteil <- mean(geschlecht[stipro==1] == fontawesome(c("fa-female")))
+d <- crossing(x = 1:6,
+              y = 1:6) %>%
+  mutate(stipro = stipro,
+         group = geschlecht)
+psti <- ggplot(d, aes(x = x, y = y, color = as.factor(rep(1,36)))) +
+  geom_tile(color = "white", size = .5, aes(fill = stipro), alpha = .2) +
+  theme_void() +
+  geom_text(family='fontawesome-webfont', size = 8, aes(label = group)) +
+  scale_color_manual(label = "gewählt",
+                     values = "#00998A",
+                     name = "") +
+  scale_fill_manual(values = "#00998A") +
+  labs(title = "Stichprobe") +
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5)) +
+  guides(fill = FALSE) 
+psti
+```
+
+Was wir sehen: Anteil Frauen in der zufälligen **Stichprobe**: $\hat{\pi}=p=\frac{27}{36}=0.75$.
+Zeigt dies, dass $\pi \neq 0.5$ ist?
+
+**Nein!**
+
+Selbst **wenn** $\pi=0.5$ gelten würde, kann es zufällig so sein, dass in der Stichprobe $p \neq 0.5$ ist.
+
+---
+
+## Simulation
+
+.pull-left[
+Simulieren wir eine Welt, in der $\pi=0.5$ gilt und wir $n=36$ Beobachtungen in der zufälligen Stichprobe haben:
+
+```{r}
+set.seed(1896)
+Nullvtlg <- do(10000) * rflip(n = 36)
+```
+]
+
+.pull-right[
+
+Verteilung von $p$ unter $H_0$:
+
+```{r fig.showtext=TRUE, out.width="60%", fig.asp = .7, fig.align="center"}
+gf_bar( ~ prop, data = Nullvtlg) %>%
+  gf_vline(xintercept = ~ 0.75)
+```
+]
+
+Der **p-Wert** gibt Auskunft auf die Frage: **Wenn** die Nullhypothese stimmen würde, wie wahrscheinlich ist dann eine mindestens so große Abweichung des beobachteten Wertes der Stichprobe zum theoretisch erwarteten Wert des angenommenen Modells.
+
+---
+
+## p-Wert
+
+.pull-left[
+Abweichung zwischen $\pi=0.5$ und $p=0.75$: $d=0.25$.
+
+Berechnung des Betrags der Abweichung in den simulierten Daten:
+
+```{r}
+Nullvtlg <- Nullvtlg %>%
+  mutate(d0 = abs(prop - 0.5))
+```
+
+Bestimmung des Anteils der Simulationen mit mindestens so großer Abweichung wie beobachtet:
+
+```{r}
+prop( ~ (d0 > 0.25), data = Nullvtlg)
+```
+]
+
+.pull-right[
+
+<br>
+
+
+```{r fig.showtext=TRUE, out.width="70%", echo = FALSE, fig.asp = .7, fig.align="center"}
+gf_bar( ~ prop, data = Nullvtlg) %>%
+  gf_vline(xintercept = ~ 0.75) %>%
+  gf_labs(title=expression(paste("Verteilung unter ",H[0])),
+          x="p",
+          y="Häufigkeit")
+```
+]
+
+
+Der p-Wert, d.h. der Anteil der (simulierten) Stichproben, die eine mindestens so große Abweichung zu $\pi_0=0.5$ aufweisen wie die (echte) Stichprobe (mit $p=0.75$) liegt bei `r prop( ~ (d0 > 0.25), data = Nullvtlg)`. 
+
+---
+
+## Grenzen des p-Wertes
+
+Der p-Wert sagt u.a. **nicht**,
+
+- wie (un)wahrscheinlich die Null- oder Alternativhypothese ist. 
+
+- ob die Abweichung $d$ groß ist, ob die Abweichung relevant ist.
+
+Der p-Wert variiert mit der Stichprobe - unter $H_0$ ist er gleichverteilt.
+
+<br>
+
+Wenn der p-Wert klein ist, haben wir *berechtigten* Zweifel daran, dass die Nullhypothese stimmt. 
+
+---
+
+## Inferenz
+
+**Ziel**: Aussagen treffen, die über die vorliegenden Daten hinausgehen - dabei müssen wir Unsicherheit akzeptieren!
+
+<br>
+
+Die Datenerhebung und die unmittelbar möglichen Schlüsse stehen im Zusammenhang mit den wissenschaftlichen Gütekriterien:
+
+- **randomisierte Stichprobe**: Ergebnis generalisierbar auf die Population.
+
+- **randomisiertes Experiment**: Kausalschluss.
+
+
+
+
+
