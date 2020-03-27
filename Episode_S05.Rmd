@@ -62,7 +62,7 @@ ggplot() + geom_emoji("woman_teacher") + theme_void()
 ```
 
 
-Themen von Special 2: Inferenz
+Themen von Special 5: Inferenz
 
 <br>
 
@@ -80,15 +80,19 @@ Themen von Special 2: Inferenz
 
 Die Hypothesen beziehen sich auf das Modell der Datengenerierung.
 
-- **Nullhypothese**: Der Anteil von Frauen und Männern ist in der **Population** gleich. Formal:
+- **Nullhypothese**: Der Anteil von Frauen und Männern ist in der **Population** gleich. 
+
+  Formal:
   $$H_0: \pi = 0.5$$
 
-- **Alternativhypothese**: Der Anteil von Frauen und Männern ist in der **Population** nicht gleich. Formal:
+- **Alternativhypothese**: Der Anteil von Frauen und Männern ist in der **Population** nicht gleich. 
+
+  Formal:
   $$H_A: \pi  \neq 0.5$$
 
 <br>
 
-Bei einer Hypothesenprüfung wird *nur* analysiert, inwieweit die **Stichprobe** kompatibel zum Modell der Nullhypothese ist.
+Bei einer Hypothesenprüfung wird *nur* analysiert inwieweit die **Stichprobe** kompatibel zum Modell der Nullhypothese ist.
 
 ---
 
@@ -118,18 +122,19 @@ psti
 ```
 
 Was wir sehen: Anteil Frauen in der zufälligen **Stichprobe**: $\hat{\pi}=p=\frac{27}{36}=0.75$.
+
 Zeigt dies, dass $\pi \neq 0.5$ ist?
 
 **Nein!**
 
-Selbst **wenn** $\pi=0.5$ gelten würde, kann es zufällig so sein, dass in der Stichprobe $p \neq 0.5$ ist.
+Selbst **wenn** $\pi=0.5$ gelten würde kann es zufällig so sein, dass in der Stichprobe $p \neq 0.5$ ist.
 
 ---
 
 ## Simulation
 
 .pull-left[
-Simulieren wir eine Welt, in der $\pi=0.5$ gilt und wir $n=36$ Beobachtungen in der zufälligen Stichprobe haben:
+Simulieren wir eine Welt in der $\pi=0.5$ gilt und wir $n=36$ Beobachtungen in der zufälligen Stichprobe haben:
 
 ```{r}
 set.seed(1896)
@@ -147,7 +152,9 @@ gf_bar( ~ prop, data = Nullvtlg) %>%
 ```
 ]
 
-Der **p-Wert** gibt Auskunft auf die Frage: **Wenn** die Nullhypothese stimmen würde, wie wahrscheinlich ist dann eine mindestens so große Abweichung des beobachteten Wertes der Stichprobe zum theoretisch erwarteten Wert des angenommenen Modells.
+Der **p-Wert** gibt Auskunft über die Frage: 
+
+**Wenn** die Nullhypothese stimmen würde, wie wahrscheinlich ist dann eine mindestens so große Abweichung des beobachteten Wertes der Stichprobe zum theoretisch erwarteten Wert des angenommenen Modells.
 
 ---
 
@@ -185,17 +192,17 @@ gf_bar( ~ prop, data = Nullvtlg) %>%
 ]
 
 
-Der p-Wert, d.h. der Anteil der (simulierten) Stichproben, die eine mindestens so große Abweichung zu $\pi_0=0.5$ aufweisen wie die (echte) Stichprobe (mit $p=0.75$) liegt bei `r prop( ~ (d0 > 0.25), data = Nullvtlg)`. 
+Der p-Wert, d. h. der Anteil der (simulierten) Stichproben, die eine mindestens so große Abweichung zu $\pi_0=0.5$ aufweisen wie die (echte) Stichprobe (mit $p=0.75$) liegt bei `r prop( ~ (d0 > 0.25), data = Nullvtlg)`. 
 
 ---
 
 ## Grenzen des p-Wertes
 
-Der p-Wert sagt u.a. **nicht**,
+Der p-Wert sagt u. a. **nicht**,
 
 - wie (un)wahrscheinlich die Null- oder Alternativhypothese ist. 
 
-- ob die Abweichung $d$ groß ist, ob die Abweichung relevant ist.
+- ob die Abweichung $d$ groß ist oder ob die Abweichung relevant ist.
 
 Der p-Wert variiert mit der Stichprobe - unter $H_0$ ist er gleichverteilt.
 
