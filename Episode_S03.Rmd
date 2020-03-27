@@ -64,7 +64,7 @@ ggplot() + geom_emoji("woman_teacher") + theme_void()
 ```
 
 
-Themen von Special 2: Inferenz
+Themen von Special 3: Inferenz
 
 <br>
 
