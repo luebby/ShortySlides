@@ -1,0 +1,249 @@
+---
+title: "`r params$module`"  # Do NOT change this line
+subtitle: "`r params$shorttitle`"  # Do NOT change this line
+author: "`r params$instructor`"  # Do NOT change this line
+date: "`r params$semester`"  # Do NOT change this line
+params:
+  module: "Data Literacy Education"  # Enter HERE the name of the presentation/course/module
+  semester: "Special 4: Hypothesenprüfung"   # Enter HERE the date/semester/term
+  shorttitle: ""  # Enter HERE a subtitle/shorttitle
+  foottitle: "Data Literacy Slidecast"  # Enter HERE a title for footline
+  instructor: "FOM"  # ENTER here the presentator's/instructor's name
+output:
+  xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
+    lib_dir: libs
+    css: ["footer-header.css", "xafom.css"]
+    nature:
+      titleSlideClass: [middle, right]
+      ratio: "4:3"  # Note that currently only 4:3 format is supported
+      highlightLines: true
+---
+
+
+layout: true
+  
+<div class="my-header"></div>
+
+<!-- the following lines define the header and the footer line: -->
+<div class="my-footer"><span>`r params$semester`    
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+`r params$instructor` | `r params$foottitle` </span></div> 
+
+<div class="footer-line"></div>
+
+
+
+```{r setup, include=FALSE}
+library(emojifont)
+library(knitr)
+library(mosaic)
+library(tidyr)
+
+theme.fom <- theme_classic(22*1.04)
+theme.fom <- theme.fom
+theme_set(
+  theme.fom  
+)
+#options(scipen=999)
+
+fa2 <- fontawesome(c("fa-female", "fa-male"))
+
+```
+
+---
+
+## Inhalte
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
+ggplot() + geom_emoji("woman_teacher") + theme_void()
+```
+
+
+Themen von Special 2: Inferenz
+
+<br>
+
+
+- Inferenzstatistik: Grundlagen des Hypothesenprüfens
+
+
+<br>
+
+**Hinweis**: Dies ist eine Fortsetzung von Special 2 & 3.
+
+---
+
+## Stichprobe
+
+
+.pull-left[
+```{r fig.showtext=TRUE, out.width="80%", echo = FALSE, fig.asp = .7, fig.align="center"}
+set.seed(1909)
+stipro <- as.factor(sample(c(rep(1,36), rep(0,0))))
+geschlecht <- sample(c(rep(fa2[1], 27), rep(fa2[2], 9)))
+anteil <- mean(geschlecht[stipro==1] == fontawesome(c("fa-female")))
+d <- crossing(x = 1:6,
+              y = 1:6) %>%
+  mutate(stipro = stipro,
+         group = geschlecht)
+psti <- ggplot(d, aes(x = x, y = y, color = as.factor(rep(1,36)))) +
+  geom_tile(color = "white", size = .5, aes(fill = stipro), alpha = .2) +
+  theme_void() +
+  geom_text(family='fontawesome-webfont', size = 8, aes(label = group)) +
+  scale_color_manual(label = "gewählt",
+                     values = "#00998A",
+                     name = "") +
+  scale_fill_manual(values = "#00998A") +
+  labs(title = "Stichprobe") +
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5)) +
+  guides(fill = FALSE) 
+psti
+```
+
+Was wir sehen: Anteil Frauen in der zufälligen **Stichprobe**: $\hat{\pi}=p=\frac{27}{36}=0.75$.
+]
+
+.pull-right[
+
+Zeigt dies, dass $\pi \neq 0.5$ ist?
+
+<br>
+
+**Nein!**
+
+<br>
+
+Selbst **wenn** $\pi=0.5$ gelten würde, kann es zufällig so sein, dass in der Stichprobe $p \neq 0.5$ ist.
+
+<br>
+
+Die **Annahme** $\pi=0.5$ wird **Nullhypothese**, $H_0$, genannt.
+
+]
+
+
+
+---
+
+
+## Nullhypothese
+
+
+
+.pull-left[
+
+Stellen wir uns vor, die Nullhypothese, $H_0: \pi=0.5$ würde gelten:
+
+```{r fig.showtext=TRUE, out.width="80%", echo = FALSE, fig.asp = .7, fig.align="center"}
+set.seed(1904)
+stipro <- as.factor(sample(c(rep(1,128), rep(0,128))))
+geschlecht <- sample(c(rep(fa2[1], 128), rep(fa2[2], 128)))
+d <- crossing(x = 1:16,
+              y = 1:16) %>%
+  mutate(stipro = stipro,
+         group = geschlecht)
+
+pvoll <- ggplot(d, aes(x = x, y = y, color = as.factor(rep(1,256)))) +
+  geom_tile(color = "white", size = .5, fill = "#00998A", alpha = .2) +
+  theme_void() +
+  geom_text(family='fontawesome-webfont', size = 6, aes(label = group)) +
+  scale_color_manual(label = "gewählt",
+                     values = "#00998A",
+                     name = "") +
+  scale_fill_manual(values = "#00998A") +
+  labs(title = "Population") +
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5)) +
+  guides(fill = FALSE)
+pvoll
+```
+]
+
+.pull-right[
+
+Welches Ergebnis bekommen wir unter dieser **Annahme** in einer zufälligen Stichprobe?
+
+```{r fig.showtext=TRUE, out.width="60%", echo = FALSE, fig.asp = .7, fig.align="center"}
+stipro <- as.factor(sample(c(rep(1,36), rep(0,220))))
+anteil <- mean(geschlecht[stipro==1] == fontawesome(c("fa-female")))
+
+d <- crossing(x = 1:16,
+              y = 1:16) %>%
+  mutate(stipro = stipro,
+         group = geschlecht)
+psti <- ggplot(d, aes(x = x, y = y, color = stipro)) +
+  geom_tile(color = "white", size = .5, aes(fill = stipro), alpha = .2) +
+  theme_void() +
+  geom_text(family='fontawesome-webfont', size = 5, aes(label = group)) +
+  scale_color_manual(label = c("nicht-gewählt", "gewählt"),
+                     values = c("grey80", "#00998A"),
+                     name = "") +
+  scale_fill_manual( values = c("grey80", "#00998A")) +
+  labs(title = paste0("Stichprobe 1: Anteil Frauen ", round(anteil,2))) +
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5)) +
+  guides(fill = FALSE) 
+psti
+```
+
+In einer anderen Stichprobe bekommen wir ein anderes Ergebnis:
+
+```{r fig.showtext=TRUE, out.width="60%", echo = FALSE, fig.asp = .7, fig.align="center"}
+stipro <- as.factor(sample(c(rep(1,36), rep(0,220))))
+anteil <- mean(geschlecht[stipro==1] == fontawesome(c("fa-female")))
+
+d <- crossing(x = 1:16,
+              y = 1:16) %>%
+  mutate(stipro = stipro,
+         group = geschlecht)
+psti <- ggplot(d, aes(x = x, y = y, color = stipro)) +
+  geom_tile(color = "white", size = .5, aes(fill = stipro), alpha = .2) +
+  theme_void() +
+  geom_text(family='fontawesome-webfont', size = 5, aes(label = group)) +
+  scale_color_manual(label = c("nicht-gewählt", "gewählt"),
+                     values = c("grey80", "#00998A"),
+                     name = "") +
+  scale_fill_manual( values = c("grey80", "#00998A")) +
+  labs(title = paste0("Stichprobe 2: Anteil Frauen ", round(anteil,2))) +
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5)) +
+  guides(fill = FALSE) 
+psti
+```
+]
+
+---
+
+## Simulation
+
+Simulieren wir eine Welt, in der $\pi=0.5$ gilt. Dann können wir eine Münze werfen. Hier $n=36\times$:
+
+```{r}
+rflip(n = 36)
+```
+
+Und dies z.B. $10000\times$ wiederholt simuliert die Verteilung der Anzahl Frauen, wenn die Nullhypothese gelten würde:
+
+```{r}
+set.seed(1896)
+Nullvtlg <- do(10000) * rflip(n = 36)
+```
+
+---
+
+## Verteilung unter $H_0$
+
+```{r fig.showtext=TRUE, out.width="50%", echo = FALSE, fig.asp = .7, fig.align="center"}
+gf_bar( ~ heads, data = Nullvtlg) %>%
+  gf_vline(xintercept = ~ 27)
+```
+
+*Wenn* das Modell $\pi=0.5$ stimmen würde, würden wir erwarten, dass wir in einer zufälligen Stichprobe mit $n=36$ zwischen $`r cdata( ~ heads, data = Nullvtlg)[1]`$ und $`r cdata( ~ heads, data = Nullvtlg)[2]`$ Frauen beobachten würden.
+
+Tatsächlich haben wir $x=27$ Frauen in unser Stichprobe gehabt. Unser Wert $p=0.75$ ist **nicht** gut mit dem angenommenen Modell $\pi=0.5$ kompatibel. Wir haben berechtigten Zweifel, dass die Nullhypothese stimmt.
+
+<br>
+
+*Fortsetzung folgt.*
+
+
