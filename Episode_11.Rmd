@@ -1,0 +1,228 @@
+---
+title: "`r params$module`"  # Do NOT change this line
+subtitle: "`r params$shorttitle`"  # Do NOT change this line
+author: "`r params$instructor`"  # Do NOT change this line
+date: "`r params$semester`"  # Do NOT change this line
+params:
+  module: "Data Literacy Education"  # Enter HERE the name of the presentation/course/module
+  semester: "Episode 11: Inferenz - Hypothesenprüfung"   # Enter HERE the date/semester/term
+  shorttitle: ""  # Enter HERE a subtitle/shorttitle
+  foottitle: "Data Literacy Slidecast"  # Enter HERE a title for footline
+  instructor: "FOM"  # ENTER here the presentator's/instructor's name
+output:
+  xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
+    lib_dir: libs
+    css: ["footer-header.css", "xafom.css"]
+    nature:
+      titleSlideClass: [middle, right]
+      ratio: "4:3"  # Note that currently only 4:3 format is supported
+---
+
+
+layout: true
+  
+<div class="my-header"></div>
+
+<!-- the following lines define the header and the footer line: -->
+<div class="my-footer"><span>`r params$semester`    
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+`r params$instructor` | `r params$foottitle` </span></div> 
+
+<div class="footer-line"></div>
+
+
+
+```{r setup, include=FALSE}
+library(emojifont)
+library(knitr)
+library(mosaic)
+
+theme.fom <- theme_classic(22*1.04)
+theme.fom <- theme.fom
+theme_set(
+  theme.fom  
+)
+options(scipen=999)
+```
+
+---
+
+## PPDAC-Prozess
+
+
+.pull-left[
+**Problem**: Problemdefinition, Forschungsfrage: Was soll untersucht werden?
+
+**Plan**: Planung der Analyse, z.B. Operationalisierung/ Variablenauswahl. Wahl des Stichprobenverfahrens und/ oder Versuchsplanung.
+
+**Data**: Datenerhebung, Datenmanagement, Datenbereinigung.
+
+**Analysis**: Explorative Datenanalyse, Modellierung, Hypothesenprüfung. 
+
+**Conclusion**: Schlussfolgerungen, Interpretation, neue Ideen, Kommunikation.
+]
+
+.pull-right[
+```{r forschungsprozess-image, echo=FALSE, out.width = "95%", fig.align="right"}
+include_graphics("img/PPDAC.png", error=FALSE)
+```
+]
+
+---
+
+## Inhalte
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
+ggplot() + geom_emoji("woman_teacher") + theme_void()
+```
+
+
+Themen von Episode 10: **Analysis** und **Conclusion**
+
+<br>
+
+
+- Explorative Datenanalyse: Analyse numerischer Daten
+
+- Inferenzstatistik: Grundlagen des Hypothesenprüfens
+
+
+<br>
+
+**Hinweis**: Diese Data Literacy Slidecasts dienen didaktisch der konzeptionell-methodischen Verdeutlichung, nicht der inhaltlichen Analyse.
+
+
+---
+
+## Fragestellung
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
+ggplot() + geom_emoji("thinking") + theme_void()
+```
+
+.large[Haben diejenigen, die die (finanzwissenschaftliche) ökonomische Frage richtig beantwortet haben eine höhere Selbsteinschätzung der kognitiven Kompetenz bezüglich des Fachs Statistik?]
+
+<br>
+
+**Hinweis**: Dies ist eine Fortsetzung von Episode 6 (EDA - Vergleich numerischer Variablen) und den Specials 4 und 5 (Hypothesenprüfung und p-Wert).
+---
+
+## Vorbereitungen
+
+Aus **Data** (Episode 2):
+
+```{r}
+# mosaic laden
+library(mosaic)
+# Daten einlesen
+SATS_BFI <- read.csv2("Datenbasis_SATS_BFI.csv")
+# Daten vorverarbeiten
+SATS_BFI <- SATS_BFI %>%
+  mutate(F07_Aktien = 
+           case_when(F07_Aktien == "Stimme ganz und gar nicht zu." ~ "richtig",
+                     TRUE ~ "falsch")) %>%
+  mutate(G02_Alter = cut(G02_Alter, c(18, 23, 28, 33))) %>%
+  na.omit() 
+```
+
+---
+
+## Schlussfolgerung von Episode 6
+
+**Frage**: Haben diejenigen, die die (finanzwissenschaftliche) ökonomische Frage richtig beantwortet haben eine höhere Selbsteinschätzung der kognitiven Kompetenz bezüglich des Fachs Statistik?
+
+Analyse:
+
+```{r Kennnzahl}
+mean_stipro <- mean(B_SATS_Kompetenz ~ F07_Aktien, data = SATS_BFI)
+mean_stipro
+diffmean_stipro <- diffmean(B_SATS_Kompetenz ~ F07_Aktien, data = SATS_BFI)
+diffmean_stipro
+```
+
+
+**Antwort**: In der Stichprobe liegt der Mittelwert der Selbsteinschätzung der kognitiven Kompetenz bei $\bar{y}_{\text{falsch}}=`r round(mean_stipro[1], 2)`$ und $\bar{y}_{\text{richtig}}=`r round(mean_stipro[2], 2)`$, d.h. $\bar{y}_{\text{richtig}}-\bar{y}_{\text{falsch}}=`r round(diffmean_stipro,2)`$.
+
+
+---
+
+## Hypothese
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
+ggplot() + geom_emoji("thinking") + theme_void()
+```
+
+.large[Was wäre, wenn es gar keinen Zusammenhang geben würde?]
+
+<br>
+
+Dann gäbe es keinen Unterschied in der Verteilung der Selbsteinschätzung der kognitiven Kompetenz:
+
+$$F_{\text{richtig}}(y)=F_{\text{richtig}}(y)$$
+und damit auch
+
+$$\mu_{\text{richtig}}-\mu_{\text{falsch}}=0$$
+
+---
+
+## Simulation $H_0$
+
+.pull-left[
+```{r, eval=FALSE}
+set.seed(1896)
+Nullvtlg <- do(10000) * 
+  diffmean(B_SATS_Kompetenz ~ 
+       shuffle(F07_Aktien), 
+     data = SATS_BFI)
+
+gf_histogram( ~ diffmean,
+              data = Nullvtlg,
+              center = 0,
+              bins = 21) %>%
+  gf_vline(xintercept = ~ 
+             diffmean_stipro)
+```
+]
+
+.pull-right[
+```{r, echo=FALSE, out.width = "65%", fig.align="center"}
+set.seed(1896)
+Nullvtlg <- do(10000) * 
+  diffmean(B_SATS_Kompetenz ~ 
+       shuffle(F07_Aktien), 
+     data = SATS_BFI)
+
+gf_histogram( ~ diffmean,
+              data = Nullvtlg,
+              center = 0,
+              bins = 21) %>%
+  gf_vline(xintercept = ~ 
+             diffmean_stipro)
+```
+]
+
+p-Wert:
+
+```{r}
+prop( ~ (abs(diffmean) >= abs(diffmean_stipro)), data = Nullvtlg)
+```
+
+```{r include=FALSE}
+pd <- prop( ~ (abs(diffmean) >= abs(diffmean_stipro)), data = Nullvtlg)
+```
+
+
+---
+
+## Schlussfolgerung
+
+Ziel: Aussagen treffen, die über die vorliegenden Daten hinausgehen - dabei müssen wir Unsicherheit akzeptieren und wenn möglich quantifizieren!
+
+<br>
+
+**Frage**: Haben diejenigen, die die (finanzwissenschaftliche) ökonomische Frage richtig beantwortet haben eine höhere Selbsteinschätzung der kognitiven Kompetenz bezüglich des Fachs Statistik?
+
+**Antwort**: In der Stichprobe liegt der Mittelwert der Selbsteinschätzung der kognitiven Kompetenz bei $\bar{y}_{\text{falsch}}=`r round(mean_stipro[1], 2)`$ und $\bar{y}_{\text{richtig}}=`r round(mean_stipro[2], 2)`$, d.h. $\bar{y}_{\text{richtig}}-\bar{y}_{\text{falsch}}>0$. Die Wahrscheinlichkeit eine mindestens so große Abweichung der Mittelwerte in einer Stichprobe vom Umfang $n=`r nrow(SATS_BFI)`$ zu beobachten, wenn es keinen Unterschied in der Verteilung gibt, liegt bei `r pd`.

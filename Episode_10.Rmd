@@ -1,0 +1,254 @@
+---
+title: "`r params$module`"  # Do NOT change this line
+subtitle: "`r params$shorttitle`"  # Do NOT change this line
+author: "`r params$instructor`"  # Do NOT change this line
+date: "`r params$semester`"  # Do NOT change this line
+params:
+  module: "Data Literacy Education"  # Enter HERE the name of the presentation/course/module
+  semester: "Episode 10: Inferenz - Konfidenzintervall"   # Enter HERE the date/semester/term
+  shorttitle: ""  # Enter HERE a subtitle/shorttitle
+  foottitle: "Data Literacy Slidecast"  # Enter HERE a title for footline
+  instructor: "FOM"  # ENTER here the presentator's/instructor's name
+output:
+  xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
+    lib_dir: libs
+    css: ["footer-header.css", "xafom.css"]
+    nature:
+      titleSlideClass: [middle, right]
+      ratio: "4:3"  # Note that currently only 4:3 format is supported
+---
+
+
+layout: true
+  
+<div class="my-header"></div>
+
+<!-- the following lines define the header and the footer line: -->
+<div class="my-footer"><span>`r params$semester`    
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+`r params$instructor` | `r params$foottitle` </span></div> 
+
+<div class="footer-line"></div>
+
+
+
+```{r setup, include=FALSE}
+library(emojifont)
+library(knitr)
+library(mosaic)
+
+theme.fom <- theme_classic(22*1.04)
+theme.fom <- theme.fom
+theme_set(
+  theme.fom  
+)
+options(scipen=999)
+```
+
+---
+
+## PPDAC-Prozess
+
+
+.pull-left[
+**Problem**: Problemdefinition, Forschungsfrage: Was soll untersucht werden?
+
+**Plan**: Planung der Analyse, z.B. Operationalisierung/ Variablenauswahl. Wahl des Stichprobenverfahrens und/ oder Versuchsplanung.
+
+**Data**: Datenerhebung, Datenmanagement, Datenbereinigung.
+
+**Analysis**: Explorative Datenanalyse, Modellierung, Hypothesenprüfung. 
+
+**Conclusion**: Schlussfolgerungen, Interpretation, neue Ideen, Kommunikation.
+]
+
+.pull-right[
+```{r forschungsprozess-image, echo=FALSE, out.width = "95%", fig.align="right"}
+include_graphics("img/PPDAC.png", error=FALSE)
+```
+]
+
+---
+
+## Inhalte
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
+ggplot() + geom_emoji("woman_teacher") + theme_void()
+```
+
+
+Themen von Episode 10: **Analysis** und **Conclusion**
+
+<br>
+
+
+- Explorative Datenanalyse: Analyse kategorialer Daten
+
+- Inferenzstatistik: Konfidenzintervall
+
+
+<br>
+
+**Hinweis**: Diese Data Literacy Slidecasts dienen didaktisch der konzeptionell-methodischen Verdeutlichung, nicht der inhaltlichen Analyse.
+
+
+---
+
+## Fragestellung
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
+ggplot() + geom_emoji("thinking") + theme_void()
+```
+
+.large[Wie hoch ist der Anteil derjenigen, die die Wissensfrage richtig beantworten konnten?]
+
+<br>
+
+**Hinweis**: Dies ist eine Fortsetzung von Episode 3 (EDA - Eine kategoriale Variable) und dem Special 3 (Bereichsschätzung).
+---
+
+## Vorbereitungen
+
+Aus **Data** (Episode 2):
+
+```{r}
+# mosaic laden
+library(mosaic)
+# Daten einlesen
+SATS_BFI <- read.csv2("Datenbasis_SATS_BFI.csv")
+# Daten vorverarbeiten
+SATS_BFI <- SATS_BFI %>%
+  mutate(F07_Aktien = 
+           case_when(F07_Aktien == "Stimme ganz und gar nicht zu." ~ "richtig",
+                     TRUE ~ "falsch")) %>%
+  mutate(G02_Alter = cut(G02_Alter, c(18, 23, 28, 33))) %>%
+  na.omit() 
+```
+
+---
+
+## Schlussfolgerung von Episode 3
+
+**Frage**: Wie hoch ist der Anteil derjenigen, die die Wissensfrage richtig beantworten konnten?
+
+Analyse:
+
+```{r}
+p_stipro <- prop( ~ F07_Aktien, success = "richtig", data = SATS_BFI)
+p_stipro
+```
+
+<br>
+
+**Antwort**: In der Stichprobe liegt der Anteil richtiger Antworten bei $p=`r round(p_stipro, 2)`$.
+
+<br>
+
+**Hinweis**:  In der Studie von DIE ZEIT lag der Anteil der richtigen Antworten bei $33\%$.
+
+---
+
+## Unsicherheit und Variation
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
+ggplot() + geom_emoji("thinking") + theme_void()
+```
+
+.large[Was wäre, wenn wir eine andere zufällige Stichprobe gehabt hätten, als die, die wir gehabt haben?]
+
+<br>
+
+
+Wir hätten einen anderen geschätzten Anteil, $\hat{\pi}=p=`r round(p_stipro, 2)`$ erhalten, als den, den wir haben.
+
+<br>
+
+Ziel von Inferenz: Aussagen treffen, die über die vorliegenden Daten hinausgehen - dabei müssen wir Unsicherheit akzeptieren!
+
+---
+
+## Bootstrapping
+
+.pull-left[
+```{r, eval=FALSE}
+set.seed(1896)
+Bootvtlg <- do(10000) * 
+  prop( ~ F07_Aktien, 
+        success = "richtig", 
+        data = resample(SATS_BFI))
+
+gf_histogram( ~ prop_richtig, 
+              data = Bootvtlg,
+              center = p_stipro,  
+              bins = 21)
+```
+]
+
+.pull-right[
+```{r, echo=FALSE, out.width = "65%", fig.align="center"}
+set.seed(1896)
+Bootvtlg <- do(10000) * 
+  prop( ~ F07_Aktien, success = "richtig", 
+        data = resample(SATS_BFI))
+
+gf_histogram( ~ prop_richtig, data = Bootvtlg,
+              center = p_stipro,  bins = 21)
+```
+]
+
+- geschätzter Anteil: $\hat{\pi}=`r round(p_stipro,2)`$
+- geschätzte Streuung von $\hat{\pi}$ (*Standardfehler*, $se$):
+
+```{r}
+sd( ~ prop_richtig, data = Bootvtlg)
+```
+
+```{r, include=FALSE}
+se <- sd( ~ prop_richtig, data = Bootvtlg)
+```
+
+
+---
+
+## Konfidenzintervall
+
+$95\,\%$ Konfidenzintervall:
+
+- *Approximativ*: $$\hat{\pi} \pm 2 \cdot se = `r round(p_stipro,4)` \pm  2 \cdot `r round(se,4)`=[`r floor((p_stipro - 2*se)*10000)/10000`,`r ceiling((p_stipro + 2*se)*10000)/10000`]$$
+
+- *Bootstrap*:
+```{r}
+confint(Bootvtlg)
+```
+
+- *Binomialverteilung*:
+```{r}
+binom.test( ~ F07_Aktien, success = "richtig", data = SATS_BFI) %>% 
+  confint()
+```
+
+---
+
+## Schlussfolgerung
+
+Die Datenerhebung und die unmittelbar möglichen Schlüsse stehen im Zusammenhang mit den wissenschaftlichen Gütekriterien:
+
+- **randomisierte Stichprobe**: Ergebnis generalisierbar auf die zugrundeliegende Population.
+
+- **randomisiertes Experiment**: Kausalschluss.
+
+<br>
+
+**Frage**: Wie hoch ist der Anteil derjenigen, die die Wissensfrage richtig beantworten konnten?
+
+**Antwort**: In der Stichprobe liegt der Anteil richtiger Antworten bei $p=`r round(p_stipro, 2)`$ und einem Standardfehler von $`r round(se, 2)`$ . 
+Das $95\%$-Konfidenzintervall für $\pi$ überdeckt den Bereich $`r floor(confint(Bootvtlg)$lower*100)/100`$ bis $`r ceiling(confint(Bootvtlg)$upper*100)/100`$. Der Anteil der richtigen Antworten in der Studie von DIE ZEIT  von $33\%$ wird nicht überdeckt.
+
+<br>
+
+*Fortsetzung folgt.*
+
+
