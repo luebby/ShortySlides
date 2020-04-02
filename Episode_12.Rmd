@@ -1,0 +1,197 @@
+---
+title: "`r params$module`"  # Do NOT change this line
+subtitle: "`r params$shorttitle`"  # Do NOT change this line
+author: "`r params$instructor`"  # Do NOT change this line
+date: "`r params$semester`"  # Do NOT change this line
+params:
+  module: "Data Literacy Education"  # Enter HERE the name of the presentation/course/module
+  semester: "Episode 12: Logistische Regression"   # Enter HERE the date/semester/term
+  shorttitle: ""  # Enter HERE a subtitle/shorttitle
+  foottitle: "Data Literacy Slidecast"  # Enter HERE a title for footline
+  instructor: "FOM"  # ENTER here the presentator's/instructor's name
+output:
+  xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
+    lib_dir: libs
+    css: ["footer-header.css", "xafom.css"]
+    nature:
+      titleSlideClass: [middle, right]
+      ratio: "4:3"  # Note that currently only 4:3 format is supported
+      highlightLines: true
+---
+
+
+layout: true
+  
+<div class="my-header"></div>
+
+<!-- the following lines define the header and the footer line: -->
+<div class="my-footer"><span>`r params$semester`    
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+`r params$instructor` | `r params$foottitle` </span></div> 
+
+<div class="footer-line"></div>
+
+
+
+```{r setup, include=FALSE}
+library(emojifont)
+library(knitr)
+library(mosaic)
+
+theme.fom <- theme_classic(22*1.04)
+theme.fom <- theme.fom
+theme_set(
+  theme.fom  
+)
+options(scipen=999)
+```
+
+---
+
+## PPDAC-Prozess
+
+
+.pull-left[
+**Problem**: Problemdefinition, Forschungsfrage: Was soll untersucht werden?
+
+**Plan**: Planung der Analyse, z.B. Operationalisierung/ Variablenauswahl. Wahl des Stichprobenverfahrens und/ oder Versuchsplanung.
+
+**Data**: Datenerhebung, Datenmanagement, Datenbereinigung.
+
+**Analysis**: Explorative Datenanalyse, Modellierung, Hypothesenprüfung. 
+
+**Conclusion**: Schlussfolgerungen, Interpretation, neue Ideen, Kommunikation.
+]
+
+.pull-right[
+```{r forschungsprozess-image, echo=FALSE, out.width = "95%", fig.align="right"}
+include_graphics("img/PPDAC.png", error=FALSE)
+```
+]
+
+---
+
+## Inhalte
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
+ggplot() + geom_emoji("woman_teacher") + theme_void()
+```
+
+
+Themen von Episode 10: **Analysis** und **Conclusion**
+
+<br>
+
+
+- Explorative Datenanalyse: Analyse numerischer Daten
+
+- Inferenzstatistik: Grundlagen des Hypothesenprüfens
+
+
+<br>
+
+**Hinweis**: Diese Data Literacy Slidecasts dienen didaktisch der konzeptionell-methodischen Verdeutlichung, nicht der inhaltlichen Analyse.
+
+
+---
+
+## Fragestellung
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
+ggplot() + geom_emoji("thinking") + theme_void()
+```
+
+.large[Kann die Wahrscheinlichkeit, die (finanzwissenschaftliche) ökonomische Frage richtig zu beantworten, durch die Selbsteinschätzung der kognitiven Kompetenz bezüglich des Fachs Statistik modelliert werden?]
+
+<br>
+
+**Hinweis**: Dies ist eine andere Sicht auf Episode 6 (EDA - Vergleich numerischer Variablen).
+---
+
+## Vorbereitungen
+
+Aus **Data** (vgl. Episode 2):
+
+```{r}
+# mosaic laden
+library(mosaic)
+
+# Daten einlesen
+SATS_BFI <- read.csv2("Datenbasis_SATS_BFI.csv")
+
+# Daten vorverarbeiten
+SATS_BFI <- SATS_BFI %>%
+  mutate(F07_Aktien = 
+           case_when(F07_Aktien == "Stimme ganz und gar nicht zu." ~ 1, #<<
+                     TRUE ~ 0)) %>% #<<
+  na.omit() 
+```
+
+- Unabhängige Variable $x$: `B_SATS_Kompetenz`
+
+- Abhängige Variable $y: \begin{cases}1, \,\text{F07_Aktien == "Stimme ganz und gar nicht zu."} \\ 0, \,\text{sonst}\end{cases}$
+
+---
+
+## Logistische Regression
+
+Daten:
+
+```{r, echo=FALSE, out.width = "25%", fig.align="center"}
+gf_point(F07_Aktien ~ B_SATS_Kompetenz, data = SATS_BFI)
+```
+
+
+Modell:
+
+$$p(y=1) = \frac{1}{1+e^{-(\beta_0 + \beta_1 \cdot x)}}$$
+
+
+Schätzung in R:
+```{r}
+glm_stipro <- glm(F07_Aktien ~ B_SATS_Kompetenz, data = SATS_BFI, family = "binomial")
+```
+
+---
+
+## Ergebnis
+
+.pull-left[
+```{r, eval=FALSE}
+summary(glm_stipro)
+```
+
+.small[
+```{r, echo=FALSE}
+summary(glm_stipro)
+```
+]
+]
+
+.pull-right[
+<br> <br> <br>
+```{r, echo=FALSE, out.width = "65%", fig.align="center"}
+plotModel(glm_stipro)
+```
+]
+
+$$\hat{p}(\text{F07_Aktien}=1) = \frac{1}{1+e^{-(`r round(coef(glm_stipro)[1],2)` + `r round(coef(glm_stipro)[2],2)` \cdot \text{B_SATS_Kompetenz})}}$$
+
+---
+
+## Schlussfolgerung 
+
+**Frage**: Kann die Wahrscheinlichkeit, die (finanzwissenschaftliche) ökonomische Frage richtig zu beantworten, durch die Selbsteinschätzung der kognitiven Kompetenz bezüglich des Fachs Statistik modelliert werden?
+
+<br>
+
+**Antwort**: Die geschätzte Modellgleichung lautet:
+
+$$\hat{p}(\text{F07_Aktien}=1) = \frac{1}{1+e^{-(`r round(coef(glm_stipro)[1],2)` + `r round(coef(glm_stipro)[2],2)` \cdot \text{B_SATS_Kompetenz})}}$$
+
+D.h. im Modell der Stichrpobe:  je höher die Selbsteinschätzung der kognitiven Kompetenz, desto größer ist die Wahrscheinlichkeit die (finanzwissenschaftliche) ökonomische Frage richtig zu beantworten. 
+
+Der geschätzte Koeffizient $\hat{\beta}_1= `r round(coef(glm_stipro)[2],2)`$ ist mit einem p-Wert von $0.00452$ nicht kompatibel zum Modell $\beta_{\text{1}}=0$ (kein Zusammenhang).
