@@ -192,6 +192,6 @@ $$\hat{p}(\text{F07_Aktien}=1) = \frac{1}{1+e^{-(`r round(coef(glm_stipro)[1],2)
 
 $$\hat{p}(\text{F07_Aktien}=1) = \frac{1}{1+e^{-(`r round(coef(glm_stipro)[1],2)` + `r round(coef(glm_stipro)[2],2)` \cdot \text{B_SATS_Kompetenz})}}$$
 
-D.h. im Modell der Stichrpobe:  je höher die Selbsteinschätzung der kognitiven Kompetenz, desto größer ist die Wahrscheinlichkeit die (finanzwissenschaftliche) ökonomische Frage richtig zu beantworten. 
+D. h. im Modell der Stichprobe:  je höher die Selbsteinschätzung der kognitiven Kompetenz, desto größer ist die Wahrscheinlichkeit die (finanzwissenschaftliche) ökonomische Frage richtig zu beantworten. 
 
 Der geschätzte Koeffizient $\hat{\beta}_1= `r round(coef(glm_stipro)[2],2)`$ ist mit einem p-Wert von $0.00452$ nicht kompatibel zum Modell $\beta_{\text{1}}=0$ (kein Zusammenhang).
