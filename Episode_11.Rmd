@@ -117,8 +117,10 @@ Aus **Data** (Episode 2):
 ```{r}
 # mosaic laden
 library(mosaic)
+
 # Daten einlesen
 SATS_BFI <- read.csv2("Datenbasis_SATS_BFI.csv")
+
 # Daten vorverarbeiten
 SATS_BFI <- SATS_BFI %>%
   mutate(F07_Aktien = 
@@ -144,7 +146,7 @@ diffmean_stipro
 ```
 
 
-**Antwort**: In der Stichprobe liegt der Mittelwert der Selbsteinschätzung der kognitiven Kompetenz bei $\bar{y}_{\text{falsch}}=`r round(mean_stipro[1], 2)`$ und $\bar{y}_{\text{richtig}}=`r round(mean_stipro[2], 2)`$, d.h. $\bar{y}_{\text{richtig}}-\bar{y}_{\text{falsch}}=`r round(diffmean_stipro,2)`$.
+**Antwort**: In der Stichprobe liegt der Mittelwert der Selbsteinschätzung der kognitiven Kompetenz bei $\bar{y}_{\text{falsch}}=`r round(mean_stipro[1], 2)`$ und $\bar{y}_{\text{richtig}}=`r round(mean_stipro[2], 2)`$, d. h. $\bar{y}_{\text{richtig}}-\bar{y}_{\text{falsch}}=`r round(diffmean_stipro,2)`$.
 
 
 ---
@@ -225,4 +227,4 @@ Ziel: Aussagen treffen, die über die vorliegenden Daten hinausgehen - dabei mü
 
 **Frage**: Haben diejenigen, die die (finanzwissenschaftliche) ökonomische Frage richtig beantwortet haben eine höhere Selbsteinschätzung der kognitiven Kompetenz bezüglich des Fachs Statistik?
 
-**Antwort**: In der Stichprobe liegt der Mittelwert der Selbsteinschätzung der kognitiven Kompetenz bei $\bar{y}_{\text{falsch}}=`r round(mean_stipro[1], 2)`$ und $\bar{y}_{\text{richtig}}=`r round(mean_stipro[2], 2)`$, d.h. $\bar{y}_{\text{richtig}}-\bar{y}_{\text{falsch}}>0$. Die Wahrscheinlichkeit eine mindestens so große Abweichung der Mittelwerte in einer Stichprobe vom Umfang $n=`r nrow(SATS_BFI)`$ zu beobachten, wenn es keinen Unterschied in der Verteilung gibt, liegt bei `r pd`.
+**Antwort**: In der Stichprobe liegt der Mittelwert der Selbsteinschätzung der kognitiven Kompetenz bei $\bar{y}_{\text{falsch}}=`r round(mean_stipro[1], 2)`$ und $\bar{y}_{\text{richtig}}=`r round(mean_stipro[2], 2)`$, d. h. $\bar{y}_{\text{richtig}}-\bar{y}_{\text{falsch}}>0$. Die Wahrscheinlichkeit eine mindestens so große Abweichung der Mittelwerte in einer Stichprobe vom Umfang $n=`r nrow(SATS_BFI)`$ zu beobachten, wenn es keinen Unterschied in der Verteilung gibt, liegt bei `r pd`.

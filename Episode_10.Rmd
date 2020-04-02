@@ -117,8 +117,10 @@ Aus **Data** (Episode 2):
 ```{r}
 # mosaic laden
 library(mosaic)
+
 # Daten einlesen
 SATS_BFI <- read.csv2("Datenbasis_SATS_BFI.csv")
+
 # Daten vorverarbeiten
 SATS_BFI <- SATS_BFI %>%
   mutate(F07_Aktien = 
@@ -162,7 +164,7 @@ ggplot() + geom_emoji("thinking") + theme_void()
 <br>
 
 
-Wir hätten einen anderen geschätzten Anteil, $\hat{\pi}=p=`r round(p_stipro, 2)`$ erhalten, als den, den wir haben.
+Wir hätten einen anderen geschätzten Anteil, $\hat{\pi}=p$ erhalten, als den, den wir haben (p = `r round(p_stipro, 2)`).
 
 <br>
 
@@ -244,8 +246,8 @@ Die Datenerhebung und die unmittelbar möglichen Schlüsse stehen im Zusammenhan
 
 **Frage**: Wie hoch ist der Anteil derjenigen, die die Wissensfrage richtig beantworten konnten?
 
-**Antwort**: In der Stichprobe liegt der Anteil richtiger Antworten bei $p=`r round(p_stipro, 2)`$ und einem Standardfehler von $`r round(se, 2)`$ . 
-Das $95\%$-Konfidenzintervall für $\pi$ überdeckt den Bereich $`r floor(confint(Bootvtlg)$lower*100)/100`$ bis $`r ceiling(confint(Bootvtlg)$upper*100)/100`$. Der Anteil der richtigen Antworten in der Studie von DIE ZEIT  von $33\%$ wird nicht überdeckt.
+**Antwort**: In der Stichprobe liegt der Anteil richtiger Antworten bei $p=`r round(p_stipro, 2)`$ und einem Standardfehler von $`r round(se, 2)`.$  
+Das $95\%$-Konfidenzintervall für $\pi$ überdeckt den Bereich $`r floor(confint(Bootvtlg)$lower*100)/100`$ bis $`r ceiling(confint(Bootvtlg)$upper*100)/100`.$ Der Anteil der richtigen Antworten in der Studie von DIE ZEIT  von $33\%$ wird nicht überdeckt.
 
 <br>
 
