@@ -85,7 +85,7 @@ Themen von Special 6: Vorhersagemodellierung
 
 **Aufgabenstellung**:
 
-Modelliere die .violet[abbhängige Variable] `total.bill` ( $\color{violet} y$ )  auf Basis der .olive[unabhängigen Variablen] `time`  ( $\color{olive} x_1$ ) und `size` ( $\color{olive}{x_2}$ ):
+Modelliere die .violet[abbhängige Variable] `total.bill` ( $\color{violet} y$ )  auf Basis der .olive[unabhängigen Variablen] `time`  ( $\color{olive}{x_1}$ ) und `size` ( $\color{olive}{x_2}$ ):
 
 $${\color{violet}y}=f(\color{olive}{x_1,x_2})+\epsilon$$
 
