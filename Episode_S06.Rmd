@@ -203,7 +203,11 @@ $$MAE = \frac{1}{n_{test}}\sum_{i=1}^{n_{test}}{|\color{violet}{y_i-\color{purpl
 
 - Werden unterschiedliche Modellierungsmethoden (`lm(), rpart()`, ...) verwendet, ändert sich die Prognose.
 
+- Vermeiden Sie Über-Anpassung.
+
 - Über Kreuzvalidierung o. ä. kann die Vorhersagegüte rein auf Basis der Trainingsdaten evaluiert werden. Dabei wird der Trainingsdatensatz wiederholt selber in einen Teildatensatz zum Modell schätzen und einen zum Modell evaluieren aufgeteilt. 
+
+
 
 
 
