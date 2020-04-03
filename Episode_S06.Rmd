@@ -85,7 +85,7 @@ Themen von Special 6: Vorhersagemodellierung
 
 **Aufgabenstellung**:
 
-Modelliere die .violet[abbhängige Variable] `total.bill`, $\color{violet} y$,  auf Basis der .olive[unabhängigen Variablen] `time` und `size`, $\color{olive}{x_1, x_2}$:
+Modelliere die .violet[abbhängige Variable] `total.bill` ( $\color{violet} y$ )  auf Basis der .olive[unabhängigen Variablen] `time`  ( $\color{olive} x_1$ ) und `size` ( $\color{olive}{x_2}$ ):
 
 $${\color{violet}y}=f(\color{olive}{x_1,x_2})+\epsilon$$
 
@@ -93,7 +93,7 @@ $${\color{violet}y}=f(\color{olive}{x_1,x_2})+\epsilon$$
 
 ## Trainingsdaten
 
-Der Trainingsdatensatz (`tips_train`) enthält alle Variablen, d.h. $\color{olive}{x_1,x_2}, {\color{violet}y}$:
+Der Trainingsdatensatz (`tips_train`) enthält alle Variablen, d. h. $\color{olive}{x_1, x_2}, {\color{violet} y}$:
 
 ```{r echo=FALSE}
 tips_train %>%
@@ -109,7 +109,7 @@ tips_train %>%
 
 ## Modellierung
 
-Schätze $f(\cdot)$ z.B. über lineare Regression auf den **Trainingsdaten**:
+Schätze $f(\cdot)$ z. B. über lineare Regression auf den **Trainingsdaten**:
 
 ```{r}
 erg_lm <- lm(total_bill ~ time + size, data = tips_train)
@@ -122,7 +122,7 @@ $$\color{purple}{\widehat{\text{total_bill}}_i}=`r round(coef(erg_lm)[1],2)` `r 
 
 ## Anwendungsdaten
 
-Die **Anwendungsdaten** (`tips_anwendung`) enthalten nur die unabhänigen Variablen $\color{olive}{x_1, x_2}$, die abhängige Variable $\color{violet} y$ nicht:
+Die **Anwendungsdaten** (`tips_anwendung`) enthalten nur die unabhänigen Variablen $\color{olive}{x_1, x_2}$, nicht die abhängige Variable $\color{violet} y$:
 
 ```{r echo=FALSE}
 tips_anwendung %>%
@@ -195,13 +195,13 @@ $$MAE = \frac{1}{n_{test}}\sum_{i=1}^{n_{test}}{|\color{violet}{y_i-\color{purpl
 
 ## Tipps
 
-- Je nachdem, welche Variablen zur Modellierung verwendet werden, ergeben sich i.d. R. verschiedene Prognosen: `lm(y ~ 1); lm(y ~ x1); lm(y ~ x1 + x2); lm (y ~ x1 * x2)`
+- Je nachdem, welche Variablen zur Modellierung verwendet werden, ergeben sich i. d. R. verschiedene Prognosen: `lm(y ~ 1); lm(y ~ x1); lm(y ~ x1 + x2); lm (y ~ x1 * x2)`
 
 - Werden im Trainingsdatensatz Ausreißer eliminiert ändert sich das geschätzte Modell und damit die Prognose.
 
-- Werden Variablen transformiert (z.B. `mutate(x1l = log(x1))`) ändert sich das geschätzte Modell und damit die Prognose.
+- Werden Variablen transformiert (z. B. `mutate(x1l = log(x1))`) ändert sich das geschätzte Modell und damit die Prognose.
 
-- Werden unterschiedliche Modellierungsmethoden (`lm(); rpart()`, ...) verwendet, ändert sich die Prognose.
+- Werden unterschiedliche Modellierungsmethoden (`lm(), rpart()`, ...) verwendet, ändert sich die Prognose.
 
 - Über Kreuzvalidierung o. ä. kann die Vorhersagegüte rein auf Basis der Trainingsdaten evaluiert werden. Dabei wird der Trainingsdatensatz wiederholt selber in einen Teildatensatz zum Modell schätzen und einen zum Modell evaluieren aufgeteilt. 
 
