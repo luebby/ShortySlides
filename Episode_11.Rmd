@@ -80,7 +80,7 @@ ggplot() + geom_emoji("woman_teacher") + theme_void()
 ```
 
 
-Themen von Episode 10: **Analysis** und **Conclusion**
+Themen von Episode 11: **Analysis** und **Conclusion**
 
 <br>
 
