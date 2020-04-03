@@ -96,6 +96,18 @@ a, a > code {
   color: #00998A;
 }
 
+.violet {
+  color: #800080;
+}
+
+.purple {
+  color: #BF0040;
+}
+
+.olive {
+  color: #808000;
+}
+
 .small {
   font-size: 75%;
 }

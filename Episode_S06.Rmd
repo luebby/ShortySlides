@@ -1,0 +1,209 @@
+---
+title: "`r params$module`"  # Do NOT change this line
+subtitle: "`r params$shorttitle`"  # Do NOT change this line
+author: "`r params$instructor`"  # Do NOT change this line
+date: "`r params$semester`"  # Do NOT change this line
+params:
+  module: "Data Literacy Education"  # Enter HERE the name of the presentation/course/module
+  semester: "Special 6: Vorhersagemodellierung"   # Enter HERE the date/semester/term
+  shorttitle: ""  # Enter HERE a subtitle/shorttitle
+  foottitle: "Data Literacy Slidecast"  # Enter HERE a title for footline
+  instructor: "FOM"  # ENTER here the presentator's/instructor's name
+output:
+  xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
+    lib_dir: libs
+    css: ["footer-header.css", "xafom.css"]
+    nature:
+      titleSlideClass: [middle, right]
+      ratio: "4:3"  # Note that currently only 4:3 format is supported
+      highlightLines: true
+---
+
+
+layout: true
+  
+<div class="my-header"></div>
+
+<!-- the following lines define the header and the footer line: -->
+<div class="my-footer"><span>`r params$semester`    
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+`r params$instructor` | `r params$foottitle` </span></div> 
+
+<div class="footer-line"></div>
+
+
+
+```{r setup, include=FALSE}
+library(emojifont)
+library(knitr)
+library(mosaic)
+library(tidyr)
+library(kableExtra)
+
+theme.fom <- theme_classic(22*1.04)
+theme.fom <- theme.fom
+theme_set(
+  theme.fom  
+)
+#options(scipen=999)
+
+data(tips, package = "reshape2")
+set.seed(1896)
+tips_train <- tips %>%
+  sample_n(160) %>%
+  select(time, size, total_bill)
+
+tips_test <- tips %>%
+  sample_n(80) %>%
+  select(time, size, total_bill)
+
+tips_anwendung <- tips_test %>%
+  select(-total_bill)
+
+```
+
+---
+
+## Inhalt
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
+ggplot() + geom_emoji("woman_teacher") + theme_void()
+```
+
+
+Themen von Special 6: Vorhersagemodellierung
+
+<br>
+
+
+- Lineare Regression
+
+<br>
+
+**Aufgabenstellung**:
+
+Modelliere die .violet[abbhängige Variable] `total.bill`, $\color{violet} y$,  auf Basis der .olive[unabhängigen Variablen] `time` und `size`, $\color{olive}{x_1, x_2}$:
+
+$${\color{violet}y}=f(\color{olive}{x_1,x_2})+\epsilon$$
+
+---
+
+## Trainingsdaten
+
+Der Trainingsdatensatz (`tips_train`) enthält alle Variablen, d.h. $\color{olive}{x_1,x_2}, {\color{violet}y}$:
+
+```{r echo=FALSE}
+tips_train %>%
+  head(4) %>%
+  kable() %>%
+  kable_styling("striped") %>%
+  add_header_above(c("Unabhängige Variablen" = 2, "Abhängige Variable" = 1)) %>%
+  column_spec(1:2, color = "white", background = "#808000") %>%
+  column_spec(3, color = "white", background = "#800080")
+```
+
+---
+
+## Modellierung
+
+Schätze $f(\cdot)$ z.B. über lineare Regression auf den **Trainingsdaten**:
+
+```{r}
+erg_lm <- lm(total_bill ~ time + size, data = tips_train)
+erg_lm
+```
+
+$$\color{purple}{\widehat{\text{total_bill}}_i}=`r round(coef(erg_lm)[1],2)` `r round(coef(erg_lm)[2],2)`\cdot\begin{cases}1, \,\color{olive}{\text{i ist Lunch}} \\ 0, \,\color{olive}{\text{i ist nicht Lunch}} \end{cases} + `r round(coef(erg_lm)[3],2)` \cdot \color{olive}{\text{size}_i}$$
+
+---
+
+## Anwendungsdaten
+
+Die **Anwendungsdaten** (`tips_anwendung`) enthalten nur die unabhänigen Variablen $\color{olive}{x_1, x_2}$, die abhängige Variable $\color{violet} y$ nicht:
+
+```{r echo=FALSE}
+tips_anwendung %>%
+  head(4) %>%
+  kable() %>%  
+  add_header_above(c("Unabhängige Variablen" = 2)) %>%
+  column_spec(1:2, color = "white", background = "#808000")
+```
+
+---
+
+## Vorhersage
+
+Zuvor gelerntes Modell (`erg_lm`) auf Basis der Trainingsdaten (`tips_train`) zur Prognose der .violet[Zielvariable] `total_bill` auf den Anwendungsdaten verwenden:
+
+```{r}
+lm_predict <- predict(erg_lm, newdata = tips_anwendung)
+```
+
+Für die Beobachtungen des Anwendungsdatensatzes gibt es jetzt .purple[geschätze Werte] für die Rechnungshöhe, $\color{purple}{\widehat{\text{total_bill}}}$. Z.B. für $i=1$:
+
+```{r echo=FALSE}
+# data.frame(hat_total_bill=lm_predict) %>%
+#   head(4) %>%
+#   kable() %>%
+#   add_header_above(c("Abhängige Variable (geschätzt)" = 1)) %>%
+#   column_spec(1, color = "white", background = "#BF0040")
+
+tips_anwendung %>%
+  head(1) %>%
+  kable() %>%  
+  add_header_above(c("Unabhängige Variablen" = 2)) %>%
+  column_spec(1:2, color = "white", background = "#808000")
+```
+
+$$\color{purple}{\widehat{\text{total_bill}}_1}=`r round(coef(erg_lm)[1],2)` `r round(coef(erg_lm)[2],4)`\cdot\color{olive}{0} + `r round(coef(erg_lm)[3],2)` \cdot \color{olive}{6}=\color{purple}{`r round(lm_predict[1],2)`}$$
+
+```{r echo=FALSE}
+tips_test %>%
+  mutate(hat_total_bill = round(lm_predict,2)) %>%
+  head(1) %>%
+  select(hat_total_bill) %>%
+  kable() %>%
+  add_header_above(c("Abhängige Variable" = 1)) %>%
+  column_spec(1, color = "white", background = "#BF0040")
+```
+
+
+---
+
+## Evaluierung
+
+Sind die .violet[wahren] Werte der Zielvariable bekannt, kann die .purple[Vorhersage] evaluiert werden:
+
+```{r echo=FALSE}
+tips_test %>%
+  mutate(hat_total_bill = round(lm_predict,2)) %>%
+  head(4) %>%
+  kable() %>%
+  add_header_above(c("Unabhängige Variablen" = 2, "Abhängige Variable" = 2)) %>%
+  column_spec(1:2, color = "white", background = "#808000") %>%
+  column_spec(3, color = "white", background = "#800080") %>%
+  column_spec(4, color = "white", background = "#BF0040")
+```
+
+Z.B.:
+
+$$MAE = \frac{1}{n_{test}}\sum_{i=1}^{n_{test}}{|\color{violet}{y_i-\color{purple}{\hat{y}_i}}|}$$
+---
+
+## Tipps
+
+- Je nachdem, welche Variablen zur Modellierung verwendet werden, ergeben sich i.d. R. verschiedene Prognosen: `lm(y ~ 1); lm(y ~ x1); lm(y ~ x1 + x2); lm (y ~ x1 * x2)`
+
+- Werden im Trainingsdatensatz Ausreißer eliminiert ändert sich das geschätzte Modell und damit die Prognose.
+
+- Werden Variablen transformiert (z.B. `mutate(x1l = log(x1))`) ändert sich das geschätzte Modell und damit die Prognose.
+
+- Werden unterschiedliche Modellierungsmethoden (`lm(); rpart()`, ...) verwendet, ändert sich die Prognose.
+
+- Über Kreuzvalidierung o. ä. kann die Vorhersagegüte rein auf Basis der Trainingsdaten evaluiert werden. Dabei wird der Trainingsdatensatz wiederholt selber in einen Teildatensatz zum Modell schätzen und einen zum Modell evaluieren aufgeteilt. 
+
+
+
