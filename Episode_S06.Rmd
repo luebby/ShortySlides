@@ -188,7 +188,7 @@ tips_test %>%
   column_spec(4, color = "white", background = "#BF0040")
 ```
 
-Z.B.:
+Z. B.:
 
 $$MAE = \frac{1}{n_{test}}\sum_{i=1}^{n_{test}}{|\color{violet}{y_i-\color{purple}{\hat{y}_i}}|}$$
 ---
