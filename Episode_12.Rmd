@@ -81,15 +81,11 @@ ggplot() + geom_emoji("woman_teacher") + theme_void()
 ```
 
 
-Themen von Episode 10: **Analysis** und **Conclusion**
+Themen von Episode 12: **Analysis** und **Conclusion**
 
 <br>
 
-
-- Explorative Datenanalyse: Analyse numerischer Daten
-
-- Inferenzstatistik: Grundlagen des Hypothesenprüfens
-
+- Logistische Regression
 
 <br>
 
