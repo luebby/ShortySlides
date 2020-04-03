@@ -163,7 +163,7 @@ ggplot() + geom_emoji("thinking") + theme_void()
 
 Dann gäbe es keinen Unterschied in der Verteilung der Selbsteinschätzung der kognitiven Kompetenz:
 
-$$F_{\text{richtig}}(y)=F_{\text{richtig}}(y)$$
+$$F_{\text{richtig}}(y)=F_{\text{falsch}}(y)$$
 und damit auch
 
 $$\mu_{\text{richtig}}-\mu_{\text{falsch}}=0$$
