@@ -136,13 +136,13 @@ tips_anwendung %>%
 
 ## Vorhersage
 
-Zuvor gelerntes Modell (`erg_lm`) auf Basis der Trainingsdaten (`tips_train`) zur Prognose der .violet[Zielvariable] `total_bill` auf den Anwendungsdaten verwenden:
+Zuvor gelerntes Modell (`erg_lm`) auf Basis der Trainingsdaten zur Prognose der .violet[Zielvariable] auf den Anwendungsdaten verwenden:
 
 ```{r}
 lm_predict <- predict(erg_lm, newdata = tips_anwendung)
 ```
 
-Für die Beobachtungen des Anwendungsdatensatzes gibt es jetzt .purple[geschätze Werte] für die Rechnungshöhe, $\color{purple}{\widehat{\text{total_bill}}}$. Z.B. für $i=1$:
+Für die Beobachtungen des Anwendungsdatensatzes gibt es jetzt .purple[geschätze Werte] für die Rechnungshöhe, $\color{purple}{\widehat{\text{total_bill}}}$. Z. B. für $i=1$:
 
 ```{r echo=FALSE}
 # data.frame(hat_total_bill=lm_predict) %>%
