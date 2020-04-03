@@ -158,7 +158,7 @@ tips_anwendung %>%
   column_spec(1:2, color = "white", background = "#808000")
 ```
 
-$$\color{purple}{\widehat{\text{total_bill}}_1}=`r round(coef(erg_lm)[1],2)` `r round(coef(erg_lm)[2],4)`\cdot\color{olive}{1} + `r round(coef(erg_lm)[3],2)` \cdot \color{olive}{6}=\color{purple}{`r round(lm_predict[1],2)`}$$
+$$\color{purple}{\widehat{\text{total_bill}}_1}=`r round(coef(erg_lm)[1],2)` `r round(coef(erg_lm)[2],2)`\cdot\color{olive}{1} + `r round(coef(erg_lm)[3],2)` \cdot \color{olive}{6}=\color{purple}{`r round(lm_predict[1],2)`}$$
 
 ```{r echo=FALSE}
 tips_test %>%
