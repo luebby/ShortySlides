@@ -102,7 +102,7 @@ tips_train %>%
   kable_styling("striped") %>%
   add_header_above(c("Unabhängige Variablen" = 2, "Abhängige Variable" = 1)) %>%
   column_spec(1:2, color = "white", background = "#808000") %>%
-  column_spec(3, color = "white", background = "#800080")
+  column_spec(3, color = "white", background = "#DA70D6")
 ```
 
 ---
@@ -167,7 +167,7 @@ tips_test %>%
   select(hat_total_bill) %>%
   kable() %>%
   add_header_above(c("Abhängige Variable" = 1)) %>%
-  column_spec(1, color = "white", background = "#BF0040")
+  column_spec(1, color = "white", background = "#7A378B")
 ```
 
 
@@ -184,8 +184,8 @@ tips_test %>%
   kable() %>%
   add_header_above(c("Unabhängige Variablen" = 2, "Abhängige Variable" = 2)) %>%
   column_spec(1:2, color = "white", background = "#808000") %>%
-  column_spec(3, color = "white", background = "#800080") %>%
-  column_spec(4, color = "white", background = "#BF0040")
+  column_spec(3, color = "white", background = "#DA70D6") %>%
+  column_spec(4, color = "white", background = "#7A378B")
 ```
 
 Z. B.:
