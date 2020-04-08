@@ -1,0 +1,127 @@
+---
+title: "`r params$module`"  # Do NOT change this line
+subtitle: "`r params$shorttitle`"  # Do NOT change this line
+author: "`r params$instructor`"  # Do NOT change this line
+date: "`r params$semester`"  # Do NOT change this line
+params:
+  module: "Data Literacy Education"  # Enter HERE the name of the presentation/course/module
+  semester: "R Special 1: RStudio Projeke und R Markdown"   # Enter HERE the date/semester/term
+  shorttitle: ""  # Enter HERE a subtitle/shorttitle
+  foottitle: "Data Literacy Slidecast"  # Enter HERE a title for footline
+  instructor: "FOM"  # ENTER here the presentator's/instructor's name
+output:
+  xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
+    lib_dir: libs
+    css: ["footer-header.css", "xafom.css"]
+    nature:
+      titleSlideClass: [middle, right]
+      ratio: "4:3"  # Note that currently only 4:3 format is supported
+      highlightLines: true
+---
+
+
+layout: true
+  
+<div class="my-header"></div>
+
+<!-- the following lines define the header and the footer line: -->
+<div class="my-footer"><span>`r params$semester`    
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+`r params$instructor` | `r params$foottitle` </span></div> 
+
+<div class="footer-line"></div>
+
+
+
+```{r setup, include=FALSE}
+library(emojifont)
+library(mosaic)
+
+theme.fom <- theme_classic(22*1.04)
+theme.fom <- theme.fom
+theme_set(
+  theme.fom  
+)
+#options(scipen=999)
+
+data(tips, package = "reshape2")
+set.seed(1896)
+tips_train <- tips %>%
+  sample_n(160) %>%
+  select(time, size, total_bill)
+
+tips_test <- tips %>%
+  sample_n(80) %>%
+  select(time, size, total_bill)
+
+tips_anwendung <- tips_test %>%
+  select(-total_bill)
+
+```
+
+---
+
+## Inhalt
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
+ggplot() + geom_emoji("woman_teacher") + theme_void()
+```
+
+
+Thema dieses R Special: 
+
+- RStudio Projekte
+
+- R Markdown
+
+<br> <br>
+
+Mehr Infos z. B. unter:
+
+
+- [https://ismayc.github.io/rbasics-book/](https://ismayc.github.io/rbasics-book/)
+
+- [https://bookdown.org/yihui/rmarkdown/](https://bookdown.org/yihui/rmarkdown/)
+
+---
+
+## RStudio Projekte
+
+Vorteile von Projekten (u.a.):
+
+- *Sammelplatz* für Daten, Programme, Ergebnisse
+
+- Ordner- und Pfadstruktur
+
+- Möglichkeiten der Versionskontrolle
+
+<br>
+
+Erstellen von Projekten:
+
+- RStudio Desktop: `File` $\rightarrow$ `New Project...` $\rightarrow$ `New Directory` $\rightarrow$ `New Project` $\rightarrow$ `Create Project`
+
+- RStudio Cloud: `Your Workspace` $\rightarrow$ `New Project`
+
+---
+
+## R Markdown
+
+Vorteile von R Markdown (u.a.):
+
+- Transparente, reproduzierbare Analysen
+
+- Fokus auf Inhalt und Analyse
+
+- Viele Ausgabeformate möglich
+
+- Viele Formatvorlagen erhältlich
+
+<br>
+
+Neues R Markdown:
+
+- `File` $\rightarrow$ `New File...` $\rightarrow$ `R Markdown...`
