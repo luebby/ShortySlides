@@ -5,7 +5,7 @@ author: "`r params$instructor`"  # Do NOT change this line
 date: "`r params$semester`"  # Do NOT change this line
 params:
   module: "Data Literacy Education"  # Enter HERE the name of the presentation/course/module
-  semester: "R Special 1: RStudio Projeke und R Markdown"   # Enter HERE the date/semester/term
+  semester: "R Special 3: Arbeiten in R Markdown"   # Enter HERE the date/semester/term
   shorttitle: ""  # Enter HERE a subtitle/shorttitle
   foottitle: "Data Literacy Slidecast"  # Enter HERE a title for footline
   instructor: "FOM"  # ENTER here the presentator's/instructor's name
@@ -73,65 +73,12 @@ ggplot() + geom_emoji("woman_teacher") + theme_void()
 
 Thema dieses R Special: 
 
-- RStudio Projekte
 
-- R Markdown
+- Arbeiten in R Markdown Teil 2
 
-erstellen.
-
-<br> <br>
-
-Mehr Infos z. B. unter:
-
-
-- [https://ismayc.github.io/rbasics-book/](https://ismayc.github.io/rbasics-book/)
-
-- [https://bookdown.org/yihui/rmarkdown/](https://bookdown.org/yihui/rmarkdown/)
-
----
-
-## RStudio Projekte
-
-Vorteile von Projekten (u.a.):
-
-- *Sammelplatz* für Daten, Programme, Ergebnisse
-
-- Ordner- und Pfadstruktur
-
-- Möglichkeiten der Versionskontrolle
+  - Elementare Formatierungen
+  
 
 <br>
 
-Erstellen von Projekten:
-
-- RStudio Desktop: `File` $\rightarrow$ `New Project...` $\rightarrow$ `New Directory` $\rightarrow$ `New Project` $\rightarrow$ `Create Project`
-
-- RStudio Cloud: `Your Workspace` $\rightarrow$ `New Project`
-
----
-
-## R Markdown
-
-Vorteile von R Markdown (u.a.):
-
-- Transparente, reproduzierbare Analysen
-
-- Fokus auf Inhalt und Analyse
-
-- Viele Ausgabeformate möglich
-
-- Viele Formatvorlagen erhältlich
-
-<br>
-
-Neues R Markdown:
-
-- `File` $\rightarrow$ `New File...` $\rightarrow$ `R Markdown...`
-
-<br> <br>
-
-**Führen Sie die Schritte selber aus.**
-
-<br>
-
-*Fortsetzung folgt.*
+**Hinweis**: Dies ist eine Fortsetzung vom Special 1 & 2.
