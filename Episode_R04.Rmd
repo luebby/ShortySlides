@@ -88,7 +88,7 @@ Thema dieses R Special:
 
 Mögliche weitere Frage:
 
-- Wo sehen ggf. die Variablennamen?
+- Wo stehen ggf. die Variablennamen?
 
 - Welchen Datentrennzeichen usw. wird verwendet?
 
