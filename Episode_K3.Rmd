@@ -1,0 +1,350 @@
+---
+title: "`r params$module`"  # Do NOT change this line
+subtitle: "`r params$shorttitle`"  # Do NOT change this line
+author: "`r params$instructor`"  # Do NOT change this line
+date: "`r params$semester`"  # Do NOT change this line
+params:
+  module: "Data Literacy Education"  # Enter HERE the name of the presentation/course/module
+  semester: "Kausale Inferenz - Episode 3"   # Enter HERE the date/semester/term
+  shorttitle: ""  # Enter HERE a subtitle/shorttitle
+  foottitle: "Data Literacy Slidecast"  # Enter HERE a title for footline
+  instructor: "Karsten Lübke"  # ENTER here the presentator's/instructor's name
+output:
+  xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
+    lib_dir: libs
+    css: ["footer-header.css", "xafom.css"]
+    nature:
+      titleSlideClass: [middle, right]
+      ratio: "4:3"  # Note that currently only 4:3 format is supported
+---
+
+
+layout: true
+  
+<div class="my-header"></div>
+
+<!-- the following lines define the header and the footer line: -->
+<div class="my-footer"><span>`r params$semester`    
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+`r params$instructor` | `r params$foottitle` </span></div> 
+
+<div class="footer-line"></div>
+
+
+
+```{r setup, include=FALSE}
+library(emojifont)
+library(knitr)
+
+library(ggdag)
+
+
+# House Price
+co <- data.frame(x=c(0,0,1), y=c(1,0,0), name=c("C", "X", "Y")) 
+
+DAG_Immo <- dagify(X ~ C,
+       Y ~ X,
+       Y ~ C, coords = co) %>% 
+  ggdag(node_size = 20, text_size = 8, text = TRUE, text_col = "lightgray") + theme_dag_blank() +
+  geom_dag_edges(arrow_directed = grid::arrow(length = grid::unit(15, "pt"), type = "closed"))  + 
+  geom_text(label = "C - Living area\nX - Bedrooms \nY - Price", 
+            hjust = 1, vjust = 1,
+            x = 1, y = 1, size = 7, color = "darkgrey")
+
+# Dating
+co <- data.frame(x=c(0,1,2), y=c(1,0,1), name=c("Y","C","X"))
+
+DAG_Date <- dagify(C ~ Y,
+                  C ~ X, coords = co) %>% 
+  ggdag(node_size = 20, text_size = 8, text = TRUE, text_col = "lightgray") + theme_dag_blank() +
+  geom_dag_edges(arrow_directed = grid::arrow(length = grid::unit(15, "pt"), type = "closed"))  + 
+  geom_text(label = "Y - Looking\nX - Kindness\nC - Date",
+            hjust = 0.5, vjust = 1,
+            x = 1, y = 1, size = 7, color = "darkgrey")
+
+library(mosaic)
+
+theme.fom <- theme_classic(22*1.04)
+theme.fom <- theme.fom
+theme_set(
+  theme.fom  
+)
+options(scipen=999)
+
+
+```
+
+---
+
+class: center, inverse, middle
+
+# Episode 3: Beispiele
+
+---
+
+## Wiederholung: Theorie
+
+- $X \rightarrow Y: \quad Y=f(X, U_Y)$ mit einer Funktion $f(\cdot)$ und exogenen $U$. 
+
+- Der Wert von $Y$ hängt (kausal) ab von $X$ - aber der Wert von $X$ **nicht** von $Y$. 
+
+- Kausal gibt es keine Inverse $f^{-1}(\cdot)$. Mein Gewicht ändert sich mit der Größe, aber leider nicht meine Größe mit meinem Gewicht.
+
+<br>
+
+
+
+| Pfad                       | $X \rightarrow C \rightarrow Y$ | $X \leftarrow C \rightarrow Y$ | $X \rightarrow C \leftarrow Y$ 
+| ---------------------------|---------------------------------|--------------------------------|------------------------------|
+| Name                       | Chain                           | Fork                           | Collider         
+| Assoziation $X$ uo $Y$     | Kausal                          | Nich-Kausal                    | Keine                       
+| Adjustierung $C$           | Blockiert kausalen Pfad         | Blockiert nicht-kausalen Pfad  | Öffnet nicht-kausalen Pfad
+
+<br>
+
+**Idee**: Um die Veränderung von $y$ zu schätzen, wenn $x$ verändert wird - sofern möglich! Blockiere nicht-kausale Pfade, öffne kausale Pfade und öffne keine verzerrenden Pfade.
+
+
+
+---
+
+class: center, inverse, middle
+
+# Ein erstes simuliertes Beispiel
+
+
+---
+
+## Datengenerierender Prozess
+
+.pull-left[
+$$ X = U_X, \quad U_X \sim \mathcal{N}(0,\,1),$$
+$$Y = X +  U_Y, \quad U_Y \sim \mathcal{N}(0,\,1),$$
+$$Z = Y + U_Z, \quad U_Z \sim \mathcal{N}(0,\,0.1).$$
+wobei $\mathcal{N}(\mu,\,\sigma)$ für eine Normalverteilung mit Mittelwert $\mu$ und Varianz $\sigma^2$ steht.
+]
+
+.pull-right[
+In `R`:
+
+```{r}
+set.seed(1896)
+x <- rnorm(100, mean = 0, sd = 1)
+y <- x + rnorm(100, mean = 0, sd = 1)
+z <- y + rnorm(100, mean = 0, sd = 0.1)
+```
+
+```{r, include=FALSE}
+set.seed(1896)
+x <- rnorm(100)
+y <- x + rnorm(100)
+z <- y + rnorm(100, sd = 0.1)
+Chain <- data.frame(x=x, y=y, z=z)
+```
+]
+
+Also **kausal**: 
+
+<br>
+
+$$X \rightarrow Y \rightarrow Z$$
+
+**Beachte**: $Y$ steht in der Mitte der Chain - nicht am Ende.
+
+<br>
+
+.small[Idee: [https://fabiandablander.com/r/Causal-Inference](https://fabiandablander.com/r/Causal-Inference)]
+
+---
+
+## Modellierung
+
+.center[Modellierung von $y$ durch $x$ oder $z$]
+
+.pull-left[
+```{r, echo=FALSE, fig.align="center", out.width="90%", fig.asp = 0.8}
+gf_point(y~x, data = Chain) %>% gf_lims(x=c(-6,6)) %>% gf_vline(xintercept = ~2, linetype = "dashed") %>%
+  gf_lm(interval = "prediction")
+```
+]
+
+.pull-right[
+```{r, echo=FALSE, fig.align="center", out.width="90%", fig.asp = 0.8}
+gf_point(y~z, data = Chain) %>% gf_lims(x=c(-6,6)) %>% gf_vline(xintercept = ~2, linetype = "dashed") %>%
+  gf_lm(interval = "prediction")
+```
+]
+
+
+---
+
+## Bedingte und unbedingte Verteilung (Association)
+
+.center[Marginale, d. h. unbedingte Verteilung von $y$]
+
+```{r echo=FALSE, out.width = "30%", fig.asp = 0.8, fig.align="center"}
+gf_dist("norm", params = list(sd=sqrt(2))) %>% 
+  gf_labs(x="y", y="f(y)") %>% 
+  gf_lims(x=c(-6,6))
+```
+
+
+.pull-left[
+Bedingte Verteilung von $y$, wenn $x=2$ **beobachtet** wird
+```{r echo=FALSE, out.width = "60%", fig.asp = 0.8, fig.align="center"}
+gf_dist("norm", params = list(mean=2, sd=1)) %>% 
+  gf_labs(x="y", y="f(y|x=2)") %>% 
+  gf_lims(x=c(-6,6))
+```
+]
+
+.pull-right[
+Bedingte Verteilung von $y$, wenn $z=2$ **beobachtet** wird
+```{r echo=FALSE, out.width = "60%", fig.asp = 0.8, fig.align="center"}
+gf_dist("norm", params = list(mean=2, sd=0.1)) %>% 
+  gf_labs(x="y", y="f(y|z=2)") %>% 
+  gf_lims(x=c(-6,6))
+```
+]
+
+
+---
+
+## Bedingte und unbedingte Verteilung (Intervention)
+
+.pull-left[
+Bedingte Verteilung von $y$, wenn $do(x)=2$ **gesetzt** wird
+```{r echo=FALSE, out.width = "60%", fig.asp = 0.8, fig.align="center"}
+gf_dist("norm", params = list(mean=2, sd=1)) %>% 
+  gf_labs(x="y", y="f(y|do(x)=2)") %>% 
+  gf_lims(x=c(-6,6))
+```
+]
+
+.pull-right[
+Bedingte Verteilung von $y$, wenn $do(z)=2$ **gesetzt** wird
+```{r echo=FALSE, out.width = "60%", fig.asp = 0.8, fig.align="center"}
+gf_dist("norm", params = list(mean=0, sd=sqrt(2))) %>% 
+  gf_labs(x="y", y="f(y|do(z)=2)") %>% 
+  gf_lims(x=c(-6,6))
+```
+]
+
+--
+
+<br>
+
+
+-  Bei Beobachtung: $z$ ist besser zur Prognsoe von $y$.
+
+-  Bei Manipulation: $x$ ist besser zur Prognsoe von $y$.
+
+
+
+---
+
+class: center, inverse, middle
+
+# Ein zweites simuliertes Beispiel
+
+
+---
+
+## Dating
+
+Stellen Sie sich vor: Sie daten jemanden, weil er / sie gut aussieht - oder nett ist.
+
+
+```{r echo=FALSE, out.width = "40%", fig.align="center"}
+DAG_Date
+```
+
+
+---
+
+## Datengenerierender Prozess
+
+$$X = U_X, \quad U_X \sim \mathcal{N}(0,\,1),$$
+$$Y = U_Y, \quad U_Y \sim \mathcal{N}(0,\,1),$$
+$$\widetilde{C} =\begin{cases} 1 & ,\, \text{wenn } \{ X > 1 \,\vee\, Y > 1\} \\ 0 & ,\, \text{sonst } \end{cases},$$
+$$C = (1-U_C) \cdot \widetilde{C} + U_C \cdot (1- \widetilde{C}), \quad U_C \sim \mathcal{B}(0.05).$$
+wobei $\mathcal{B}(\pi)$ für eine Bernoulli Verteilung mit Erfolgswahrscheinlichkeit $\pi$ steht.
+
+In `R`:
+
+```{r}
+set.seed(1896)
+
+kind<- rnorm(1000)
+look <- rnorm(1000)
+dating <- ((kind > 1) | (look > 1)) 
+luck <- rbinom(1000, size = 1, prob = 0.05)
+dating <- (1 - luck) * dating + luck * (1 - dating)
+```
+
+```{r, include=FALSE}
+Date <- data.frame(kind, look, dating=(dating==1))
+```
+
+
+---
+
+## Modellierung: Unbedingt (marginal)
+
+Modellierung Nettigkeit (`kind`) durch Aussehen (`look`):
+
+```{r echo=FALSE, out.width = "50%", fig.asp = 0.8, fig.align="center"}
+ggformula::gf_point(kind~look, data = Date) %>%
+  gf_lm() + ggthemes::scale_color_colorblind()
+```
+
+
+---
+
+## Modellierung: Bedingt 
+
+Modellierung Nettigkeit (`kind`) durch Aussehen (`look`), adjustiert für Date (`dating`):
+
+```{r echo=FALSE, out.width = "50%", fig.asp = 0.8, fig.align="center"}
+ggformula::gf_point(kind~look, color=~dating, data = Date) %>%
+  gf_lm() + ggthemes::scale_color_colorblind()
+```
+
+- Adjustiert für die gemeinsame Wirkung (Date) gibt es eine Assoziation zwischen den unabhängigen Ursachen Nettigkeit und Aussehen (**Berkson's Paradox**).
+
+
+
+
+---
+
+## Selektions / Collider Bias
+
+Modellierung Nettigkeit (`kind`) durch Aussehen (`look`), ausgewählt nach Date (`dating`):
+
+```{r echo=FALSE, out.width = "50%", fig.asp = 0.8, fig.align="center"}
+Dated <- Date %>% filter(dating==TRUE)
+ggformula::gf_point(kind~look, data = Dated) %>%
+  gf_lm() + ggthemes::scale_color_colorblind()
+```
+
+- Es gibt eine Assoziation zwischen den unabhängigen Ursachen Nettigkeit und Aussehen wenn man nur die auswählt, die man gedated hat.
+
+
+---
+
+## Versuchen Sie es selbst! Rauchen und Lungenvolumen
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+ggplot() + geom_emoji("computer") + theme_void()
+```
+
+<br>
+
+`learnr` Tutorial: [https://fomshinyapps.shinyapps.io/KausaleInferenz/](https://fomshinyapps.shinyapps.io/KausaleInferenz/)
+
+<br>
+
+*Fortsetzung folgt!*
