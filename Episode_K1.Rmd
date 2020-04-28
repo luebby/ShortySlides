@@ -1,0 +1,326 @@
+---
+title: "`r params$module`"  # Do NOT change this line
+subtitle: "`r params$shorttitle`"  # Do NOT change this line
+author: "`r params$instructor`"  # Do NOT change this line
+date: "`r params$semester`"  # Do NOT change this line
+params:
+  module: "Data Literacy Education"  # Enter HERE the name of the presentation/course/module
+  semester: "Kausale Inferenz - Episode 1"   # Enter HERE the date/semester/term
+  shorttitle: ""  # Enter HERE a subtitle/shorttitle
+  foottitle: "Data Literacy Slidecast"  # Enter HERE a title for footline
+  instructor: "Karsten Lübke"  # ENTER here the presentator's/instructor's name
+output:
+  xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
+    lib_dir: libs
+    css: ["footer-header.css", "xafom.css"]
+    nature:
+      titleSlideClass: [middle, right]
+      ratio: "4:3"  # Note that currently only 4:3 format is supported
+---
+
+
+layout: true
+  
+<div class="my-header"></div>
+
+<!-- the following lines define the header and the footer line: -->
+<div class="my-footer"><span>`r params$semester`    
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+`r params$instructor` | `r params$foottitle` </span></div> 
+
+<div class="footer-line"></div>
+
+
+
+```{r setup, include=FALSE}
+library(emojifont)
+library(knitr)
+
+library(ggdag)
+
+
+# House Price
+co <- data.frame(x=c(0,0,1), y=c(1,0,0), name=c("C", "X", "Y")) 
+
+DAG_Immo <- dagify(X ~ C,
+       Y ~ X,
+       Y ~ C, coords = co) %>% 
+  ggdag(node_size = 20, text_size = 8, text = TRUE, text_col = "lightgray") + theme_dag_blank() +
+  geom_dag_edges(arrow_directed = grid::arrow(length = grid::unit(15, "pt"), type = "closed"))  + 
+  geom_text(label = "C - Living area\nX - Bedrooms \nY - Price", 
+            hjust = 1, vjust = 1,
+            x = 1, y = 1, size = 7, color = "darkgrey")
+
+# Dating
+co <- data.frame(x=c(0,1,2), y=c(1,0,1), name=c("Y","C","X"))
+
+DAG_Date <- dagify(C ~ Y,
+                  C ~ X, coords = co) %>% 
+  ggdag(node_size = 20, text_size = 8, text = TRUE, text_col = "lightgray") + theme_dag_blank() +
+  geom_dag_edges(arrow_directed = grid::arrow(length = grid::unit(15, "pt"), type = "closed"))  + 
+  geom_text(label = "Y - Looking\nX - Kindness\nC - Date",
+            hjust = 0.5, vjust = 1,
+            x = 1, y = 1, size = 7, color = "darkgrey")
+
+library(mosaic)
+
+theme.fom <- theme_classic(22*1.04)
+theme.fom <- theme.fom
+theme_set(
+  theme.fom  
+)
+options(scipen=999)
+
+
+```
+
+---
+
+class: center, inverse, middle
+
+# Episode 1: Motivation
+
+
+---
+
+
+## Data Literacy
+
+Ziel ist es mit Hilfe von Daten verantwortungsbewusst Erkenntnisse zu gewinnen und (bessere) Entscheidungen zu treffen.
+
+
+
+---
+
+## Was Sie lernen werden - oder vielleicht schon wissen?
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+ggplot() + geom_emoji("woman_teacher") + theme_void()
+```
+
+Um eine korrekte Schlussfolgerung oder Handlung auf Basis von multivariaten Beobachtungsdaten abzuleiten:
+
+- Daten sind nicht einfach da - sie haben einen Entstehungsprozess der wichtig ist.
+
+- Konfunder (Störvariablen) und Bias (Verzerrung) sind Herausforderungen für eine kausale Inferenz.
+
+- Adjustierung und nicht-Adjustierung können gute oder schlechte Ideen für eine kausale Inferenz sein.
+
+- Quantitative Modelldiagnosen können für eine kausale Inferenz nicht ausreichen.
+
+- Kausale Modelle und Directed Acyclic Graphs können helfen Theorie und Daten zu verbinden.
+
+---
+
+## Kausaler Effekt, Potential Outcome und Counterfactual
+
+Sei $X_i$ gleich $1$, für jemanden der diesen Slidecast guckt, $0$ sonst. Außerdem sei $Y_i$ das operationalisierte Wissen über Kausale Inferenz:
+
+- $Y_i^{|X_i=1}$: Wissen bei Teilnahme (Behandlungsgruppe).
+
+- $Y_i^{|X_i=0}$ Wissen bei nicht-Teilnahme (Kontrollgruppe).
+
+Was genau ist der (individuelle) kausale Effekt der Teilnahme, d.h. des gucken der Slidecast?
+
+--
+
+Z.B. gemäß Neyman–Rubin Kausalmodell:
+
+$$\Delta_i = Y_i^{|X_i=1} -  Y_i^{|X_i=0}$$ 
+
+
+Aber: Für jeden Einzelnen ( $i$ ) können wir nur eins der beiden potentiellen Ergebnisse (Potential Outcome) beobachten. Für *Sie*, der Sie dies Video gucken nur $y_i^{|x_i=1}$. Für *Sie* ist $y_i^{|x_i=0}$ das kontrafaktische (Counterfactual), nicht beobachtete, Ergebnis.
+
+Außerdem: Es kann Störvariablen geben, die $X$ und $Y$ beeinflussen, z.B. $C$, die Cleverness. Daher kann eine einfache Analyse von $\bar{\delta}$ verzerrt sein (Bias).
+
+In einer randomisierten kontrollierten Studie (RCT) erfolgt die Zuordnung von $i$ zu $x_i=0$ oder $1$ zufällig.
+
+---
+
+class: center, inverse, middle
+
+# Erstes Beispiel: Anzahl Schlafzimmer und Immobilienpreis
+
+
+---
+
+## Saratoga Houses
+
+Beobachtungsdaten über Immobilienpreise in Saratoga County, New York, USA aus dem Jahre 2006:
+
+```{r SaratogaSP, out.width = "35%", fig.align="center"}
+# Paket und Daten laden
+library(mosaic); data(SaratogaHouses)
+# Scatterplot
+gf_point(price ~ bedrooms, data = SaratogaHouses) %>%
+  gf_lm(interval = "prediction")
+```
+
+.small[Idee: [De Veaux (2019). *Data Science for All*](https://iase-web.org/conference/satellite19/docs/Data%20Science%20for%20All.pdf)]
+
+
+---
+
+## Preismodelierung meines Hauses mit 2-Schlafzimmer
+
+Lineares Modell: ${\text{price}}_i = {\beta}_0 + {\beta}_{\text{bedrooms}} \times \text{bedrooms}_i + \epsilon_i$:
+
+```{r}
+# Lineare Regression (Kleinste-Quadrtate)
+my.model <- lm(price ~ bedrooms, data = SaratogaHouses); my.model 
+```
+
+Also: $\hat{\beta}_{\text{bedrooms}}=`r round(coef(my.model)[2],2)`$
+
+--
+
+```{r}
+# Mein Haus: 2 Schlafzimmer; Punktprognose
+My.House <- data.frame(bedrooms = 2); predict(my.model, newdata = My.House)
+```
+
+$$\widehat{\text{price}}^{|\text{bedrooms}=2} \approx `r round(predict(my.model, newdata = My.House))`$$
+
+
+---
+
+## Mit Daten zu Geld kommen (?)
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+ggplot() + geom_emoji("money_mouth_face") + theme_void()
+```
+
+Teile ein Schlafzimmer in drei Teile!
+
+--
+
+```{r}
+# Mein umgebautes Haus mit jetzt 4 Schlafzimmern
+My.NewHouse <- data.frame(bedrooms = 4)
+# Meine Preissteigerung?
+predict(my.model, newdata = My.NewHouse) - predict(my.model, newdata = My.House)
+```
+
+Da - gemäß Modell:
+
+$$\widehat{\text{price}}^{|\text{bedrooms}=4} - \widehat{\text{price}}^{|\text{bedrooms}=2} = (4-2) \times \hat{\beta}_{\text{bedrooms}}=`r 2*round(coef(my.model)[2],2)`$$
+
+---
+
+## Wirklich?
+
+Steigt der Wert meines Hauses um $\approx 100.000$ Dollar, wenn ich ein Schlafzimmer in drei Räume aufteile?
+
+--
+
+.center[<iframe src="https://giphy.com/embed/xTiTnHXbRoaZ1B1Mo8" width="480" height="271" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>]
+
+.small[[via GIPHY](https://giphy.com/gifs/debate-donald-trump-septgopdebate2015-xTiTnHXbRoaZ1B1Mo8)]
+
+
+---
+
+## Kausale Modell
+
+Die Anzahl der Zimmer hängt ab von der Größe des Hauses - genau wie der Preis. Dies ist eine fehlende (confounding / lurking) Variable:
+
+```{r echo=FALSE, out.width = "40%", fig.align="center"}
+DAG_Immo
+```
+
+
+---
+
+## Verzerrung durch ausgelassene Variablen
+
+Ok, **adjustieren** wir durch die Hausgröße (`livingArea`):
+
+```{r}
+my.adj.model <- lm(price ~ bedrooms + livingArea, data = SaratogaHouses); my.adj.model
+```
+
+Jetzt: $\hat{\beta}_{\text{bedrooms}}=`r round(coef(my.adj.model)[2],2)`$ (anstelle von $\hat{\beta}_{\text{bedrooms}}=`r round(coef(my.model)[2],2)`$ unadjustiert, d. h. ohne`livingArea`). Der Preis fällt - und steigt nicht (**Simpson's Paradox**).
+
+
+<br>
+
+--
+
+*Hey, kann ich nicht ein modernes Verfahren mit allen Variablen nehmen?*
+
+
+---
+
+## Cooles Machine-Learning Verfahren
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+ggplot() + geom_emoji("thinking") + theme_void()
+```
+
+.center[*Hey, kann ich nicht ein modernes Verfahren mit allen Variablen nehmen?*]
+
+.small[Z. B.: `mlr3`: A modern object-oriented machine learning framework in `R` ([Lang et al., 2019](https://joss.theoj.org/papers/10.21105/joss.01903))]
+
+--
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+ggplot() + geom_emoji("cry") + theme_void()
+```
+
+Dummerweise: Je nach Fragestellung kann es sein, dass quantitative Modellgütemaße wie z. B. kreuzvalidierte Fehlerrate **nicht** verraten, welches Modell für eine kausale Inferenz geeignet ist.
+
+
+---
+
+## Fallstricke
+
+[Smith und Cordes (2019). *The 9 Pitfalls of Data Science*](https://global.oup.com/academic/product/the-9-pitfalls-of-data-science-9780198844396):
+
+1.  Using Bad Data
+
+2.  Putting Data Before Theory
+
+3.  Worshipping Math
+
+4.  Worshipping Computers
+
+5.  Torturing Data
+
+6.  Fooling Yourself
+
+7.  Confusing Correlation with Causation
+
+8.  Being Surprised by Regression Toward the Mean
+
+9.  Doing Harm
+
+
+---
+
+## Versuchen Sie es selbst! Gender Pay Gap
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+ggplot() + geom_emoji("computer") + theme_void()
+```
+
+<br>
+
+Entwickeln Sie ein einfaches Modell für den Gender Pay Gap mit [http://dagitty.net/dags.html](http://dagitty.net/dags.html)
+
+- Neuer Graph: `Model -> New Model`
+
+- Um eine Variable hinzuzufügen: Klick auf die Leinwand
+
+- Um einen Pfeil hinzuzufügen: Klick auf die Ursache, klick auf die Wirkung.
+
+*Fortsetzung folgt!*
+
+
+
+
+
+
+
