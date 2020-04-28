@@ -185,7 +185,7 @@ ggplot() + geom_emoji("computer") + theme_void()
 
 .center[Angenommenes Modell]
 
-```{r echo=FALSE, out.width = "40%", fig.align="center"}
+```{r echo=FALSE, out.width = "25%", fig.align="center"}
 include_graphics("img/GPG.png")
 ```
 
@@ -194,3 +194,6 @@ include_graphics("img/GPG.png")
 Was bedeutet dieses Modell für das Schätzen des kausalen Effektes des Geschlechts auf das Gehalt?
 
 
+<br>
+
+*Fortsetzung folgt!*
