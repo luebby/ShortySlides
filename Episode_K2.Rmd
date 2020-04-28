@@ -1,0 +1,196 @@
+---
+title: "`r params$module`"  # Do NOT change this line
+subtitle: "`r params$shorttitle`"  # Do NOT change this line
+author: "`r params$instructor`"  # Do NOT change this line
+date: "`r params$semester`"  # Do NOT change this line
+params:
+  module: "Data Literacy Education"  # Enter HERE the name of the presentation/course/module
+  semester: "Kausale Inferenz - Episode 2"   # Enter HERE the date/semester/term
+  shorttitle: ""  # Enter HERE a subtitle/shorttitle
+  foottitle: "Data Literacy Slidecast"  # Enter HERE a title for footline
+  instructor: "Karsten Lübke"  # ENTER here the presentator's/instructor's name
+output:
+  xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
+    lib_dir: libs
+    css: ["footer-header.css", "xafom.css"]
+    nature:
+      titleSlideClass: [middle, right]
+      ratio: "4:3"  # Note that currently only 4:3 format is supported
+---
+
+
+layout: true
+  
+<div class="my-header"></div>
+
+<!-- the following lines define the header and the footer line: -->
+<div class="my-footer"><span>`r params$semester`    
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+`r params$instructor` | `r params$foottitle` </span></div> 
+
+<div class="footer-line"></div>
+
+
+
+```{r setup, include=FALSE}
+library(emojifont)
+library(knitr)
+
+library(ggdag)
+
+
+# House Price
+co <- data.frame(x=c(0,0,1), y=c(1,0,0), name=c("C", "X", "Y")) 
+
+DAG_Immo <- dagify(X ~ C,
+       Y ~ X,
+       Y ~ C, coords = co) %>% 
+  ggdag(node_size = 20, text_size = 8, text = TRUE, text_col = "lightgray") + theme_dag_blank() +
+  geom_dag_edges(arrow_directed = grid::arrow(length = grid::unit(15, "pt"), type = "closed"))  + 
+  geom_text(label = "C - Living area\nX - Bedrooms \nY - Price", 
+            hjust = 1, vjust = 1,
+            x = 1, y = 1, size = 7, color = "darkgrey")
+
+# Dating
+co <- data.frame(x=c(0,1,2), y=c(1,0,1), name=c("Y","C","X"))
+
+DAG_Date <- dagify(C ~ Y,
+                  C ~ X, coords = co) %>% 
+  ggdag(node_size = 20, text_size = 8, text = TRUE, text_col = "lightgray") + theme_dag_blank() +
+  geom_dag_edges(arrow_directed = grid::arrow(length = grid::unit(15, "pt"), type = "closed"))  + 
+  geom_text(label = "Y - Looking\nX - Kindness\nC - Date",
+            hjust = 0.5, vjust = 1,
+            x = 1, y = 1, size = 7, color = "darkgrey")
+
+library(mosaic)
+
+theme.fom <- theme_classic(22*1.04)
+theme.fom <- theme.fom
+theme_set(
+  theme.fom  
+)
+options(scipen=999)
+
+
+```
+
+---
+
+class: center, inverse, middle
+
+# Episode 2: Theoretische Grundlagen
+
+
+---
+
+## Stufen der kausalen Inferenz
+
+
+Bei [Pearl (2019)](https://doi.org/10.1145/3241036) gibt es drei Stufen:
+
+1. **Association**: $P(y|x)$: Beobachten: *was ist?*, d. h., die Wahrscheinlichkeit von $Y=y$ wenn wir $X=x$ beobachten.
+
+2. **Intervention**: $P(y|do(x))$: Manipulation: *was wäre?*, d. h., die Wahrscheinlichkeit von $Y=y$ wenn wir eingreifen und denn Wert von $X$ auf $x$ setzen.
+
+3. **Counterfactual**: $P(y_x|x',y')$: Vorstellung: *was wäre gewesen?*,  d. h., die Wahrscheinlichkeit von  $Y=y$ wenn $X$ gleich $x$ gewesen wäre, anstelle der tatsächlichen Beobachtung $x',y'$.
+
+---
+
+## Theorie
+
+- $X \rightarrow Y: \quad Y=f(X, U_Y)$ mit einer Funktion $f(\cdot)$ und exogenen $U$. 
+
+- Der Wert von $Y$ hängt (kausal) ab von $X$ - aber der Wert von $X$ **nicht** von $Y$. 
+
+- Kausal gibt es keine Inverse $f^{-1}(\cdot)$. Mein Gewicht ändert sich mit der Größe, aber leider nicht meine Größe mit meinem Gewicht.
+
+<br>
+
+
+
+| Pfad                       | $X \rightarrow C \rightarrow Y$ | $X \leftarrow C \rightarrow Y$ | $X \rightarrow C \leftarrow Y$ 
+| ---------------------------|---------------------------------|--------------------------------|------------------------------|
+| Name                       | Chain                           | Fork                           | Collider         
+| Assoziation $X$ uo $Y$     | Kausal                          | Nich-Kausal                    | Keine                       
+| Adjustierung $C$           | Blockiert kausalen Pfad         | Blockiert nicht-kausalen Pfad  | Öffnet nicht-kausalen Pfad
+
+<br>
+
+**Idee**: Um die Veränderung von $y$ zu schätzen, wenn $x$ verändert wird - sofern möglich! Blockiere nicht-kausale Pfade, öffne kausale Pfade und öffne keine verzerrenden Pfade.
+
+
+---
+
+## Bedingte und unbedingte Unabhängigkeit
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+ggplot() + geom_emoji("sunny") + theme_void()
+```
+
+**Beispiel**: Sonnencreme  $\leftarrow$ Sonnenschein  $\rightarrow$ Eis
+
+  - Wenn ich Sonnencreme kenne, lerne ich über Sonnenschein etwas über Eis. Unbedingt (marginal) sind Sonnencreme und Eis nicht unabhängig. Formal: $X \not\!\perp\!\!\!\perp Y$
+  
+  - Wenn ich Sonnenschein kenne lerne ich nichts neues über Eis wenn ich Sonnencreme kenne. Bedingt Sonnenschein sind sind Sonnencreme und Eis unabhängig. Formal: $X{\perp\!\!\!\perp}Y|C$
+
+
+---
+
+## Mehr über bedingte und unbedingte Unabhängigkeit
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+ggplot() + geom_emoji("sleeping") + theme_void()
+```
+
+**Beispiel**: Wochenenende  $\rightarrow$ Ausschlafen  $\leftarrow$ Ferien
+
+  - Übers Wochenden lerne ich nichts über Ferien. Unbedingt (marginal) sind Wochenende und Ferien unabhängig. Formal: $X{\perp\!\!\!\perp}Y$
+  
+  - Wenn ich ausschlafen kann und es ist kein Wochenende, lerne ich etwas über Ferien (es müssen welche sein). Bedingt Ausschlafen sind die Variablen nicht unabhängig. Formal: $X \not\!\perp\!\!\!\perp Y|C$
+  
+
+---
+
+## Mehr zu Chains, Forks, Collider und Graphen
+
+Funktion von $C$:
+
+- $X \rightarrow C \rightarrow Y$: $C$ ist ein Mediator zwischen $X$ und $Y$.
+
+- $X \leftarrow C \rightarrow Y$: $C$ ist eine gemeinsame Ursache von $X$ und $Y$.
+
+- $X \rightarrow C \leftarrow Y$ : $C$ ist eine gemeinsam Wirkung von $X$ und $Y$.
+
+<br>
+
+Elemente eines Graphen:
+
+- Alle Variablen mit einem Pfeil in $Z$ heißen Eltern von $Z$.
+
+- Alle Variablen mit einem Pfeil von $Z$ heißen Kinder von $Z$.
+
+- Kein Pfeil zwischen zwei Variablen heißt, dass es keine direkte Assoziation zwischen diesen gibt.
+
+
+---
+
+## Versuchen Sie es selbst! Gender Pay Gap
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+ggplot() + geom_emoji("computer") + theme_void()
+```
+
+.center[Angenommenes Modell]
+
+```{r echo=FALSE, out.width = "40%", fig.align="center"}
+include_graphics("img/GPG.png")
+```
+
+.small[Erstellt mit [DAGitty](http://dagitty.net/)]
+
+Was bedeutet dieses Modell für das Schätzen des kausalen Effektes des Geschlechts auf das Gehalt?
+
+
