@@ -152,7 +152,7 @@ class: center, inverse, middle
 Data on houses in Saratoga County, New York, USA in 2006. Analysis in `R`:
 
 ```{r SaratogaSP, out.width = "35%", fig.align="center"}
-# Load library and read in data 
+# Load package and read in data 
 library(mosaic); data(SaratogaHouses)
 # Scatterplot
 gf_point(price ~ bedrooms, data = SaratogaHouses) %>%
