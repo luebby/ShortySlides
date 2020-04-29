@@ -126,8 +126,8 @@ class: center, inverse, middle
 
 Fiktiv: 
 
-- Intelligenz ( $C$ ) verkürzt nötige Lernzeit ( $X$ ) und erhöht Klausurpunkte ( $Y$ )
-- Lernzeit ( $X$ ) erhöht Klausurpunkte ( $Y$ )
+- *Intelligenz* ( $C$ ) verkürzt nötige *Lernzeit* ( $X$ ) und erhöht *Klausurpunkte* ( $Y$ )
+- *Lernzeit* ( $X$ ) erhöht *Klausurpunkte* ( $Y$ )
 
 
 ```{r echo=FALSE, out.width = "40%", fig.align="center"}
@@ -222,13 +222,13 @@ test.score.exper <- 0.5 * intelligence + 0.1 * learning.time.exper + rnorm(1000)
 ## Auswirkungen randomisiertes Experiment
 
 
-Z.B.Ausgleich der Verteilung der Kovariablen:
+Z. B. Ausgleich der Verteilung der Kovariablen:
 
 ```{r}
 mean(intelligence ~ learning.time.exper)
 ```
 
-Insbesondere: unverzerrte Schätzung des kausalen Effektes möglich:
+Insbesondere: unverzerrte Schätzung des kausalen Effekts möglich:
 
 ```{r}
 lm(test.score.exper ~ learning.time.exper) 
@@ -270,7 +270,7 @@ Um eine korrekte Schlussfolgerung oder Handlung auf Basis von multivariaten Beob
 
 - Daten sind nicht einfach da - sie haben einen Entstehungsprozess der wichtig ist.
 
-- Konfunder (Störvariablen) und Bias (Verzerrung) sind Herausforderungen für eine kausale Inferenz.
+- Konfounder (Störvariablen) und Bias (Verzerrung) sind Herausforderungen für eine kausale Inferenz.
 
 - Adjustierung und nicht-Adjustierung können gute oder schlechte Ideen für eine kausale Inferenz sein.
 
@@ -298,9 +298,9 @@ Einige Referenzen:
 
 <br> 
 
-Es gibt diverse `R` Pakete, z. B. [`ggdag`](https://ggdag.netlify.com/).
+Es gibt diverse `R`-Pakete, z. B. [`ggdag`](https://ggdag.netlify.com/).
 
-.small[Es gibt weitere Ansätze zur kausalen Inferenz, z.B. innerhalb des Potential Outcome Frameworks, Instrumental Variables, Regression Discontinuity Designs, Natural Experiments, ...]
+.small[Es gibt weitere Ansätze zur kausalen Inferenz, z. B. innerhalb des *Potential Outcome Frameworks*, *Instrumental Variables*, *Regression Discontinuity Designs*, *Natural Experiments*, ...]
 
 
 ---
