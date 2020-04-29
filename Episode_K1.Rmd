@@ -118,24 +118,24 @@ Um eine korrekte Schlussfolgerung oder Handlung auf Basis von multivariaten Beob
 
 ## Kausaler Effekt, Potential Outcome und Counterfactual
 
-Sei $X_i$ gleich $1$, für jemanden der diesen Slidecast guckt, $0$ sonst. Außerdem sei $Y_i$ das operationalisierte Wissen über Kausale Inferenz:
+Sei $X_i$ gleich $1$, für jemanden der diesen Slidecast anschaut, $0$ sonst. Außerdem sei $Y_i$ das operationalisierte Wissen über Kausale Inferenz:
 
 - $Y_i^{|X_i=1}$: Wissen bei Teilnahme (Behandlungsgruppe).
 
 - $Y_i^{|X_i=0}$ Wissen bei nicht-Teilnahme (Kontrollgruppe).
 
-Was genau ist der (individuelle) kausale Effekt der Teilnahme, d.h. des gucken der Slidecast?
+Was genau ist der (individuelle) kausale Effekt der Teilnahme, d. h. des Schauens der Slidecast?
 
 --
 
-Z.B. gemäß Neyman–Rubin Kausalmodell:
+Z. B. gemäß Neyman–Rubin Kausalmodell:
 
 $$\Delta_i = Y_i^{|X_i=1} -  Y_i^{|X_i=0}$$ 
 
 
-Aber: Für jeden Einzelnen ( $i$ ) können wir nur eins der beiden potentiellen Ergebnisse (Potential Outcome) beobachten. Für *Sie*, der Sie dies Video gucken nur $y_i^{|x_i=1}$. Für *Sie* ist $y_i^{|x_i=0}$ das kontrafaktische (Counterfactual), nicht beobachtete, Ergebnis.
+Aber: Für jeden Einzelnen ( $i$ ) können wir nur eins der beiden potentiellen Ergebnisse (Potential Outcome) beobachten. Für *Sie*, der Sie dies Video schauen nur $y_i^{|x_i=1}$. Für *Sie* ist also $y_i^{|x_i=0}$ das kontrafaktische (Counterfactual), nicht beobachtete, Ergebnis.
 
-Außerdem: Es kann Störvariablen geben, die $X$ und $Y$ beeinflussen, z.B. $C$, die Cleverness. Daher kann eine einfache Analyse von $\bar{\delta}$ verzerrt sein (Bias).
+Außerdem: Es kann Störvariablen geben, die $X$ und $Y$ beeinflussen, z. B. $C$, die *Cleverness*. Daher kann eine einfache Analyse von $\bar{\delta}$ verzerrt sein (Bias).
 
 In einer randomisierten kontrollierten Studie (RCT) erfolgt die Zuordnung von $i$ zu $x_i=0$ oder $1$ zufällig.
 
@@ -165,7 +165,7 @@ gf_point(price ~ bedrooms, data = SaratogaHouses) %>%
 
 ---
 
-## Preismodelierung meines Hauses mit 2-Schlafzimmer
+## Preismodelierung meines Hauses mit 2 Schlafzimmern
 
 Lineares Modell: ${\text{price}}_i = {\beta}_0 + {\beta}_{\text{bedrooms}} \times \text{bedrooms}_i + \epsilon_i$:
 
@@ -205,7 +205,7 @@ My.NewHouse <- data.frame(bedrooms = 4)
 predict(my.model, newdata = My.NewHouse) - predict(my.model, newdata = My.House)
 ```
 
-Da - gemäß Modell:
+Da, gemäß Modell:
 
 $$\widehat{\text{price}}^{|\text{bedrooms}=4} - \widehat{\text{price}}^{|\text{bedrooms}=2} = (4-2) \times \hat{\beta}_{\text{bedrooms}}=`r 2*round(coef(my.model)[2],2)`$$
 
@@ -224,9 +224,9 @@ Steigt der Wert meines Hauses um $\approx 100.000$ Dollar, wenn ich ein Schlafzi
 
 ---
 
-## Kausale Modell
+## Kausales Modell
 
-Die Anzahl der Zimmer hängt ab von der Größe des Hauses - genau wie der Preis. Dies ist eine fehlende (confounding / lurking) Variable:
+Die Anzahl der Zimmer hängt ab von der Größe des Hauses - genau wie der Preis. Dies ist eine fehlende (*confounding* / *lurking*) Variable:
 
 ```{r echo=FALSE, out.width = "40%", fig.align="center"}
 DAG_Immo
@@ -243,7 +243,7 @@ Ok, **adjustieren** wir durch die Hausgröße (`livingArea`):
 my.adj.model <- lm(price ~ bedrooms + livingArea, data = SaratogaHouses); my.adj.model
 ```
 
-Jetzt: $\hat{\beta}_{\text{bedrooms}}=`r round(coef(my.adj.model)[2],2)`$ (anstelle von $\hat{\beta}_{\text{bedrooms}}=`r round(coef(my.model)[2],2)`$ unadjustiert, d. h. ohne`livingArea`). Der Preis fällt - und steigt nicht (**Simpson's Paradox**).
+Jetzt: $\hat{\beta}_{\text{bedrooms}}=`r round(coef(my.adj.model)[2],2)`$ (anstelle von $\hat{\beta}_{\text{bedrooms}}=`r round(coef(my.model)[2],2)`$ unadjustiert, d. h. ohne `livingArea`). Der Preis fällt - und steigt nicht (**Simpson's Paradox**).
 
 
 <br>
@@ -255,7 +255,7 @@ Jetzt: $\hat{\beta}_{\text{bedrooms}}=`r round(coef(my.adj.model)[2],2)`$ (anste
 
 ---
 
-## Cooles Machine-Learning Verfahren
+## Cooles Machine-Learning-Verfahren
 
 ```{r, echo= FALSE , out.width = "15%", fig.align="center"}
 ggplot() + geom_emoji("thinking") + theme_void()
@@ -271,7 +271,9 @@ ggplot() + geom_emoji("thinking") + theme_void()
 ggplot() + geom_emoji("cry") + theme_void()
 ```
 
-Dummerweise: Je nach Fragestellung kann es sein, dass quantitative Modellgütemaße wie z. B. kreuzvalidierte Fehlerrate **nicht** verraten, welches Modell für eine kausale Inferenz geeignet ist.
+Dummerweise: 
+
+Je nach Fragestellung kann es sein, dass quantitative Modellgütemaße wie z. B. kreuzvalidierte Fehlerrate **nicht** verraten, welches Modell für eine kausale Inferenz geeignet ist.
 
 
 ---
@@ -315,7 +317,7 @@ Entwickeln Sie ein einfaches Modell für den Gender Pay Gap mit [http://dagitty.
 
 - Um eine Variable hinzuzufügen: Klick auf die Leinwand
 
-- Um einen Pfeil hinzuzufügen: Klick auf die Ursache, klick auf die Wirkung.
+- Um einen Pfeil hinzuzufügen: Klick auf die Ursache, dann klick auf die Wirkung.
 
 *Fortsetzung folgt!*
 

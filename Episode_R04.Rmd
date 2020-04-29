@@ -82,7 +82,7 @@ Thema dieses R Special:
 
 1. Wo sind die Daten gespeichert die eingelesen werden sollen?
 
-2. In welchem Dateiformat liegen die Daten vor? Z.B. Excel `.xlsx` usw.
+2. In welchem Dateiformat liegen die Daten vor? Z. B. Excel `.xlsx` usw.
 
 <br>
 
@@ -90,7 +90,7 @@ Mögliche weitere Frage:
 
 - Wo stehen ggf. die Variablennamen?
 
-- Welchen Datentrennzeichen usw. wird verwendet?
+- Welche Datentrennzeichen usw. werden verwendet?
 
 - Wie sind fehlende Werte gekennzeichnet?
 
@@ -102,16 +102,19 @@ Mögliche weitere Frage:
 
 ---
 
-## csv Datei
+## csv-Datei
 
-Eine `csv`-Datei kann z.B. durch Export aus Tabellenkalkulationsprogrammen erzeugt werden:
+Eine `csv`-Datei kann z. B. durch Export aus Tabellenkalkulationsprogrammen erzeugt werden:
 
-- **Erste Zeile**: Variablennamen Tipp: Mit Buchstaben beginnen, keine Leer- oder Sonderzeichen, Umlaute vermeiden.
+- **Erste Zeile**: Variablennamen (*Tipp*: Mit Buchstaben beginnen, keine Leer- oder Sonderzeichen, Umlaute vermeiden.)
+  
 - **Datenfeldtrennzeichen der Variablen**: `;` (Semikolon). (In amerikanischen csv-Dateien ist das Datenfeldtrennzeichen das Komma `,`). 
+
 - **Dezimaltrennzeichen**: `,` (Komma)
+
 - **Textkennzeichen**: `"` (Anführungszeichen)
 
 <br> <br>
 
-**Immer vor der Analyse kontrollieren ob die Daten richtig eingelesen wurden. Stimmt z.B. das Skalenniveau?**
+**Immer vor der Analyse kontrollieren ob die Daten richtig eingelesen wurden. Stimmt z. B. das Skalenniveau?**
 

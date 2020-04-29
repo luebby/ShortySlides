@@ -87,7 +87,7 @@ class: center, inverse, middle
 
 ## Wiederholung: Theorie
 
-- $X \rightarrow Y: \quad Y=f(X, U_Y)$ mit einer Funktion $f(\cdot)$ und exogenen $U$. 
+- $X \rightarrow Y: \quad Y=f(X, U_Y)$ mit einer Funktion $f(\cdot)$ und exogenem Variablenraum $U$. 
 
 - Der Wert von $Y$ hängt (kausal) ab von $X$ - aber der Wert von $X$ **nicht** von $Y$. 
 
@@ -100,12 +100,12 @@ class: center, inverse, middle
 | Pfad                       | $X \rightarrow C \rightarrow Y$ | $X \leftarrow C \rightarrow Y$ | $X \rightarrow C \leftarrow Y$ 
 | ---------------------------|---------------------------------|--------------------------------|------------------------------|
 | Name                       | Chain                           | Fork                           | Collider         
-| Assoziation $X$ uo $Y$     | Kausal                          | Nich-Kausal                    | Keine                       
+| Assoziation $X$ und $Y$     | Kausal                          | Nich-Kausal                    | Keine                       
 | Adjustierung $C$           | Blockiert kausalen Pfad         | Blockiert nicht-kausalen Pfad  | Öffnet nicht-kausalen Pfad
 
 <br>
 
-**Idee**: Um die Veränderung von $y$ zu schätzen, wenn $x$ verändert wird - sofern möglich! Blockiere nicht-kausale Pfade, öffne kausale Pfade und öffne keine verzerrenden Pfade.
+**Idee**: Um die Veränderung von $y$ zu schätzen, wenn $x$ verändert wird - sofern möglich! - blockiere nicht-kausale Pfade, öffne kausale Pfade und öffne keine verzerrenden Pfade.
 
 
 
@@ -121,9 +121,13 @@ class: center, inverse, middle
 ## Datengenerierender Prozess
 
 .pull-left[
-$$ X = U_X, \quad U_X \sim \mathcal{N}(0,\,1),$$
-$$Y = X +  U_Y, \quad U_Y \sim \mathcal{N}(0,\,1),$$
-$$Z = Y + U_Z, \quad U_Z \sim \mathcal{N}(0,\,0.1).$$
+
+$X = U_X, \quad U_X \sim \mathcal{N}(0,\,1),$
+
+$Y = X +  U_Y, \quad U_Y \sim \mathcal{N}(0,\,1),$
+
+$Z = Y + U_Z, \quad U_Z \sim \mathcal{N}(0,\,0.1).$
+
 wobei $\mathcal{N}(\mu,\,\sigma)$ für eine Normalverteilung mit Mittelwert $\mu$ und Varianz $\sigma^2$ steht.
 ]
 
@@ -181,7 +185,7 @@ gf_point(y~z, data = Chain) %>% gf_lims(x=c(-6,6)) %>% gf_vline(xintercept = ~2,
 
 ---
 
-## Bedingte und unbedingte Verteilung (Association)
+## Bedingte und unbedingte Verteilung (Assoziation)
 
 .center[Marginale, d. h. unbedingte Verteilung von $y$]
 
@@ -238,9 +242,9 @@ gf_dist("norm", params = list(mean=0, sd=sqrt(2))) %>%
 <br>
 
 
--  Bei Beobachtung: $z$ ist besser zur Prognsoe von $y$.
+-  Bei Beobachtung: $z$ ist besser zur Prognose von $y$.
 
--  Bei Manipulation: $x$ ist besser zur Prognsoe von $y$.
+-  Bei Manipulation: $x$ ist besser zur Prognose von $y$.
 
 
 
@@ -278,10 +282,10 @@ In `R`:
 ```{r}
 set.seed(1896)
 
-kind<- rnorm(1000)
-look <- rnorm(1000)
+kind   <- rnorm(1000)
+look   <- rnorm(1000)
 dating <- ((kind > 1) | (look > 1)) 
-luck <- rbinom(1000, size = 1, prob = 0.05)
+luck   <- rbinom(1000, size = 1, prob = 0.05)
 dating <- (1 - luck) * dating + luck * (1 - dating)
 ```
 
@@ -294,7 +298,7 @@ Date <- data.frame(kind, look, dating=(dating==1))
 
 ## Modellierung: Unbedingt (marginal)
 
-Modellierung Nettigkeit (`kind`) durch Aussehen (`look`):
+Modellierung *Nettigkeit* (`kind`) durch *Aussehen* (`look`):
 
 ```{r echo=FALSE, out.width = "50%", fig.asp = 0.8, fig.align="center"}
 ggformula::gf_point(kind~look, data = Date) %>%
@@ -306,23 +310,23 @@ ggformula::gf_point(kind~look, data = Date) %>%
 
 ## Modellierung: Bedingt 
 
-Modellierung Nettigkeit (`kind`) durch Aussehen (`look`), adjustiert für Date (`dating`):
+Modellierung *Nettigkeit* (`kind`) durch *Aussehen* (`look`), adjustiert für *Date* (`dating`):
 
 ```{r echo=FALSE, out.width = "50%", fig.asp = 0.8, fig.align="center"}
 ggformula::gf_point(kind~look, color=~dating, data = Date) %>%
   gf_lm() + ggthemes::scale_color_colorblind()
 ```
 
-- Adjustiert für die gemeinsame Wirkung (Date) gibt es eine Assoziation zwischen den unabhängigen Ursachen Nettigkeit und Aussehen (**Berkson's Paradox**).
+- Adjustiert für die gemeinsame Wirkung (*Date*) gibt es eine Assoziation zwischen den unabhängigen Ursachen *Nettigkeit* und *Aussehen* (**Berkson's Paradox**).
 
 
 
 
 ---
 
-## Selektions / Collider Bias
+## Selektions- / Collider-Bias
 
-Modellierung Nettigkeit (`kind`) durch Aussehen (`look`), ausgewählt nach Date (`dating`):
+Modellierung *Nettigkeit* (`kind`) durch *Aussehen* (`look`), ausgewählt nach *Date* (`dating`):
 
 ```{r echo=FALSE, out.width = "50%", fig.asp = 0.8, fig.align="center"}
 Dated <- Date %>% filter(dating==TRUE)
@@ -330,7 +334,7 @@ ggformula::gf_point(kind~look, data = Dated) %>%
   gf_lm() + ggthemes::scale_color_colorblind()
 ```
 
-- Es gibt eine Assoziation zwischen den unabhängigen Ursachen Nettigkeit und Aussehen wenn man nur die auswählt, die man gedated hat.
+- Es gibt eine Assoziation zwischen den unabhängigen Ursachen *Nettigkeit* und *Aussehen* wenn man nur die auswählt, die man gedated hat.
 
 
 ---

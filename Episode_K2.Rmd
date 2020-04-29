@@ -93,7 +93,7 @@ Bei [Pearl (2019)](https://doi.org/10.1145/3241036) gibt es drei Stufen:
 
 1. **Association**: $P(y|x)$: Beobachten: *was ist?*, d. h., die Wahrscheinlichkeit von $Y=y$ wenn wir $X=x$ beobachten.
 
-2. **Intervention**: $P(y|do(x))$: Manipulation: *was wäre?*, d. h., die Wahrscheinlichkeit von $Y=y$ wenn wir eingreifen und denn Wert von $X$ auf $x$ setzen.
+2. **Intervention**: $P(y|do(x))$: Manipulation: *was wäre?*, d. h., die Wahrscheinlichkeit von $Y=y$ wenn wir eingreifen und den Wert von $X$ auf $x$ setzen.
 
 3. **Counterfactual**: $P(y_x|x',y')$: Vorstellung: *was wäre gewesen?*,  d. h., die Wahrscheinlichkeit von  $Y=y$ wenn $X$ gleich $x$ gewesen wäre, anstelle der tatsächlichen Beobachtung $x',y'$.
 
@@ -101,7 +101,7 @@ Bei [Pearl (2019)](https://doi.org/10.1145/3241036) gibt es drei Stufen:
 
 ## Theorie
 
-- $X \rightarrow Y: \quad Y=f(X, U_Y)$ mit einer Funktion $f(\cdot)$ und exogenen $U$. 
+- $X \rightarrow Y: \quad Y=f(X, U_Y)$ mit einer Funktion $f(\cdot)$ und exogenem Variablenraum $U$. 
 
 - Der Wert von $Y$ hängt (kausal) ab von $X$ - aber der Wert von $X$ **nicht** von $Y$. 
 
@@ -114,12 +114,12 @@ Bei [Pearl (2019)](https://doi.org/10.1145/3241036) gibt es drei Stufen:
 | Pfad                       | $X \rightarrow C \rightarrow Y$ | $X \leftarrow C \rightarrow Y$ | $X \rightarrow C \leftarrow Y$ 
 | ---------------------------|---------------------------------|--------------------------------|------------------------------|
 | Name                       | Chain                           | Fork                           | Collider         
-| Assoziation $X$ uo $Y$     | Kausal                          | Nich-Kausal                    | Keine                       
+| Assoziation $X$ und $Y$     | Kausal                          | Nich-Kausal                    | Keine                       
 | Adjustierung $C$           | Blockiert kausalen Pfad         | Blockiert nicht-kausalen Pfad  | Öffnet nicht-kausalen Pfad
 
 <br>
 
-**Idee**: Um die Veränderung von $y$ zu schätzen, wenn $x$ verändert wird - sofern möglich! Blockiere nicht-kausale Pfade, öffne kausale Pfade und öffne keine verzerrenden Pfade.
+**Idee**: Um die Veränderung von $y$ zu schätzen, wenn $x$ verändert wird - sofern möglich! - blockiere nicht-kausale Pfade, öffne kausale Pfade und öffne keine verzerrenden Pfade.
 
 
 ---
@@ -132,9 +132,13 @@ ggplot() + geom_emoji("sunny") + theme_void()
 
 **Beispiel**: Sonnencreme  $\leftarrow$ Sonnenschein  $\rightarrow$ Eis
 
-  - Wenn ich Sonnencreme kenne, lerne ich über Sonnenschein etwas über Eis. Unbedingt (marginal) sind Sonnencreme und Eis nicht unabhängig. Formal: $X \not\!\perp\!\!\!\perp Y$
+  - Wenn ich die Variable *Sonnencreme* kenne, lerne ich durch *Sonnenschein* etwas über *Eis*. Unbedingt (marginal) sind *Sonnencreme* und *Eis* nicht unabhängig. 
+    
+    Formal: $X \not\!\perp\!\!\!\perp Y$
   
-  - Wenn ich Sonnenschein kenne lerne ich nichts neues über Eis wenn ich Sonnencreme kenne. Bedingt Sonnenschein sind sind Sonnencreme und Eis unabhängig. Formal: $X{\perp\!\!\!\perp}Y|C$
+  - Wenn ich *Sonnenschein* kenne lerne ich allerdings durch *Sonnencreme* nichts neues über *Eis*. Bedingt auf *Sonnenschein* sind *Sonnencreme* und *Eis* unabhängig. 
+    
+    Formal: $X{\perp\!\!\!\perp}Y|C$
 
 
 ---
@@ -147,9 +151,13 @@ ggplot() + geom_emoji("sleeping") + theme_void()
 
 **Beispiel**: Wochenenende  $\rightarrow$ Ausschlafen  $\leftarrow$ Ferien
 
-  - Übers Wochenden lerne ich nichts über Ferien. Unbedingt (marginal) sind Wochenende und Ferien unabhängig. Formal: $X{\perp\!\!\!\perp}Y$
+  - Über *Wochenende* lerne ich nichts über *Ferien*. Unbedingt (marginal) sind *Wochenende* und *Ferien* unabhängig. 
+    
+    Formal: $X{\perp\!\!\!\perp}Y$
   
-  - Wenn ich ausschlafen kann und es ist kein Wochenende, lerne ich etwas über Ferien (es müssen welche sein). Bedingt Ausschlafen sind die Variablen nicht unabhängig. Formal: $X \not\!\perp\!\!\!\perp Y|C$
+  - Wenn ich ausschlafen kann und es ist kein Wochenende, lerne ich etwas über *Ferien* (es müssen welche sein). Bedingt auf *Ausschlafen* sind die Variablen nicht unabhängig. 
+    
+    Formal: $X \not\!\perp\!\!\!\perp Y|C$
   
 
 ---
@@ -158,11 +166,11 @@ ggplot() + geom_emoji("sleeping") + theme_void()
 
 Funktion von $C$:
 
-- $X \rightarrow C \rightarrow Y$: $C$ ist ein Mediator zwischen $X$ und $Y$.
+- $X \rightarrow C \rightarrow Y$ bedeutet: $C$ ist ein **Mediator** zwischen $X$ und $Y$.
 
-- $X \leftarrow C \rightarrow Y$: $C$ ist eine gemeinsame Ursache von $X$ und $Y$.
+- $X \leftarrow C \rightarrow Y$ bedeutet: $C$ ist eine **gemeinsame Ursache** von $X$ und $Y$.
 
-- $X \rightarrow C \leftarrow Y$ : $C$ ist eine gemeinsam Wirkung von $X$ und $Y$.
+- $X \rightarrow C \leftarrow Y$ bedeutet: $C$ ist eine **gemeinsam Wirkung** von $X$ und $Y$.
 
 <br>
 
@@ -170,7 +178,7 @@ Elemente eines Graphen:
 
 - Alle Variablen mit einem Pfeil in $Z$ heißen Eltern von $Z$.
 
-- Alle Variablen mit einem Pfeil von $Z$ heißen Kinder von $Z$.
+- Alle Variablen mit einem Pfeil ausgehend von $Z$ heißen Kinder von $Z$.
 
 - Kein Pfeil zwischen zwei Variablen heißt, dass es keine direkte Assoziation zwischen diesen gibt.
 
@@ -191,7 +199,7 @@ include_graphics("img/GPG.png")
 
 .small[Erstellt mit [DAGitty](http://dagitty.net/)]
 
-Was bedeutet dieses Modell für das Schätzen des kausalen Effektes des Geschlechts auf das Gehalt?
+Was bedeutet dieses Modell für das Schätzen des kausalen Effekts des Geschlechts auf das Gehalt?
 
 
 <br>
