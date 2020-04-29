@@ -107,7 +107,7 @@ ggplot() + geom_emoji("thinking") + theme_void()
 
 <br>
 
-**Hinweis**: Dies ist eine Fortsetzung von Episode 6 (EDA - Vergleich numerischer Variablen) und 13  (Inferenz - Hypothesenprüfung)
+**Hinweis**: Dies ist eine Fortsetzung von Episode 6 (EDA - Vergleich numerischer Variablen) und Episode 13  (Inferenz - t-Test)
 ---
 
 ## Vorbereitungen
