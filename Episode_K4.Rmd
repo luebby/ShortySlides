@@ -1,0 +1,327 @@
+---
+title: "`r params$module`"  # Do NOT change this line
+subtitle: "`r params$shorttitle`"  # Do NOT change this line
+author: "`r params$instructor`"  # Do NOT change this line
+date: "`r params$semester`"  # Do NOT change this line
+params:
+  module: "Data Literacy Education"  # Enter HERE the name of the presentation/course/module
+  semester: "Kausale Inferenz - Episode 4"   # Enter HERE the date/semester/term
+  shorttitle: ""  # Enter HERE a subtitle/shorttitle
+  foottitle: "Data Literacy Slidecast"  # Enter HERE a title for footline
+  instructor: "Karsten Lübke"  # ENTER here the presentator's/instructor's name
+output:
+  xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
+    lib_dir: libs
+    css: ["footer-header.css", "xafom.css"]
+    nature:
+      titleSlideClass: [middle, right]
+      ratio: "4:3"  # Note that currently only 4:3 format is supported
+---
+
+
+layout: true
+  
+<div class="my-header"></div>
+
+<!-- the following lines define the header and the footer line: -->
+<div class="my-footer"><span>`r params$semester`    
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+`r params$instructor` | `r params$foottitle` </span></div> 
+
+<div class="footer-line"></div>
+
+
+
+```{r setup, include=FALSE}
+library(emojifont)
+library(knitr)
+
+library(ggdag)
+
+
+
+co <- data.frame(x=c(0,0,1), y=c(1,0,0), name=c("C", "X", "Y")) 
+
+co <- data.frame(x=c(0,0,1), y=c(1,0,0), name=c("C", "X", "Y")) 
+
+DAGO <- dagify(X ~ C,
+       Y ~ X,
+       Y ~ C, coords = co) %>% 
+  ggdag(node_size = 20, text_size = 8, text = TRUE, text_col = "lightgray") + theme_dag_blank() +
+  geom_dag_edges(arrow_directed = grid::arrow(length = grid::unit(15, "pt"), type = "closed"))  + 
+  geom_text(label = "C - Intelligence\nX - Learning Time\nY - Test Score", 
+            hjust = 1, vjust = 1,
+            x = 1, y = 1, size = 7, color = "darkgrey")
+
+DAGE1 <- dagify(Y ~ X,
+       X ~ C,
+       Y ~ C, coords = co) %>% 
+  ggdag(node_size = 20, text_size = 8, text = TRUE, text_col = "lightgray") + theme_dag_blank() +
+  geom_dag_edges(arrow_directed = grid::arrow(length = grid::unit(15, "pt"), type = "closed"))  + 
+  geom_text(label = "C - Intelligence\nX - Learning Time\nY - Test Score", 
+            hjust = 1, vjust = 1,
+            x = 1, y = 1, size = 7, color = "darkgrey") +
+  geom_segment(aes(x = -.1, y = .475, xend = .1, yend = .575), color = "darkgrey") +
+  geom_segment(aes(x = -.1, y = .425, xend = .1, yend = .525), color = "darkgrey")
+
+
+co <- data.frame(x=c(0,0,1,-1), y=c(1,0,0,0), name=c("C", "X", "Y", "E")) 
+
+DAGE2 <- dagify(Y ~ X,
+       X ~ E,
+       Y ~ C, coords = co) %>% 
+  ggdag(node_size = 20, text_size = 8, text = TRUE, text_col = "lightgray") + theme_dag_blank() +
+  geom_dag_edges(arrow_directed = grid::arrow(length = grid::unit(15, "pt"), type = "closed"))  + 
+  geom_text(label = "C - Intelligence\nX - Learning Time\nY - Test Score\nE - Experimenter", 
+            hjust = 0, vjust = 1,
+            x = -1.1, y = 0.75, size = 7, color = "darkgrey")
+
+library(mosaic)
+
+theme.fom <- theme_classic(22*1.04)
+theme.fom <- theme.fom
+theme_set(
+  theme.fom  
+)
+options(scipen=999)
+
+
+```
+
+---
+
+class: center, inverse, middle
+
+# Episode 4: Randomisierte kontrollierte Studien
+
+---
+
+## Wiederholung: Theorie
+
+**Stufen der kausalen Inferenz**:
+
+
+Bei [Pearl (2019)](https://doi.org/10.1145/3241036) gibt es drei Stufen:
+
+1. **Association**: $P(y|x)$: Beobachten: *was ist?*, d. h., die Wahrscheinlichkeit von $Y=y$ wenn wir $X=x$ beobachten.
+
+2. **Intervention**: $P(y|do(x))$: Manipulation: *was wäre?*, d. h., die Wahrscheinlichkeit von $Y=y$ wenn wir eingreifen und denn Wert von $X$ auf $x$ setzen.
+
+3. **Counterfactual**: $P(y_x|x',y')$: Vorstellung: *was wäre gewesen?*,  d. h., die Wahrscheinlichkeit von  $Y=y$ wenn $X$ gleich $x$ gewesen wäre, anstelle der tatsächlichen Beobachtung $x',y'$.
+
+
+---
+
+class: center, inverse, middle
+
+# Ein drittes simuliertes Beispiel
+
+
+---
+
+## Modell Klausurpunkte
+
+Fiktiv: 
+
+- Intelligenz ( $C$ ) verkürzt nötige Lernzeit ( $X$ ) und erhöht Klausurpunkte ( $Y$ )
+- Lernzeit ( $X$ ) erhöht Klausurpunkte ( $Y$ )
+
+
+```{r echo=FALSE, out.width = "40%", fig.align="center"}
+DAGO
+```
+
+---
+
+## Datengenerierender Prozess
+
+```{r echo=FALSE, out.width = "20%", fig.align="right"}
+DAGO
+```
+
+Modell:
+
+\begin{eqnarray*}
+C &=& U_C, \quad U_C \sim \mathcal{N}(100,\,15), \\
+X &=& 200 - C +  U_X, \quad U_X \sim \mathcal{N}(0,\,1), \\
+Y &=& 0.5 \cdot C + 0.1 \cdot X + U_Y, \quad U_Y \sim \mathcal{N}(0,\,1).
+\end{eqnarray*}
+
+In `R`:
+
+```{r}
+set.seed(1896)
+intelligence <- rnorm(1000, mean = 100, sd = 15)
+learning.time <- 200 - intelligence + rnorm(1000)
+test.score <- 0.5 * intelligence + 0.1 * learning.time + rnorm(1000)
+```
+
+---
+
+## Modellierung Klausurergebnis durch Lernzeit
+
+**Ohne** Kovariable Intelligenz:
+
+```{r}
+lm(test.score ~ learning.time)
+```
+
+**Mit** Kovariable Intelligenz:
+
+```{r}
+lm(test.score ~ learning.time + intelligence)
+```
+
+
+---
+
+## Randomisierte kontrollierte Studien
+
+In einer randomisierten kontrollierten Studie (RCT) erfolgt die Zuordnung von $i$ zu $x_i$ zufällig - und wird manipuliert: $do(x)$. Die Verbindung zu den Eltern von $X$ wird gekappt.
+
+.pull-left[
+```{r echo=FALSE, out.width = "80%", fig.align="center"}
+DAGE1
+```
+]
+
+.pull-left[
+```{r echo=FALSE, out.width = "80%", fig.align="center"}
+DAGE2
+```
+]
+
+---
+
+## Simulation Experiment
+
+```{r echo=FALSE, out.width = "20%", fig.align="right"}
+DAGE2
+```
+
+\begin{eqnarray*}
+C &=& U_C, \quad U_C \sim \mathcal{N}(100,\,15), \\
+X &=& U_X\cdot 80 + (1-U_X) \cdot 120, \quad U_X \sim \mathcal{B}(0.5), \\
+Y &=& 0.5 \cdot C + 0.1 \cdot X + U_Y, \quad U_Y \sim \mathcal{N}(0,\,1).
+\end{eqnarray*}
+
+Also zufällig: $do(x)=80$ oder $do(x)=120$.
+
+```{r}
+set.seed(1896)
+exper.group <- rbinom(1000, size = 1, prob = 0.5)
+learning.time.exper <- exper.group * 80 + (1 - exper.group) * 120
+test.score.exper <- 0.5 * intelligence + 0.1 * learning.time.exper + rnorm(1000)
+```
+
+---
+
+## Auswirkungen randomisiertes Experiment
+
+
+Z.B.Ausgleich der Verteilung der Kovariablen:
+
+```{r}
+mean(intelligence ~ learning.time.exper)
+```
+
+Insbesondere: unverzerrte Schätzung des kausalen Effektes möglich:
+
+```{r}
+lm(test.score.exper ~ learning.time.exper) 
+```
+
+
+
+---
+
+class: center, inverse, middle
+
+# Take home messages
+
+
+---
+
+## Das Wichtigste!
+
+
+.center[**Daten (und Modelle) sind nicht die Realität!**]
+
+.center[<iframe src="https://giphy.com/embed/MPuTZQqOmYKPK" width="480" height="282" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>]
+
+.small[[via GIPHY](https://giphy.com/gifs/thegoodfilms-film-the-big-lebowski-dude-MPuTZQqOmYKPK)]
+
+
+Daher: Immer bescheiden bleiben...
+
+
+---
+
+## Was Sie hoffentlich noch gelernt haben
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+ggplot() + geom_emoji("woman_teacher") + theme_void()
+```
+
+Um eine korrekte Schlussfolgerung oder Handlung auf Basis von multivariaten Beobachtungsdaten abzuleiten:
+
+- Daten sind nicht einfach da - sie haben einen Entstehungsprozess der wichtig ist.
+
+- Konfunder (Störvariablen) und Bias (Verzerrung) sind Herausforderungen für eine kausale Inferenz.
+
+- Adjustierung und nicht-Adjustierung können gute oder schlechte Ideen für eine kausale Inferenz sein.
+
+- Quantitative Modelldiagnosen können für eine kausale Inferenz nicht ausreichen.
+
+- Kausale Modelle und Directed Acyclic Graphs können helfen Theorie und Daten zu verbinden.
+
+
+
+---
+
+## Mehr?
+
+Einige Referenzen:
+
+- [Dablander, F. (2019). An introduction to Causal inference (Blog)](https://fabiandablander.com/r/Causal-Inference)
+
+- [Rohrer, J.M. (2018). Thinking Clearly About Correlations and Causation: Graphical Causal Models for Observational Data. Advances in Methods and Practices in Psychological Science, 1(1), 27–42.](https://doi.org/10.1177/2515245917745629)
+    
+- [Elwert, F. (2013). Graphical causal models. In: Handbook of causal analysis for social research (S. 245-273). Springer, Dordrecht.](https://www.researchgate.net/publication/278717528_Graphical_Causal_Models)
+    
+- [Pearl, J., Glymour, M., & Jewell, N. P. (2016). Causal inference in statistics: A primer. John Wiley & Sons.](http://bayes.cs.ucla.edu/PRIMER/)
+    
+- [Peters, J., Janzing, D., & Schölkopf, B. (2017). Elements of causal inference: foundations and learning algorithms. MIT press.](https://mitpress.mit.edu/books/elements-causal-inference)
+
+<br> 
+
+Es gibt diverse `R` Pakete, z. B. [`ggdag`](https://ggdag.netlify.com/).
+
+.small[Es gibt weitere Ansätze zur kausalen Inferenz, z.B. innerhalb des Potential Outcome Frameworks, Instrumental Variables, Regression Discontinuity Designs, Natural Experiments, ...]
+
+
+---
+
+## Eigene Veröffentlichungen
+
+
+- [Lübke, K., Gehrke, M., Horst, J. & Szepannek, G. (2020). Why We Should Teach Causal Inference: Examples in Linear Regression with Simulated Data, Journal of Statistics Education.](https://doi.org/10.1080/10691898.2020.1752859)
+
+- Lübke, K. &  Gehrke, M. (2020). *Now is the Time for Causal Inference in Introductory Statistics*, Proceedings IASE 2020 Roundtable New Skills in the Changing World of Statistics Education (accepted).
+
+<br>
+
+**Danksagung**:
+
+Dank an Matthias Gehrke, Jörg Horst, Sebastian Sauer, Gero Szepannek und Tabea Treppmann für Ihre Unterstützung!
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+ggplot() + geom_emoji("email") + theme_void()
+```
+
+.center[[karsten.luebke@fom.de](<mailto:karsten.luebke@fom.de>)]
+
+
