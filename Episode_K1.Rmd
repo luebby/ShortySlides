@@ -86,10 +86,11 @@ class: center, inverse, middle
 
 ---
 
+class: center, middle
 
 ## Data Literacy
 
-Ziel ist es mit Hilfe von Daten verantwortungsbewusst Erkenntnisse zu gewinnen und (bessere) Entscheidungen zu treffen.
+.large[Ziel ist es mit Hilfe von Daten verantwortungsbewusst Erkenntnisse zu gewinnen und (bessere) Entscheidungen zu treffen.]
 
 
 
