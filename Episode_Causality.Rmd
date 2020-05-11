@@ -7,7 +7,7 @@ params:
   module: "Data Literacy Education"  # Enter HERE the name of the presentation/course/module
   semester: "Causal Inference"   # Enter HERE the date/semester/term
   shorttitle: ""  # Enter HERE a subtitle/shorttitle
-  foottitle: "Data Literacy Slidecast"  # Enter HERE a title for footline
+  foottitle: "Data Literacy"  # Enter HERE a title for footline
   instructor: "Karsten Lübke"  # ENTER here the presentator's/instructor's name
 output:
   xaringan::moon_reader:
@@ -82,7 +82,8 @@ options(scipen=999)
 
 class: center, inverse, middle
 
-# Data Science aims at turning raw data into understanding, insight, knowledge and to help people make better decisions.
+## [EDC Oceans of Data Institute:](http://oceansofdata.org/sites/oceansofdata.org/files/ODI%20Data%20Literacy%20Report_0.pdf) The data-literate individual understands,  explains, and documents the utility and  limitations of data by becoming a critical consumer of data, controlling his/her personal data trail, finding meaning in data, and taking action based on data. The data-literate individual can identify, collect, evaluate, analyze, interpret, present, and protect data.
+
 
 
 ---
