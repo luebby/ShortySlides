@@ -126,7 +126,7 @@ Bei [Pearl (2019)](https://doi.org/10.1145/3241036) gibt es drei Stufen:
 
 ## Bedingte und unbedingte Unabhängigkeit
 
-```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
 ggplot() + geom_emoji("sunny") + theme_void()
 ```
 
@@ -145,7 +145,7 @@ ggplot() + geom_emoji("sunny") + theme_void()
 
 ## Mehr über bedingte und unbedingte Unabhängigkeit
 
-```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
 ggplot() + geom_emoji("sleeping") + theme_void()
 ```
 
@@ -187,7 +187,7 @@ Elemente eines Graphen:
 
 ## Versuchen Sie es selbst! Gender Pay Gap
 
-```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
 ggplot() + geom_emoji("computer") + theme_void()
 ```
 

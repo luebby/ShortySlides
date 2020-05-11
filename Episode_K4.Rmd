@@ -262,7 +262,7 @@ Daher: Immer bescheiden bleiben...
 
 ## Was Sie hoffentlich noch gelernt haben
 
-```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
 ggplot() + geom_emoji("woman_teacher") + theme_void()
 ```
 
@@ -318,7 +318,7 @@ Es gibt diverse `R`-Pakete, z. B. [`ggdag`](https://ggdag.netlify.com/).
 
 Dank an Matthias Gehrke, Jörg Horst, Sebastian Sauer, Gero Szepannek und Tabea Treppmann für Ihre Unterstützung!
 
-```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
 ggplot() + geom_emoji("email") + theme_void()
 ```
 

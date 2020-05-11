@@ -341,7 +341,7 @@ ggformula::gf_point(kind~look, data = Dated) %>%
 
 ## Versuchen Sie es selbst! Rauchen und Lungenvolumen
 
-```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
 ggplot() + geom_emoji("computer") + theme_void()
 ```
 

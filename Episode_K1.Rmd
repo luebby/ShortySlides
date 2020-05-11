@@ -98,7 +98,7 @@ class: center, middle
 
 ## Was Sie lernen werden - oder vielleicht schon wissen?
 
-```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
 ggplot() + geom_emoji("woman_teacher") + theme_void()
 ```
 
@@ -190,7 +190,7 @@ $$\widehat{\text{price}}^{|\text{bedrooms}=2} \approx `r round(predict(my.model,
 
 ## Mit Daten zu Geld kommen (?)
 
-```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
 ggplot() + geom_emoji("money_mouth_face") + theme_void()
 ```
 
@@ -257,7 +257,7 @@ Jetzt: $\hat{\beta}_{\text{bedrooms}}=`r round(coef(my.adj.model)[2],2)`$ (anste
 
 ## Cooles Machine-Learning-Verfahren
 
-```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
 ggplot() + geom_emoji("thinking") + theme_void()
 ```
 
@@ -267,7 +267,7 @@ ggplot() + geom_emoji("thinking") + theme_void()
 
 --
 
-```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
 ggplot() + geom_emoji("cry") + theme_void()
 ```
 
@@ -305,7 +305,7 @@ Je nach Fragestellung kann es sein, dass quantitative Modellgütemaße wie z. B.
 
 ## Versuchen Sie es selbst! Gender Pay Gap
 
-```{r, echo= FALSE , out.width = "15%", fig.align="center"}
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
 ggplot() + geom_emoji("computer") + theme_void()
 ```
 
