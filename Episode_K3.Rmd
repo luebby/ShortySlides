@@ -100,9 +100,9 @@ class: center, inverse, middle
 | Pfad                       | $X \rightarrow C \rightarrow Y$ | $X \leftarrow C \rightarrow Y$ | $X \rightarrow C \leftarrow Y$ 
 | ---------------------------|---------------------------------|--------------------------------|------------------------------|
 | Name                       | Chain                           | Fork                           | Collider         
-| Assoziation $X$ und $Y$     | Kausal                          | Nich-Kausal                    | Keine                       
+| Assoziation $X$ und $Y$     | Kausal                          | Nicht-Kausal                  | Keine                       
 | Adjustierung $C$           | Blockiert kausalen Pfad         | Blockiert nicht-kausalen Pfad  | Öffnet nicht-kausalen Pfad
-
+| Rolle $C$                  | Mediator                        | Ursache                        | Wirkung 
 <br>
 
 **Idee**: Um die Veränderung von $y$ zu schätzen, wenn $x$ verändert wird - sofern möglich! - blockiere nicht-kausale Pfade, öffne kausale Pfade und öffne keine verzerrenden Pfade.
@@ -317,7 +317,7 @@ ggformula::gf_point(kind~look, color=~dating, data = Date) %>%
   gf_lm() + ggthemes::scale_color_colorblind()
 ```
 
-- Adjustiert für die gemeinsame Wirkung (*Date*) gibt es eine Assoziation zwischen den unabhängigen Ursachen *Nettigkeit* und *Aussehen* (**Berkson's Paradox**).
+- Adjustiert für die gemeinsame Wirkung (*Date*) gibt es eine Assoziation zwischen den unabhängigen Ursachen *Nettigkeit* und *Aussehen* (**Berkson-Paradox**).
 
 
 

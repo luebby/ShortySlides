@@ -114,7 +114,7 @@ Bei [Pearl (2019)](https://doi.org/10.1145/3241036) gibt es drei Stufen:
 | Pfad                       | $X \rightarrow C \rightarrow Y$ | $X \leftarrow C \rightarrow Y$ | $X \rightarrow C \leftarrow Y$ 
 | ---------------------------|---------------------------------|--------------------------------|------------------------------|
 | Name                       | Chain                           | Fork                           | Collider         
-| Assoziation $X$ und $Y$     | Kausal                          | Nich-Kausal                    | Keine                       
+| Assoziation $X$ und $Y$    | Kausal                          | Nicht-Kausal                    | Keine                       
 | Adjustierung $C$           | Blockiert kausalen Pfad         | Blockiert nicht-kausalen Pfad  | Öffnet nicht-kausalen Pfad
 
 <br>
@@ -134,11 +134,9 @@ ggplot() + geom_emoji("sunny") + theme_void()
 
   - Wenn ich die Variable *Sonnencreme* kenne, lerne ich durch *Sonnenschein* etwas über *Eis*. Unbedingt (marginal) sind *Sonnencreme* und *Eis* nicht unabhängig. 
     
-    Formal: $X \not\!\perp\!\!\!\perp Y$
   
-  - Wenn ich *Sonnenschein* kenne lerne ich allerdings durch *Sonnencreme* nichts neues über *Eis*. Bedingt auf *Sonnenschein* sind *Sonnencreme* und *Eis* unabhängig. 
+  - Wenn ich *Sonnenschein* kenne, lerne ich allerdings durch *Sonnencreme* nichts neues über *Eis*. Bedingt auf *Sonnenschein* sind *Sonnencreme* und *Eis* unabhängig. 
     
-    Formal: $X{\perp\!\!\!\perp}Y|C$
 
 
 ---
@@ -153,24 +151,22 @@ ggplot() + geom_emoji("sleeping") + theme_void()
 
   - Über *Wochenende* lerne ich nichts über *Ferien*. Unbedingt (marginal) sind *Wochenende* und *Ferien* unabhängig. 
     
-    Formal: $X{\perp\!\!\!\perp}Y$
   
   - Wenn ich ausschlafen kann und es ist kein Wochenende, lerne ich etwas über *Ferien* (es müssen welche sein). Bedingt auf *Ausschlafen* sind die Variablen nicht unabhängig. 
-    
-    Formal: $X \not\!\perp\!\!\!\perp Y|C$
+  
   
 
 ---
 
 ## Mehr zu Chains, Forks, Collider und Graphen
 
-Funktion von $C$:
+Rolle von $C$:
 
-- $X \rightarrow C \rightarrow Y$ bedeutet: $C$ ist ein **Mediator** zwischen $X$ und $Y$.
+- Chain: $X \rightarrow C \rightarrow Y$ bedeutet: $C$ ist ein **Mediator** zwischen $X$ und $Y$.
 
-- $X \leftarrow C \rightarrow Y$ bedeutet: $C$ ist eine **gemeinsame Ursache** von $X$ und $Y$.
+- Fork: $X \leftarrow C \rightarrow Y$ bedeutet: $C$ ist eine **gemeinsame Ursache** von $X$ und $Y$.
 
-- $X \rightarrow C \leftarrow Y$ bedeutet: $C$ ist eine **gemeinsam Wirkung** von $X$ und $Y$.
+- Collider: $X \rightarrow C \leftarrow Y$ bedeutet: $C$ ist eine **gemeinsam Wirkung** von $X$ und $Y$.
 
 <br>
 

@@ -268,15 +268,15 @@ ggplot() + geom_emoji("woman_teacher") + theme_void()
 
 Um eine korrekte Schlussfolgerung oder Handlung auf Basis von multivariaten Beobachtungsdaten abzuleiten:
 
-- Daten sind nicht einfach da - sie haben einen Entstehungsprozess der wichtig ist.
+- Daten sind nicht einfach da - sie haben einen Entstehungsprozess, der wichtig ist.
 
 - Konfounder (Störvariablen) und Bias (Verzerrung) sind Herausforderungen für eine kausale Inferenz.
 
-- Adjustierung und nicht-Adjustierung können gute oder schlechte Ideen für eine kausale Inferenz sein.
+- Adjustierung und Nicht-Adjustierung können gute oder schlechte Ideen für eine kausale Inferenz sein.
 
 - Quantitative Modelldiagnosen können für eine kausale Inferenz nicht ausreichen.
 
-- Kausale Modelle und Directed Acyclic Graphs können helfen Theorie und Daten zu verbinden.
+- Kausale Modelle und Directed Acyclic Graphs können helfen, Theorie und Daten zu verbinden.
 
 
 
@@ -316,7 +316,7 @@ Es gibt diverse `R`-Pakete, z. B. [`ggdag`](https://ggdag.netlify.com/).
 
 **Danksagung**:
 
-Dank an Matthias Gehrke, Jörg Horst, Sebastian Sauer, Gero Szepannek und Tabea Treppmann für Ihre Unterstützung!
+Dank an Matthias Gehrke, Jörg Horst, Sebastian Sauer, Gero Szepannek und Tabea Treppmann für ihre Unterstützung!
 
 ```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
 ggplot() + geom_emoji("email") + theme_void()
