@@ -103,7 +103,7 @@ Themen von Episode 13: **Analysis** und **Conclusion**
 ggplot() + geom_emoji("thinking") + theme_void()
 ```
 
-.large[Haben diejenigen, die die (finanzwissenschaftliche) ökonomische Frage richtig beantwortet haben eine höhere Selbsteinschätzung der kognitiven Kompetenz bezüglich des Fachs Statistik?]
+.large[Haben diejenigen, die die (finanzwissenschaftliche) ökonomische Frage richtig beantwortet haben eine andere Selbsteinschätzung der kognitiven Kompetenz bezüglich des Fachs Statistik, als die, die sie falsch beantwortet haben?]
 
 <br>
 
@@ -165,7 +165,7 @@ ggplot() + geom_emoji("thinking") + theme_void()
 
 Dann bedeutet kein Unterschied im Erwartungswert der Selbsteinschätzung der kognitiven Kompetenz:
 
-$$\mu_{\text{richtig}}-\mu_{\text{falsch}}=0$$
+$$\mu_{\text{falsch}}-\mu_{\text{richtig}}=0$$
 
 ---
 
@@ -177,6 +177,7 @@ $$t=\frac{\bar{x}_A-\bar{x}_B}{\sqrt{\frac{s_a^2}{n_a}+\frac{s_b^2}{n_b}}}$$
 t.test(B_SATS_Kompetenz ~ F07_Aktien, data = SATS_BFI)
 ```
 
+**Hinweis**: Es gibt auch Varianten des t-Test für eine Variable einer Stichprobe und zum Vergleich zweier Variablen.
 
 ---
 
@@ -186,9 +187,9 @@ Ziel: Aussagen treffen, die über die vorliegenden Daten hinausgehen - dabei mü
 
 <br>
 
-**Frage**: Haben diejenigen, die die (finanzwissenschaftliche) ökonomische Frage richtig beantwortet haben eine höhere Selbsteinschätzung der kognitiven Kompetenz bezüglich des Fachs Statistik?
+**Frage**: Haben diejenigen, die die (finanzwissenschaftliche) ökonomische Frage richtig beantwortet haben eine andere Selbsteinschätzung der kognitiven Kompetenz bezüglich des Fachs Statistik, als die, die sie falsch beantwortet haben?
 
-**Antwort**: In der Stichprobe liegt der Mittelwert der Selbsteinschätzung der kognitiven Kompetenz bei $\bar{y}_{\text{falsch}}=`r round(mean_stipro[1], 2)`$ und $\bar{y}_{\text{richtig}}=`r round(mean_stipro[2], 2)`$, d. h. $\bar{y}_{\text{richtig}}-\bar{y}_{\text{falsch}}>0$. Ein t-Test verwirft die $H_0: \mu_{\text{falsch}}= \mu_{\text{richtig}}$ mit einem p-Wert von $`r round(t.test(B_SATS_Kompetenz ~ F07_Aktien, data = SATS_BFI)%>%pval(),4)`$.
+**Antwort**: In der Stichprobe liegt der Mittelwert der Selbsteinschätzung der kognitiven Kompetenz bei $\bar{y}_{\text{falsch}}=`r round(mean_stipro[1], 2)`$ und $\bar{y}_{\text{richtig}}=`r round(mean_stipro[2], 2)`$, d. h. $\bar{y}_{\text{falsch}}-\bar{y}_{\text{richtig}}<0$. Ein t-Test verwirft die $H_0: \mu_{\text{falsch}}= \mu_{\text{richtig}}$ mit einem p-Wert von $`r round(t.test(B_SATS_Kompetenz ~ F07_Aktien, data = SATS_BFI)%>%pval(),4)`$.
 
 <br>
 

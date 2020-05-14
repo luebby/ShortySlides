@@ -174,7 +174,7 @@ library(lsr)
 cohensD(B_SATS_Kompetenz ~ F07_Aktien, data = SATS_BFI)
 ```
 
-
+**Hinweis**: Es gibt viele weitere Effektgrößen.
 
 ---
 
