@@ -1,0 +1,171 @@
+---
+title: "`r params$module`"  # Do NOT change this line
+subtitle: "`r params$shorttitle`"  # Do NOT change this line
+author: "`r params$instructor`"  # Do NOT change this line
+date: "`r params$semester`"  # Do NOT change this line
+params:
+  module: "Data Literacy Education"  # Enter HERE the name of the presentation/course/module
+  semester: "Basics: Wissenschaftliche Schlusstechniken"   # Enter HERE the date/semester/term
+  shorttitle: ""  # Enter HERE a subtitle/shorttitle
+  foottitle: "Data Literacy Slidecast"  # Enter HERE a title for footline
+  instructor: "FOM"  # ENTER here the presentator's/instructor's name
+output:
+  xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
+    lib_dir: libs
+    css: ["footer-header.css", "xafom.css"]
+    nature:
+      titleSlideClass: [middle, right]
+      ratio: "4:3"  # Note that currently only 4:3 format is supported
+      highlightLines: true
+---
+
+
+layout: true
+  
+<div class="my-header"></div>
+
+<!-- the following lines define the header and the footer line: -->
+<div class="my-footer"><span>`r params$semester`    
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+`r params$instructor` | `r params$foottitle` </span></div> 
+
+<div class="footer-line"></div>
+
+
+
+```{r setup, include=FALSE}
+library(emojifont)
+library(knitr)
+library(mosaic)
+library(tidyr)
+
+theme.fom <- theme_classic(22*1.04)
+theme.fom <- theme.fom
+theme_set(
+  theme.fom  
+)
+#options(scipen=999)
+
+
+```
+
+---
+
+## Inhalte
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
+ggplot() + geom_emoji("woman_teacher") + theme_void()
+```
+
+
+Thema dieses Basics: Wissenschaftliche Schlusstechniken
+
+<br>
+
+
+- Wissenschaftliche Grundlagen
+
+
+<br>
+
+**Hinweis**: Diese Data Literacy Slidecasts dienen didaktisch der konzeptionell-methodischen Verdeutlichung, nicht der inhaltlichen Analyse.
+
+---
+
+## Induktion
+
+<br> 
+<br>
+<br>
+
+Ich angele:
+
+--
+
+1. `r icon::fa("fish", colour = "blue")`
+
+--
+
+2. `r icon::fa("fish", colour = "blue")`
+
+--
+
+3. `r icon::fa("fish", colour = "blue")`
+
+--
+
+<br>
+
+Ich schließe daraus: Die Fische im Teich sind blau. 
+
+<br>
+
+**Induktion**:  Schluss von einer üblichen Regelmäßigkeit auf das Allgemeine.
+
+---
+
+## Induktionsproblem und Falsifikation
+
+<br> 
+<br>
+<br>
+
+Beweist, dass ich bisher nur blaue Fische gefangen habe, dass alle Fische blau sind?
+
+--
+
+<br>
+
+**Nein**, dies muss nicht zwingend der Fall sein.
+
+--
+
+<br>
+
+Aber ein roter Fisch könnte die Hypothese "Alle Fische sind blau" wiederlegen, *falsifizieren*.
+
+---
+
+## Deduktion
+
+<br> 
+<br>
+<br>
+
+- Ich gehe davon aus, das alle Fische blau sind.
+
+- Ich fange einen Fisch.
+
+<br>
+
+Ich schließe daraus: Der Fisch wird blau sein.
+
+<br>
+
+**Deduktion**: Schluss vom Allgemeinen auf das Einzelne.
+
+
+---
+
+## Abduktion
+
+<br> 
+<br>
+<br>
+
+
+- Vor mir liegt ein blaues Tier.
+
+- Ich gehe davon aus, das alle Fische blau sind.
+
+<br>
+
+Ich schließe daraus: Das Tier wird ein Fisch sein.
+
+<br>
+
+**Abduktion**: Hypothetischer Schluss vom Einzelnen und einer Regel auf eine Regelmäßigkeit
+
