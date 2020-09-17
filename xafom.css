@@ -96,6 +96,18 @@ a, a > code {
   color: #00998A;
 }
 
+.red {
+  color: #F34213;
+}
+
+.blue {
+  color: #0000FF;
+}
+
+.orange {
+  color: #FF8811;
+}
+
 .violet {
   color: #DA70D6;
 }

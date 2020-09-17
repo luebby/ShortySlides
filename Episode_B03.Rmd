@@ -1,0 +1,121 @@
+---
+title: "`r params$module`"  # Do NOT change this line
+subtitle: "`r params$shorttitle`"  # Do NOT change this line
+author: "`r params$instructor`"  # Do NOT change this line
+date: "`r params$semester`"  # Do NOT change this line
+params:
+  module: "Data Literacy Education"  # Enter HERE the name of the presentation/course/module
+  semester: "Basics: Messen"   # Enter HERE the date/semester/term
+  shorttitle: ""  # Enter HERE a subtitle/shorttitle
+  foottitle: "Data Literacy Slidecast"  # Enter HERE a title for footline
+  instructor: "FOM"  # ENTER here the presentator's/instructor's name
+output:
+  xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
+    lib_dir: libs
+    css: ["footer-header.css", "xafom.css"]
+    nature:
+      titleSlideClass: [middle, right]
+      ratio: "4:3"  # Note that currently only 4:3 format is supported
+      highlightLines: true
+---
+
+
+layout: true
+  
+<div class="my-header"></div>
+
+<!-- the following lines define the header and the footer line: -->
+<div class="my-footer"><span>`r params$semester`    
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+`r params$instructor` | `r params$foottitle` </span></div> 
+
+<div class="footer-line"></div>
+
+
+
+```{r setup, include=FALSE}
+library(emojifont)
+library(knitr)
+library(mosaic)
+library(tidyr)
+
+theme.fom <- theme_classic(22*1.04)
+theme.fom <- theme.fom
+theme_set(
+  theme.fom  
+)
+#options(scipen=999)
+
+
+```
+
+---
+
+## Inhalte
+
+```{r, echo= FALSE , out.width = "15%", fig.align="center", fig.showtext=TRUE}
+ggplot() + geom_emoji("woman_teacher") + theme_void()
+```
+
+
+Thema dieses Basics: Messen und Skalenniveaus
+
+<br>
+
+
+- Grunndlagen Quantitativer Datenanalyse
+
+
+<br>
+
+**Hinweis**: Diese Data Literacy Slidecasts dienen didaktisch der konzeptionell-methodischen Verdeutlichung, nicht der inhaltlichen Analyse.
+
+---
+
+## Skalennvieaus
+
+Über mich: 
+
+- .olive[männlich], .purple[Dr.], .violet[Jahrgang 1974], .red[180cm groß], .blue[2 Kinder], .orange[interessiert an Statistik]
+
+<br>
+
+--
+
+Diese Informationen über mich unterscheiden sich bezgl. ihres Mess- und Informationsnvieaus:
+
+- .olive[Geschlecht kann nur verglichen, nicht geordnet werden]: **kategorial nominal**
+
+- .purple[Bildungsabschlüsse können geordnet werden, aber Abstände nicht verglichen]: **kategorial ordinal**
+
+- .violet[Bei Geburtsjahren können zusätzlich noch die Abstände verglichen werden]: **numerisch intervallskaliert**
+
+- .red[Bei Größenangaben können sogar Quotienten verglichen werden]: **numerisch verhältnisskaliert**
+
+- .blue[Die Anzahl der Kinder ist] **diskret** (und nicht **stetig**)
+
+- .orange[Interesse an Statistik ist eine] **latente Variable** (und nicht **manifest**), d.h., die Messung muss erst *Operationalisiert* werden
+
+---
+
+## Gütekriterien einer Messung
+
+<br>
+
+- **Genauigkeit**: Präzision einer Messung. 
+
+- **Objektivität**: Unabhängigkeit vom Messenden.
+
+- **Reliabilität**: Zuverlässigkeit der Messmethode. 
+
+- **Validität**: Passung von Messergebnis und zu messender Eigenschaft.
+
+<br>
+
+
+Daten sind die Grundlage der Analyse, daher sollten diese auch zuverlässig das wiedergeben, was untersucht werden soll. 
+
+
