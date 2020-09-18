@@ -81,7 +81,7 @@ Thema dieses Basics: Wissenschaftliche Gütekriterien
 <br>
 <br>
 
-1. **Ethische Aspekte:** Mögliche negative Folgen aussschließen.
+1. **Ethische Aspekte:** Mögliche negative Folgen ausschließen.
 
 2. **Transparenz:** Nachvollziehbarkeit des Vorgehens.
 
