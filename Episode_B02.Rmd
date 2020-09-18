@@ -81,12 +81,12 @@ Thema dieses Basics: Wissenschaftliche Gütekriterien
 <br>
 <br>
 
-1. Ethische Aspekte: Mögliche negative Folgen aussschließen.
+1. **Ethische Aspekte:** Mögliche negative Folgen aussschließen.
 
-2. Transparenz: Nachvollziehbarkeit des Vorgehens.
+2. **Transparenz:** Nachvollziehbarkeit des Vorgehens.
 
-3. Objektivität: Unabhängigkeit des Ergebnisses von der Person.
+3. **Objektivität:** Unabhängigkeit des Ergebnisses von der Person.
 
-4. Interne Validität: Korrektheit einer (kausalen) Schlussfolgerung.
+4. **Interne Validität:** Korrektheit einer (kausalen) Schlussfolgerung.
 
-5. Externe Validität: Verallgemeinerungsfähigkeit des Ergebnisses.
+5. **Externe Validität:** Verallgemeinerungsfähigkeit des Ergebnisses.
