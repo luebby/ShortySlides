@@ -50,6 +50,7 @@ theme_set(
 #options(scipen=999)
 
 fa2 <- fontawesome(c("fa-female", "fa-male"))
+knitr::opts_chunk$set(warning=FALSE)
 ```
 
 ---
@@ -66,7 +67,7 @@ Thema dieses Basics: Datenerhebung
 <br>
 
 
-- Grunndlagen Quantitativer Datenanalyse
+- Grundlagen Quantitativer Datenanalyse
 
 
 <br>
@@ -79,9 +80,9 @@ Thema dieses Basics: Datenerhebung
 
 <br> 
 
-- **Beobachtungsstudie**: Datenerhebung in der unabhängige Variable nur erhoben, nicht verändert wird.
+- **Beobachtungsstudie**: Datenerhebung in der unabhängige Variablen nur erhoben, nicht verändert werden.
 
-- **Experiment**: Datenerhebung in der unabhängige Variable verändert wird.
+- **Experiment**: Datenerhebung in der unabhängige Variablen verändert werden.
 
 <br>
 
@@ -89,13 +90,13 @@ Thema dieses Basics: Datenerhebung
 
 --
 
-<br> Fragestellung: Verbessert der Kauf von Biolebensmitteln die Gesundheit?
+<br> **Fragestellung:** Verbessert der Kauf von Bio-Lebensmitteln die Gesundheit?
 
-- Unabhängige Variable $x$: Kauf von Biolebensmitteln: .purple[Ja], .orange[Nein]
+- *Unabhängige Variable $x$*: Kauf von Bio-Lebensmitteln: .purple[Ja], .orange[Nein]
 
-- Abhängige Variable $y$: Gesundheit
+- *Abhängige Variable $y$*: Gesundheit
 
-- Kovariable $z$: Geschlecht
+- *Kovariable $z$*: Geschlecht
 ---
 
 ## Zufällige Stichprobe
@@ -210,7 +211,7 @@ pvoll
 ]
 
 .pull-right[
-```{r fig.showtext=TRUE, out.width="90%", echo = FALSE, fig.asp = .7, fig.align="center"}
+```{r fig.showtext=FALSE, out.width="90%", echo = FALSE, fig.asp = .7, fig.align="center"}
 set.seed(1904)
 stipro <- as.factor(sample(c(rep(1,20), rep(0,80))))
 set.seed(1896)
@@ -248,4 +249,4 @@ Eine Kausalaussage mit Generalisierung auf die Population ist möglich.
 
 <br>
 
-Welche Schlussfolgerungen auf Basis einer Datenananalyse möglich sind, hängt maßgeblich davon ab, wie die Daten erhoben wurden!
+**Welche Schlussfolgerungen auf Basis einer Datenananalyse möglich sind, hängt maßgeblich davon ab, wie die Daten erhoben wurden!**
