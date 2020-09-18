@@ -159,7 +159,7 @@ Ich schließe daraus: Der Fisch wird blau sein.
 
 - Vor mir liegt ein blaues Tier.
 
-- Ich gehe davon aus, das alle Fische blau sind.
+- Ich gehe davon aus, dass alle Fische blau sind.
 
 <br>
 
@@ -167,5 +167,5 @@ Ich schließe daraus: Das Tier wird ein Fisch sein.
 
 <br>
 
-**Abduktion**: Hypothetischer Schluss vom Einzelnen und einer Regel auf eine Regelmäßigkeit
+**Abduktion**: Hypothetischer Schluss vom Einzelnen und einer Regel auf eine Regelmäßigkeit.
 
