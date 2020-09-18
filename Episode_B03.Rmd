@@ -66,7 +66,7 @@ Thema dieses Basics: Messen und Skalenniveaus
 <br>
 
 
-- Grunndlagen Quantitativer Datenanalyse
+- Grundlagen Quantitativer Datenanalyse
 
 
 <br>
@@ -97,7 +97,7 @@ Diese Informationen über mich unterscheiden sich bezgl. ihres Mess- und Informa
 
 - .blue[Die Anzahl der Kinder ist] **diskret** (und nicht **stetig**)
 
-- .orange[Interesse an Statistik ist eine] **latente Variable** (und nicht **manifest**), d.h., die Messung muss erst *Operationalisiert* werden
+- .orange[Interesse an Statistik ist eine] **latente Variable** (und nicht **manifest**), d. h., die Messung muss erst *Operationalisiert* werden
 
 ---
 
