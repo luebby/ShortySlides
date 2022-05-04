@@ -51,6 +51,7 @@ theme_set(
 #options(scipen=999)
 
 data(tips, package = "reshape2")
+tips <- as_tibble(tips)
 set.seed(1896)
 tips_train <- tips %>%
   sample_n(160) %>%
